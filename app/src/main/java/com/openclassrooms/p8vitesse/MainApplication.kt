@@ -10,10 +10,12 @@ import kotlinx.coroutines.Dispatchers
 class MainApplication  : Application(){
 
     override fun onCreate() {
+
         super.onCreate()
 
-        // Create the database
+        // Create the database if not existing
         AppDataBase.getDatabase(this, CoroutineScope(Dispatchers.Default))
+
     }
 
 }

@@ -1,6 +1,5 @@
 package com.openclassrooms.p8vitesse.domain.model
 
-import android.graphics.Bitmap
 import java.util.Date
 
 data class Candidate (

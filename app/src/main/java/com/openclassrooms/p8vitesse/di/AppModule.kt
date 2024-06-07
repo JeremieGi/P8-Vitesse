@@ -3,6 +3,7 @@ package com.openclassrooms.p8vitesse.di
 import android.content.Context
 import com.openclassrooms.p8vitesse.data.dao.AppDataBase
 import com.openclassrooms.p8vitesse.data.dao.CandidateDao
+import com.openclassrooms.p8vitesse.data.repository.CandidateRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +31,13 @@ class AppModule {
     @Provides
     fun provideCandidateDao(appDatabase: AppDataBase): CandidateDao {
         return appDatabase.candidateDao()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideCandidateRepository(candidateDao: CandidateDao): CandidateRepository {
+        return CandidateRepository(candidateDao)
     }
 
 

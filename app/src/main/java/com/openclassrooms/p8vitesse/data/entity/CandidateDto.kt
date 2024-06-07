@@ -3,6 +3,7 @@ package com.openclassrooms.p8vitesse.data.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.openclassrooms.p8vitesse.domain.model.Candidate
 import java.util.Date
 
 @Entity(
@@ -26,6 +27,9 @@ data class CandidateDto(
     @ColumnInfo(name = "email")
     var email: String,
 
+    @ColumnInfo(name = "about")
+    var about: String,
+
     @ColumnInfo(name = "dateOfBirth")
     var dateOfBirth: Date, // Utilisation d'un Converter car SQLLite ne gère pas nativement les dates et soit utiliser des long
 
@@ -38,4 +42,24 @@ data class CandidateDto(
     @ColumnInfo(name = "topFavorite")
     var topFavorite: Boolean
 
-)
+) {
+    /**
+     * Tranform candidate DTO in Candidate model
+     */
+    fun toModelCandidateList() : Candidate {
+
+        return Candidate(
+            id = this.id,
+            lastName = this.lastName,
+            firstName = this.firstName,
+            phone = this.phone,
+            email = this.email,
+            about = this.about,
+            dateOfBirth = this.dateOfBirth,
+            salaryExpectation = this.salaryExpectation,
+            note = this.note,
+            topFavorite = this.topFavorite
+        )
+
+    }
+}

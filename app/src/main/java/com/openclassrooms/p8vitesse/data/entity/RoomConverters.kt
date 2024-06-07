@@ -6,8 +6,9 @@ import java.util.Date
 class RoomConverters {
 
     /**
-     * Room doesn't know manage type Fate
+     * Room doesn't know manage type Date
      */
+
     @TypeConverter
     fun fromDate(date: Date?): Long? {
         return date?.time

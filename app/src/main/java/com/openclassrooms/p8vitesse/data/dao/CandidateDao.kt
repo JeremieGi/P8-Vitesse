@@ -22,7 +22,7 @@ interface CandidateDao {
      * @param nTopFavorite : 0 = no favorite, 1 favorite
      */
     @Query("SELECT * FROM tblCandidate WHERE (topFavorite = :nTopFavorite)")
-    fun getCandidatesFilterByFavorite(nTopFavorite : Integer): Flow<List<CandidateDto>>
+    fun getCandidatesFilterByFavorite(nTopFavorite : Int): Flow<List<CandidateDto>>
 
     /**
      * Return all candidate

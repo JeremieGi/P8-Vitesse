@@ -1,7 +1,6 @@
 package com.openclassrooms.p8vitesse.data.dao
 
 import android.content.Context
-import androidx.room.ColumnInfo
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -11,10 +10,7 @@ import com.openclassrooms.p8vitesse.data.entity.CandidateDto
 import com.openclassrooms.p8vitesse.data.entity.RoomConverters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import java.util.Calendar
-import java.util.Date
 
 @Database(entities = [CandidateDto::class], version = 1, exportSchema = false)
 @TypeConverters(RoomConverters::class)
@@ -37,6 +33,9 @@ abstract class AppDataBase : RoomDatabase(){
             }
         }
 
+        /**
+         * Init the candidates database
+         */
         suspend fun initDatabase(candidateDao: CandidateDao) {
 
             // Test candidates
@@ -44,21 +43,26 @@ abstract class AppDataBase : RoomDatabase(){
             val currentDate = Calendar.getInstance()
             currentDate.set(1980, 0, 1)
 
-            for (i in 0 until 9) {
+            // Create 9 candidates
+            for (i in 1 until 10) {
 
                 // A favorite for all 3 candidates
-                var bFavorite = (i%3) == 0
+                val bFavorite = (i%3) == 0
 
                 val candidateTest = CandidateDto(
                     lastName = "LastName$i",
                     firstName = "FirstName$i",
                     phone = "06.12.34.35.3$i",
                     email = "firstname$i.lastname$i@free.fr",
+                    about = "about$i /n Contenu du A propos",
                     dateOfBirth = currentDate.time,
                     salaryExpectation = 3000+(i*100),
                     note = "note$i /n Contenu de la note",
                     topFavorite = bFavorite
                 )
+
+                // Insert in the DB
+                candidateDao.insertCandidate(candidateTest)
 
                 // Add one year
                 currentDate.add(Calendar.DAY_OF_YEAR, 1)
