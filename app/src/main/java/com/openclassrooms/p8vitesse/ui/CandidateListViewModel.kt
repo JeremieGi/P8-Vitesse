@@ -16,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CandidateListViewModel @Inject constructor(
     private val getCandidateUseCaseList : CandidateUseCaseList
-) : ViewModel(){
-
+) : ViewModel() {
 
     /**
      * StateFlow est une classe du framework Kotlin Flow qui émet une séquence de valeurs et garantit qu'un observateur reçoit toujours la dernière valeur émise.

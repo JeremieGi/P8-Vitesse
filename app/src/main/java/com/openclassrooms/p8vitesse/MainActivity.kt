@@ -3,7 +3,7 @@ package com.openclassrooms.p8vitesse
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.openclassrooms.p8vitesse.databinding.ActivityMainBinding
-import com.openclassrooms.p8vitesse.ui.CandidateListFragment
+import com.openclassrooms.p8vitesse.ui.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         // open the main fragment (list of candidate)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, CandidateListFragment()).commit()
+            .replace(R.id.fragment_container, MainFragment()).commit()
 
     }
 }

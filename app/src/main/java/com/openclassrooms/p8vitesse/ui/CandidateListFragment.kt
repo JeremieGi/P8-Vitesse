@@ -16,10 +16,25 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CandidateListFragment : Fragment() {
+class CandidateListFragment(
+
+    private val nFavorite : Int = ALL_CANDIDATE
+
+) : Fragment() {
+
+    companion object {
+
+
+        const val FAVORITE_CANDIDATE = 1
+        const val ALL_CANDIDATE = -1
+
+        fun newInstance(favoriteCandidate: Int): Fragment {
+            return CandidateListFragment(favoriteCandidate)
+        }
+    }
 
     // Binding
-   private lateinit var binding: FragmentCandidateListBinding
+    private lateinit var binding: FragmentCandidateListBinding
 
     // View Model
     private val viewModel: CandidateListViewModel  by viewModels()
@@ -35,7 +50,6 @@ class CandidateListFragment : Fragment() {
 
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
@@ -48,10 +62,9 @@ class CandidateListFragment : Fragment() {
 
     }
 
-
     /**
-     * Launch the UI States observer
-     */
+    * Launch the UI States observer
+    */
     private fun observeUiStates() {
 
         // in the fragment view scope
@@ -119,7 +132,6 @@ class CandidateListFragment : Fragment() {
 
         }
     }
-
 
 
 }
