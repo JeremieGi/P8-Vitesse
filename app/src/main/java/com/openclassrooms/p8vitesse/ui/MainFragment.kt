@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.openclassrooms.p8vitesse.R
 import com.openclassrooms.p8vitesse.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,10 +56,8 @@ class MainFragment : Fragment() {
             tabLayout, viewPager2
         ) { tab, position ->
             when (position) {
-                0 -> tab.setText("Page 1 config")
-                1 -> tab.setText("Page 2 config")
-                2 -> tab.setText("Page 3 config")
-                else -> tab.setText("Tab " + (position + 1))
+                0 -> tab.setText(getString(R.string.all))
+                else -> tab.setText(getString(R.string.favorite))
             }
         }.attach()
 

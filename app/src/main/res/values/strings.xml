@@ -2,4 +2,6 @@
     <string name="app_name">Speed</string>
     <string name="title_activity_main">List of candidates</string>
     <string name="no_candidate">No candidate</string>
+    <string name="all">All</string>
+    <string name="favorite">Favorite</string>
 </resources>
