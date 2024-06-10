@@ -18,15 +18,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CandidateListFragment(
 
-    private val nFavorite : Int = ALL_CANDIDATE
+    private val nFavorite : Int = CandidateListViewModel.ALL_CANDIDATE
 
 ) : Fragment() {
 
     companion object {
-
-
-        const val FAVORITE_CANDIDATE = 1
-        const val ALL_CANDIDATE = -1
 
         fun newInstance(favoriteCandidate: Int): Fragment {
             return CandidateListFragment(favoriteCandidate)
@@ -38,7 +34,6 @@ class CandidateListFragment(
 
     // View Model
     private val viewModel: CandidateListViewModel  by viewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +48,8 @@ class CandidateListFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.setFavoriteMode(nFavorite)
 
         // Launch the UI States observer
         observeUiStates()

@@ -52,9 +52,8 @@ class MainFragment : Fragment() {
 
 
         // TabLayoutMediator
-        TabLayoutMediator(
-            tabLayout, viewPager2
-        ) { tab, position ->
+        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+            // Code lancé à l'init du fragment uniquement
             when (position) {
                 0 -> tab.setText(getString(R.string.all))
                 else -> tab.setText(getString(R.string.favorite))

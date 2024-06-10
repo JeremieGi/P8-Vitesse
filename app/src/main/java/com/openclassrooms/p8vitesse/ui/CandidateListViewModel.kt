@@ -16,7 +16,15 @@ import javax.inject.Inject
 @HiltViewModel
 class CandidateListViewModel @Inject constructor(
     private val getCandidateUseCaseList : CandidateUseCaseList
+    //private val savedStateHandle: SavedStateHandle // TODO : Je n'y suis pas arrivé : Cela permet de passer des paramètres supplémentaires qui ne peuvent pas être injectés directement.
 ) : ViewModel() {
+
+    companion object {
+        const val FAVORITE_CANDIDATE = 1
+        const val ALL_CANDIDATE = -1
+    }
+
+    private var nFavorite: Int = ALL_CANDIDATE
 
     /**
      * StateFlow est une classe du framework Kotlin Flow qui émet une séquence de valeurs et garantit qu'un observateur reçoit toujours la dernière valeur émise.
@@ -29,7 +37,7 @@ class CandidateListViewModel @Inject constructor(
     fun loadAllCandidates() {
 
         // Call use case instance
-        getCandidateUseCaseList.execute().onEach { resultDB ->
+        getCandidateUseCaseList.execute(nFavorite).onEach { resultDB ->
 
             // En fonction du résultat de la base de données
             when (resultDB) {
@@ -65,6 +73,10 @@ class CandidateListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
 
 
+    }
+
+    fun setFavoriteMode(nFavorite: Int) {
+        this.nFavorite = nFavorite
     }
 
 
