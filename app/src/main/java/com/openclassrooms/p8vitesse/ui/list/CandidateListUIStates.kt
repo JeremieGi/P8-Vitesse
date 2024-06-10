@@ -1,4 +1,4 @@
-package com.openclassrooms.p8vitesse.ui
+package com.openclassrooms.p8vitesse.ui.list
 
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 

@@ -1,4 +1,4 @@
-package com.openclassrooms.p8vitesse.ui
+package com.openclassrooms.p8vitesse.ui.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,10 @@ class CandidateListFragment(
     private lateinit var binding: FragmentCandidateListBinding
 
     // View Model
-    private val viewModel: CandidateListViewModel  by viewModels()
+    private val viewModel: CandidateListViewModel by viewModels()
+
+    // Recycler View
+    private val candidatesAdapter = CandidateAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +54,9 @@ class CandidateListFragment(
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.setFavoriteMode(nFavorite)
+
+        binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(context)
+        binding.recyclerViewCandidates.adapter = candidatesAdapter
 
         // Launch the UI States observer
         observeUiStates()
@@ -76,6 +83,7 @@ class CandidateListFragment(
 
                     binding.progressbarLoading.isVisible = false
                     binding.tvEmptyList.isVisible = false
+                    binding.recyclerViewCandidates.isVisible = true
 
                     // Premier appel avec objet vide
                     if (!it.isLoading && (it.errorMessage==null) && it.listCandidates.isEmpty()) {
@@ -108,14 +116,12 @@ class CandidateListFragment(
 
                                     //T004 - Empty state
                                     binding.tvEmptyList.isVisible = true
+                                    binding.recyclerViewCandidates.isVisible = false
 
                                 }
-                                else{
 
-                                    // A implémenter avec un recycler view
-                                    binding.tvTest.text = "${it.listCandidates.size} candidats"
-
-                                }
+                                // Mise à jour du recycler view
+                                candidatesAdapter.updateData(it.listCandidates)
 
                             }
 

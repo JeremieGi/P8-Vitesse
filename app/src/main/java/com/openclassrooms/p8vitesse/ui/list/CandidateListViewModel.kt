@@ -1,4 +1,4 @@
-package com.openclassrooms.p8vitesse.ui
+package com.openclassrooms.p8vitesse.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

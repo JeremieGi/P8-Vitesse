@@ -2,8 +2,9 @@ package com.openclassrooms.p8vitesse.ui
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.openclassrooms.p8vitesse.ui.CandidateListViewModel.Companion.ALL_CANDIDATE
-import com.openclassrooms.p8vitesse.ui.CandidateListViewModel.Companion.FAVORITE_CANDIDATE
+import com.openclassrooms.p8vitesse.ui.list.CandidateListFragment
+import com.openclassrooms.p8vitesse.ui.list.CandidateListViewModel.Companion.ALL_CANDIDATE
+import com.openclassrooms.p8vitesse.ui.list.CandidateListViewModel.Companion.FAVORITE_CANDIDATE
 
 
 class PageAdapter(
