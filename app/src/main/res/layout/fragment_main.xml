@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <!-- TODO : Pour utilisation de Material Design, il faut aller sur le site télécharger un SVG puis créer un XMl à partir de ce SVG ?
+     T010 - Filter candidates -->
+    <EditText
+        android:id="@+id/edtResearch"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:drawableEnd="@drawable/search"
+        android:paddingEnd="10dp"
+        android:inputType="text"
+        android:singleLine="true"
+        android:hint="@string/search"
+        android:background="@drawable/rounded_corner"
+       />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/candidatelistViewpagerTabs"
         android:layout_width="match_parent"

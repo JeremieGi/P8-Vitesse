@@ -4,4 +4,6 @@
     <string name="no_candidate">No candidate</string>
     <string name="all">All</string>
     <string name="favorite">Favorite</string>
+    <string name="candidate_photo">Candidate photo</string>
+    <string name="search">Search</string>
 </resources>

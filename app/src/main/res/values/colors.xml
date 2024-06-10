@@ -12,6 +12,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="textTabColor">#6750a4</color>
+    <color name="edtResearchColor">#ede6f1</color>
 
 
     <!-- T002 - Implement the theme of the app -->

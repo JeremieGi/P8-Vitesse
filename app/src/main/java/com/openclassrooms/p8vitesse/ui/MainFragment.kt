@@ -1,10 +1,15 @@
 package com.openclassrooms.p8vitesse.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -22,6 +27,8 @@ class MainFragment : Fragment() {
     // View Model
     private val viewModel: MainViewModel  by viewModels()
 
+    // View Model partagé
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +47,26 @@ class MainFragment : Fragment() {
 
         configureViewPagerAndTabs()
 
+        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                // Code à exécuter lorsque l'utilisateur appuie sur "Done"
+
+                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
+                val inputText = binding.edtResearch.text.toString()
+                sharedViewModel.setSearchQuery(inputText)
+
+                // Fermer le clavier
+                // TODO : Pourquoi ca ne se fait pas tout seul ?
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
+
+                true // Retourne true pour indiquer que l'action a été gérée
+            } else {
+                false
+            }
+        })
 
     }
 

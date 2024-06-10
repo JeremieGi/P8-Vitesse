@@ -5,4 +5,6 @@
     <string name="no_candidate">Aucun candidat</string>
     <string name="all">Tous</string>
     <string name="favorite">Favoris</string>
+    <string name="candidate_photo">Photo du candidat</string>
+    <string name="search">Rechercher un candidat</string>
 </resources>

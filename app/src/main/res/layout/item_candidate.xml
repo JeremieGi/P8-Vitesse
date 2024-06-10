@@ -13,6 +13,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/candidate_photo"
         android:src="@drawable/avatarpreview"/>
 
     <!-- Si on voulait arrondir  ShapeableImageView   app:shapeAppearanceOverlay="@style/roundedImageView"-->
@@ -24,7 +25,7 @@
         android:layout_marginStart="10dp"
         tools:text="User name"
         android:textColor="#666"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/item_candidate_photo"
         app:layout_constraintTop_toTopOf="@+id/item_candidate_photo"
         />
@@ -34,11 +35,14 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
         tools:text="Duplexque isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus"
         android:textColor="#666"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/item_candidate_photo"
         app:layout_constraintTop_toBottomOf="@+id/item_candidate_names"
+        android:maxLines="2"
+        android:ellipsize="end"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

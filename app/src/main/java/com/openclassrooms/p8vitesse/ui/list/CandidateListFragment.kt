@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateListBinding
+import com.openclassrooms.p8vitesse.ui.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -39,6 +42,8 @@ class CandidateListFragment(
     // Recycler View
     private val candidatesAdapter = CandidateAdapter(emptyList())
 
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +62,11 @@ class CandidateListFragment(
 
         binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewCandidates.adapter = candidatesAdapter
+
+        // Observe search query and update the list
+        sharedViewModel.searchQuery.observe(viewLifecycleOwner, Observer { query ->
+            candidatesAdapter.filter(query)
+        })
 
         // Launch the UI States observer
         observeUiStates()

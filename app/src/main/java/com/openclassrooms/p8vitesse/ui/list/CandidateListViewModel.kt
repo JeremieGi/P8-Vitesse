@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.p8vitesse.data.repository.ResultDatabase
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseList
+import com.openclassrooms.p8vitesse.ui.SharedViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -35,6 +36,10 @@ class CandidateListViewModel @Inject constructor(
 
     // Load candidates (the observer will be notified in the fragment)
     fun loadAllCandidates() {
+
+        // nFavorite =>
+        // T005 - All candidates tab
+        // T006 - Favorite candidates tab
 
         // Call use case instance
         getCandidateUseCaseList.execute(nFavorite).onEach { resultDB ->

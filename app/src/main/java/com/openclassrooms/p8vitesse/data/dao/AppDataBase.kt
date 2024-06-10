@@ -54,10 +54,10 @@ abstract class AppDataBase : RoomDatabase(){
                     firstName = "FirstName$i",
                     phone = "06.12.34.35.3$i",
                     email = "firstname$i.lastname$i@free.fr",
-                    about = "about$i /n Contenu du A propos",
+                    about = "about$i \nContenu du A propos",
                     dateOfBirth = currentDate.time,
                     salaryExpectation = 3000+(i*100),
-                    note = "note$i /n Contenu de la note",
+                    note = "note$i \nDuplexque isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus",
                     topFavorite = bFavorite
                 )
 
