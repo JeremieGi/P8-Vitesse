@@ -59,7 +59,7 @@ class CandidateListViewModel @Inject constructor(
                     )
                 }
                 // Loading
-                ResultDatabase.Loading -> _uiState.update { currentState ->
+                is ResultDatabase.Loading -> _uiState.update { currentState ->
                     currentState.copy(
                         isLoading = true,
                         errorMessage = ""

@@ -2,6 +2,8 @@ package com.openclassrooms.p8vitesse.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,24 +49,44 @@ class MainFragment : Fragment() {
 
         configureViewPagerAndTabs()
 
-        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+        // TODO : A la rotation de l'écran : Voir comment ne pas perdre la valeur recherchée ainsi que le tab sélectionné
+        if (sharedViewModel.searchQuery.value != null){
+            binding.edtResearch.setText(sharedViewModel.searchQuery.value.toString())
+        }
 
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
+//        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+//
+//            if (actionId == EditorInfo.IME_ACTION_DONE) {
+//
+//                // Code à exécuter lorsque l'utilisateur appuie sur "Done"
+//
+//                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
+//                val inputText = binding.edtResearch.text.toString()
+//                sharedViewModel.setSearchQuery(inputText)
+//
+//                // Fermer le clavier
+//                // TODO : Pourquoi ca ne se fait pas tout seul ?
+//                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
+//
+//                true // Retourne true pour indiquer que l'action a été gérée
+//            } else {
+//                false
+//            }
+//        })
 
-                // Code à exécuter lorsque l'utilisateur appuie sur "Done"
+        binding.edtResearch.addTextChangedListener(object : TextWatcher {
 
-                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
-                val inputText = binding.edtResearch.text.toString()
-                sharedViewModel.setSearchQuery(inputText)
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
-                // Fermer le clavier
-                // TODO : Pourquoi ca ne se fait pas tout seul ?
-                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
+            }
 
-                true // Retourne true pour indiquer que l'action a été gérée
-            } else {
-                false
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                sharedViewModel.setSearchQuery(binding.edtResearch.text.toString())
             }
         })
 
