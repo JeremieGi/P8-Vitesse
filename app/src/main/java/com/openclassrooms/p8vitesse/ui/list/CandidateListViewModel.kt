@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.p8vitesse.data.repository.ResultDatabase
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseList
-import com.openclassrooms.p8vitesse.ui.SharedViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CandidateListViewModel @Inject constructor(
     private val getCandidateUseCaseList : CandidateUseCaseList
-    //private val savedStateHandle: SavedStateHandle // TODO : Je n'y suis pas arrivé : Cela permet de passer des paramètres supplémentaires qui ne peuvent pas être injectés directement par Hilt.
-) : ViewModel() {
+ ) : ViewModel() {
 
 
     var bFavorite: Boolean? = null

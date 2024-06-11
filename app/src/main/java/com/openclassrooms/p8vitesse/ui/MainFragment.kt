@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel  by viewModels()
 
     // View Model partagé
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    //private val sharedViewModel: SharedViewModel by activityViewModels() // TODO : Enlever le SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +44,8 @@ class MainFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // TODO : Normalement pas d'observer dans ce fragment
 
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,7 +74,7 @@ class MainFragment : Fragment() {
  //               sharedViewModel.setSearchQuery(inputText)
 
                 // Fermer le clavier
-                // TODO : Pourquoi ca ne se fait pas tout seul ?
+                // TODO : Pourquoi ca ne se fait pas tout seul ? => Voir dans les configs de l'edit Text
                 val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
 
@@ -81,17 +83,6 @@ class MainFragment : Fragment() {
                 false
             }
        })
-
-        viewModel.searchValue.observe(viewLifecycleOwner) { searchQuery ->
-
-            // Test pour ne pas boucler car le setText appelle afterTextChanged
-            if (! viewModel.searchValue.value.toString().equals(searchQuery)){
-                binding.edtResearch.setText(searchQuery)
-            }
-            sharedViewModel.setSearchQuery(searchQuery)
-
-        }
-
 
 
         binding.edtResearch.addTextChangedListener(object : TextWatcher {
@@ -105,7 +96,7 @@ class MainFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                viewModel.setSearchValue(binding.edtResearch.text.toString())
+                viewModel.loadCandidates(binding.edtResearch.text.toString(),binding.candidatelistViewpager.currentItem)
             }
         })
 
@@ -131,6 +122,7 @@ class MainFragment : Fragment() {
     }
 
 
+    // TODO : utiliser onSaveInstanceState(). https://developer.android.com/topic/libraries/architecture/saving-states?hl=fr
 
 
 }
