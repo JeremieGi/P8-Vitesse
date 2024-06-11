@@ -64,8 +64,8 @@ class CandidateAdapter(
             //T007 - Display all candidates
 
             // TODO : Gérer l'image ici
+            //binding.itemCandidatePhoto.setImageResource(0)
 
-            binding.itemCandidatePhoto.setImageResource(0)
             binding.itemCandidateNames.text = "${candidate.firstName} ${candidate.lastName}"
             binding.itemCandidateNotes.text = candidate.note
         }

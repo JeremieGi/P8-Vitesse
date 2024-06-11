@@ -1,5 +1,6 @@
 package com.openclassrooms.p8vitesse.ui
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -10,7 +11,12 @@ class MainViewModel @Inject constructor(
 ) : ViewModel(){
 
 
+    val searchValue = MutableLiveData<String>()
+   // val selectedTab = MutableLiveData<Int>()
 
 
+    fun setSearchValue(searchValue: String) {
+        this.searchValue.value = searchValue
+    }
 
 }

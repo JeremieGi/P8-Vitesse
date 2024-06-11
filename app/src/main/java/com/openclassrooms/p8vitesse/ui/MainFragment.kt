@@ -49,31 +49,50 @@ class MainFragment : Fragment() {
 
         configureViewPagerAndTabs()
 
-        // TODO : A la rotation de l'écran : Voir comment ne pas perdre la valeur recherchée ainsi que le tab sélectionné
-        if (sharedViewModel.searchQuery.value != null){
-            binding.edtResearch.setText(sharedViewModel.searchQuery.value.toString())
+        // TODO : A la rotation de l'écran : Voir réaffecter la valeur recherchée du ViewModel vers le fragment
+//        if (viewModel.searchValue.value != null && binding.edtResearch.text.toString().isEmpty()){
+//            //binding.edtResearch.setText(viewModel.searchValue.value.toString())
+//            // Appel manuel de l'observateur pour lancer initialement
+//            // Marche pas car la valeur ne change pas donc l'observer n'est pas appelé
+//            viewModel.setSearchValue(viewModel.searchValue.value.toString())
+//
+//        }
+
+        // Vu aussi une syntaxe dans le layout : android:text="@={viewModel.searchQuery}"
+
+
+        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                // Code à exécuter lorsque l'utilisateur appuie sur "Done"
+
+                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
+ //               val inputText = binding.edtResearch.text.toString()
+ //               sharedViewModel.setSearchQuery(inputText)
+
+                // Fermer le clavier
+                // TODO : Pourquoi ca ne se fait pas tout seul ?
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
+
+                true // Retourne true pour indiquer que l'action a été gérée
+            } else {
+                false
+            }
+       })
+
+        viewModel.searchValue.observe(viewLifecycleOwner) { searchQuery ->
+
+            // Test pour ne pas boucler car le setText appelle afterTextChanged
+            if (! viewModel.searchValue.value.toString().equals(searchQuery)){
+                binding.edtResearch.setText(searchQuery)
+            }
+            sharedViewModel.setSearchQuery(searchQuery)
+
         }
 
-//        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-//
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//
-//                // Code à exécuter lorsque l'utilisateur appuie sur "Done"
-//
-//                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
-//                val inputText = binding.edtResearch.text.toString()
-//                sharedViewModel.setSearchQuery(inputText)
-//
-//                // Fermer le clavier
-//                // TODO : Pourquoi ca ne se fait pas tout seul ?
-//                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//                imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
-//
-//                true // Retourne true pour indiquer que l'action a été gérée
-//            } else {
-//                false
-//            }
-//        })
+
 
         binding.edtResearch.addTextChangedListener(object : TextWatcher {
 
@@ -86,7 +105,7 @@ class MainFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                sharedViewModel.setSearchQuery(binding.edtResearch.text.toString())
+                viewModel.setSearchValue(binding.edtResearch.text.toString())
             }
         })
 

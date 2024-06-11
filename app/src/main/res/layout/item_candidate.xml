@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/candidate_photo"
-        android:src="@drawable/avatarpreview"/>
+        android:src="@drawable/baseline_face_24"/>
 
     <!-- Si on voulait arrondir  ShapeableImageView   app:shapeAppearanceOverlay="@style/roundedImageView"-->
 
