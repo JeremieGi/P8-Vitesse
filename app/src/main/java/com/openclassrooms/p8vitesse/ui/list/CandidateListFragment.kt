@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,12 +20,13 @@ import com.openclassrooms.p8vitesse.ui.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
 class CandidateListFragment(
 
     private val bFavorite : Boolean? = null
 
-) : Fragment() {
+) : Fragment(), IOnItemClickListener {
 
     companion object {
 
@@ -40,7 +42,7 @@ class CandidateListFragment(
     private val viewModel: CandidateListViewModel by viewModels()
 
     // Recycler View
-    private val candidatesAdapter = CandidateAdapter(emptyList())
+    private val candidatesAdapter = CandidateAdapter(emptyList(),this)
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
@@ -146,6 +148,18 @@ class CandidateListFragment(
 
 
         }
+    }
+
+    /**
+     * Clic sur le recyclerView
+     */
+    override fun onItemClick(position: Int) {
+
+        val selectedCandidate = viewModel.uiState.value.listCandidates[position]
+
+        // Gérez le clic sur l'élément ici
+        Toast.makeText(requireActivity(), "Item candidate ${selectedCandidate.lastName}", Toast.LENGTH_SHORT).show()
+
     }
 
 

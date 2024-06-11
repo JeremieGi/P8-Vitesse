@@ -11,7 +11,8 @@ import com.openclassrooms.p8vitesse.domain.model.Candidate
  */
 class CandidateAdapter(
 
-    private var listCandidates: List<Candidate>
+    private var listCandidates: List<Candidate>,
+    private val onItemClickListener: IOnItemClickListener
 
 ) :  RecyclerView.Adapter<CandidateAdapter.CandidateViewHolder>(){
 
@@ -54,6 +55,15 @@ class CandidateAdapter(
     inner class CandidateViewHolder(
         private val binding: ItemCandidateBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        init{
+            binding.root.setOnClickListener {
+                val position = absoluteAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClickListener.onItemClick(position)
+                }
+            }
+        }
 
 
         /**
