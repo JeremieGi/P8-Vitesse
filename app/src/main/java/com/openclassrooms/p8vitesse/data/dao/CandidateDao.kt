@@ -7,6 +7,9 @@ import androidx.room.Update
 import com.openclassrooms.p8vitesse.data.entity.CandidateDto
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Room interface
+ */
 @Dao
 interface CandidateDao {
 
@@ -17,18 +20,25 @@ interface CandidateDao {
     @Insert
     suspend fun insertCandidate(candidate: CandidateDto): Long
 
-    /**
-     * Return candidate filter by favorite or not
-     * @param nTopFavorite : 0 = no favorite, 1 favorite
-     */
-    @Query("SELECT * FROM tblCandidate WHERE (topFavorite = :nTopFavorite)")
-    fun getCandidatesFilterByFavorite(nTopFavorite : Int): Flow<List<CandidateDto>>
 
     /**
      * Return all candidate
      */
     @Query("SELECT * FROM tblCandidate")
     fun getAllCandidates(): Flow<List<CandidateDto>>
+
+
+    /**
+     * Return candidate filter by favorite and by name
+     * @param bFavoriteP : 0 = no favorite, 1 favorite, null all
+     * @param sFilterName : null = no filter else a string to search candidate by name
+     */
+    @Query("""
+        SELECT * FROM tblCandidate 
+        WHERE (:bFavoriteP IS NULL OR topFavorite = :bFavoriteP) 
+        AND (:sFilterName IS NULL OR firstName LIKE '%' || :sFilterName || '%' OR lastName LIKE '%' || :sFilterName || '%' )
+    """)
+    fun getCandidates ( bFavoriteP: Boolean? , sFilterName : String? ) : Flow<List<CandidateDto>>
 
     /**
      * Update a candidate

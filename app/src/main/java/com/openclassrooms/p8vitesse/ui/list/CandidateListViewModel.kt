@@ -17,54 +17,58 @@ import javax.inject.Inject
 @HiltViewModel
 class CandidateListViewModel @Inject constructor(
     private val getCandidateUseCaseList : CandidateUseCaseList
-    //private val savedStateHandle: SavedStateHandle // TODO : Je n'y suis pas arrivé : Cela permet de passer des paramètres supplémentaires qui ne peuvent pas être injectés directement.
+    //private val savedStateHandle: SavedStateHandle // TODO : Je n'y suis pas arrivé : Cela permet de passer des paramètres supplémentaires qui ne peuvent pas être injectés directement par Hilt.
 ) : ViewModel() {
 
-    companion object {
-        const val FAVORITE_CANDIDATE = 1
-        const val ALL_CANDIDATE = -1
-    }
 
-    private var nFavorite: Int = ALL_CANDIDATE
+    var bFavorite: Boolean? = null
 
-    /**
-     * StateFlow est une classe du framework Kotlin Flow qui émet une séquence de valeurs et garantit qu'un observateur reçoit toujours la dernière valeur émise.
-     * Dans cet exemple, on expose un  StateFlow  en lecture seule à partir du  MutableStateFlow  créé précédemment.
-     */
+    var sFilter: String? = null
+        // Accesseur custom
+        set(value) {
+            // si le filtre est pas null ou vide => Null
+            field = if (!value.isNullOrEmpty()) {
+                value
+            } else {
+                null
+            }
+        }
+
+    // Class for the communication between the ViewModel and the fragment
     private val _uiState = MutableStateFlow(CandidateListUIStates())
     val uiState: StateFlow<CandidateListUIStates> = _uiState.asStateFlow()
 
-    // Load candidates (the observer will be notified in the fragment)
-    fun loadAllCandidates() {
+    // Load candidates (the observer of UI State will be notified in the fragment)
+    fun loadCandidates() {
 
         // nFavorite =>
         // T005 - All candidates tab
         // T006 - Favorite candidates tab
 
         // Call use case instance
-        getCandidateUseCaseList.execute(nFavorite).onEach { resultDB ->
+        getCandidateUseCaseList.execute(bFavorite,sFilter).onEach { resultDB ->
 
-            // En fonction du résultat de la base de données
+            // result of the DB
             when (resultDB) {
 
-                // Echec
+                // Fail
                 is ResultDatabase.Failure -> _uiState.update { currentState ->
                     currentState.copy(
                         isLoading = false,
                         errorMessage = resultDB.message.toString()
                     )
                 }
-                // En chargement
+                // Loading
                 ResultDatabase.Loading -> _uiState.update { currentState ->
                     currentState.copy(
                         isLoading = true,
                         errorMessage = ""
                     )
                 }
-                // Succès
+                // Success
                 is ResultDatabase.Success -> _uiState.update { currentState ->
 
-                    // Récupération de la liste de candidats
+                    // transfert de la liste de candidats
                     currentState.copy(
                         listCandidates = resultDB.value,
                         isLoading = false,
@@ -80,9 +84,6 @@ class CandidateListViewModel @Inject constructor(
 
     }
 
-    fun setFavoriteMode(nFavorite: Int) {
-        this.nFavorite = nFavorite
-    }
 
 
 }

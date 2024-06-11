@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import java.util.Date
 
+/**
+ * Entity Candidate in the database
+ */
 @Entity(
     tableName = "tblCandidate"
 )

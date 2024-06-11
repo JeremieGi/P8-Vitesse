@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // L'application est mono activity
-    // L'activity contient un fragment container
+    // L'activity principale contient un fragment container
 
     private lateinit var binding: ActivityMainBinding
 

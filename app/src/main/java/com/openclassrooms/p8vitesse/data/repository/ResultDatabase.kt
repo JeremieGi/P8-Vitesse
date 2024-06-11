@@ -1,5 +1,8 @@
 package com.openclassrooms.p8vitesse.data.repository
 
+/**
+ * Custom class to manage the different result return by Room
+ */
 sealed class ResultDatabase<out T> {
 
     data object Loading : ResultDatabase<Nothing>()

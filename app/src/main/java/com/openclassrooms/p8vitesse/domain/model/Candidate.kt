@@ -2,6 +2,9 @@ package com.openclassrooms.p8vitesse.domain.model
 
 import java.util.Date
 
+/**
+ * Data class of a Candidate (Model)
+ */
 data class Candidate (
 
     val id: Long? = null,

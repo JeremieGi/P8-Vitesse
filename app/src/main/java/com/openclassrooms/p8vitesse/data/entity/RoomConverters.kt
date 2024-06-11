@@ -3,6 +3,9 @@ package com.openclassrooms.p8vitesse.data.entity
 import androidx.room.TypeConverter
 import java.util.Date
 
+/**
+ * Converter to help Room to manage Date
+ */
 class RoomConverters {
 
     /**

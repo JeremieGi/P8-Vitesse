@@ -22,14 +22,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CandidateListFragment(
 
-    private val nFavorite : Int = CandidateListViewModel.ALL_CANDIDATE
+    private val bFavorite : Boolean? = null
 
 ) : Fragment() {
 
     companion object {
 
-        fun newInstance(favoriteCandidate: Int): Fragment {
-            return CandidateListFragment(favoriteCandidate)
+        fun newInstance(bFavorite : Boolean?): Fragment {
+            return CandidateListFragment(bFavorite)
         }
     }
 
@@ -58,21 +58,23 @@ class CandidateListFragment(
 
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setFavoriteMode(nFavorite)
+        viewModel.bFavorite = bFavorite
 
         binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewCandidates.adapter = candidatesAdapter
 
         // Observe search query and update the list
-        sharedViewModel.searchQuery.observe(viewLifecycleOwner, Observer { query ->
-            candidatesAdapter.filter(query)
+        sharedViewModel.searchQuery.observe(viewLifecycleOwner, Observer { sFilter ->
+            //candidatesAdapter.filter(sFilter)
+            viewModel.sFilter = sFilter
+            viewModel.loadCandidates()
         })
 
         // Launch the UI States observer
         observeUiStates()
 
         // Load candidates (the observer will be notified)
-        viewModel.loadAllCandidates()
+        viewModel.loadCandidates()
 
     }
 

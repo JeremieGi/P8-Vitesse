@@ -12,11 +12,12 @@ class CandidateUseCaseList @Inject constructor(
 
     /**
      * Emit a flow of result
-     * @param nFavoriteP : -1 => all candidates, 0 => non-favorite candidates, 1 favorite candidates
+     * @param bFavorite : 0 = no favorite, 1 favorite, null all
+     * @param sFilterName : null = no filter else a string to search candidate by name
      */
-    fun execute(nFavoriteP : Int = -1): Flow<ResultDatabase<List<Candidate>>> {
+    fun execute(bFavorite: Boolean?, sFilterName : String?): Flow<ResultDatabase<List<Candidate>>> {
 
-        return candidateRepository.getListCandidate(nFavoriteP)
+        return candidateRepository.getListCandidate(bFavorite,sFilterName)
 
     }
 

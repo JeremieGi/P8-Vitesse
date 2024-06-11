@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.p8vitesse.databinding.ItemCandidateBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 
-
+/**
+ * Adapter of the Recycler View
+ */
 class CandidateAdapter(
 
     private var listCandidates: List<Candidate>
@@ -14,12 +16,18 @@ class CandidateAdapter(
 ) :  RecyclerView.Adapter<CandidateAdapter.CandidateViewHolder>(){
 
 
+    /**
+     * Inflate te layout
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CandidateViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemCandidateBinding.inflate(layoutInflater, parent, false)
         return CandidateViewHolder(binding)
     }
 
+    /**
+     * Display an item values
+     */
     override fun onBindViewHolder(holder: CandidateViewHolder, position: Int) {
 
         val candidate = listCandidates[position]
@@ -27,28 +35,18 @@ class CandidateAdapter(
 
     }
 
+    /**
+     * Number of candidate
+     */
     override fun getItemCount(): Int {
         return listCandidates.size
     }
 
+    /**
+     * Refresh the recycler View
+     */
     fun updateData(listCandidates: List<Candidate>) {
         this.listCandidates = listCandidates
-        notifyDataSetChanged()
-    }
-
-    /**
-     * T010 - Filter candidates : TODO : discuter avec Denis car peut-être fait avec une requête aussi (il faudrait rappeler le Repository)
-     */
-    fun filter(sFilterName: String) {
-        // Si pas de filtre
-        listCandidates = if (sFilterName.isEmpty()) {
-            // On prend la l
-            listCandidates
-        } else {
-            listCandidates.filter {
-                it.firstName.contains(sFilterName, ignoreCase = true) ||it.lastName.contains(sFilterName, ignoreCase = true)
-            }
-        }
         notifyDataSetChanged()
     }
 
@@ -58,6 +56,9 @@ class CandidateAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
 
+        /**
+         * Display an item values
+         */
         fun bind(candidate: Candidate) {
 
             //T007 - Display all candidates
@@ -65,7 +66,7 @@ class CandidateAdapter(
             // TODO : Gérer l'image ici
 
             binding.itemCandidatePhoto.setImageResource(0)
-            binding.itemCandidateNames.text = candidate.firstName+" "+candidate.lastName
+            binding.itemCandidateNames.text = "${candidate.firstName} ${candidate.lastName}"
             binding.itemCandidateNotes.text = candidate.note
         }
     }

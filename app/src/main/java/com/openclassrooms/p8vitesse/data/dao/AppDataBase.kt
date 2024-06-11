@@ -38,13 +38,13 @@ abstract class AppDataBase : RoomDatabase(){
          */
         suspend fun initDatabase(candidateDao: CandidateDao) {
 
-            // Test candidates
+            // Generated test candidates
 
             val currentDate = Calendar.getInstance()
             currentDate.set(1980, 0, 1)
 
             // Create 9 candidates
-            for (i in 1 until 10) {
+            for (i in 1 until 100) {
 
                 // A favorite for all 3 candidates
                 val bFavorite = (i%3) == 0

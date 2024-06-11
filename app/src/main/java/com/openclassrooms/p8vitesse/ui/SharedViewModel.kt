@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 /**
- * ViewModel partagé entre MainFragment et CandidateListFragment pour connaître le filtre à appliquer
+ * TODO : A faire valider à Denis : ViewModel partagé entre MainFragment et CandidateListFragment pour connaître le filtre à appliquer
  */
 class SharedViewModel : ViewModel() {
 

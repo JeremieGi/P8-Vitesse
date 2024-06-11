@@ -1,7 +1,6 @@
 package com.openclassrooms.p8vitesse.data.repository
 
 import com.openclassrooms.p8vitesse.data.dao.CandidateDao
-import com.openclassrooms.p8vitesse.data.entity.CandidateDto
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 //import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -14,21 +13,20 @@ class CandidateRepository (
 ){
     /**
      * Emit a flow of result
-     * @param nFavoriteP : -1 => all candidates, 0 => non-favorite candidates, 1 favorite candidates
+     * @param bFavoriteP : 0 = no favorite, 1 favorite, null all
+     * @param sFilterName : null = no filter else a string to search candidate by name
      */
-    fun getListCandidate(nFavoriteP: Int = -1): Flow<ResultDatabase<List<Candidate>>> = flow {
+    fun getListCandidate(bFavorite: Boolean?, sFilterName : String?) : Flow<ResultDatabase<List<Candidate>>> = flow {
 
         // T003 - Loading state
         emit(ResultDatabase.Loading)
 
         //delay(5*1000) // To test T003 - Loading state
 
-        // Do the adapted request
-        val flowListCandidates : Flow<List<CandidateDto>>
-        flowListCandidates = when (nFavoriteP) {
-            0,1 -> candidateDao.getCandidatesFilterByFavorite(nFavoriteP)
-            else -> candidateDao.getAllCandidates()
-        }
+        // TODO : J'ai pris le parti de descendre la recherche jusqu'à la base de données
+        //  (plus maintenable / plus compréhensible / plus testable)
+
+        val flowListCandidates = candidateDao.getCandidates(bFavorite,sFilterName)
 
         // transform in model object
         val resultListCandidate = flowListCandidates

@@ -3,28 +3,36 @@ package com.openclassrooms.p8vitesse.ui
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.openclassrooms.p8vitesse.ui.list.CandidateListFragment
-import com.openclassrooms.p8vitesse.ui.list.CandidateListViewModel.Companion.ALL_CANDIDATE
-import com.openclassrooms.p8vitesse.ui.list.CandidateListViewModel.Companion.FAVORITE_CANDIDATE
 
 
 class PageAdapter(
 
-    mainFragment: MainFragment
+    mainFragment: MainFragment // Fragment principal qui contient le PageAdapter
 
 ) : FragmentStateAdapter(mainFragment) {
 
 
+    /**
+     * Create an instance of fragment for each tab position
+     * @param position : position on the tab (0 => first => all candidate, 1 => second => favorite candidate)
+     */
     override fun createFragment(position: Int): Fragment {
 
-        if (position==FAVORITE_CANDIDATE){
-            return CandidateListFragment.newInstance(FAVORITE_CANDIDATE)
+        if (position==1){
+            // Display favorite candidates
+            return CandidateListFragment.newInstance(bFavorite = true)
         }
-        return CandidateListFragment.newInstance(ALL_CANDIDATE)
+        // 1er tab = position 0
+        // Display all candidates (Null = no filter)
+        return CandidateListFragment.newInstance(bFavorite = null)
 
     }
 
+    /**
+     * @return : Number of tab
+     */
     override fun getItemCount(): Int {
-        return 2
+        return 2 // 2 tabs here : ALL / FAVORITE
     }
 
 }
