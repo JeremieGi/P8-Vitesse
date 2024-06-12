@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CandidateListFragment(
 
-    private val bOnlyFavorite : Boolean
+    private val bOnlyFavorite : Boolean = false
 
 ) : Fragment(), IOnItemClickListener {
 
@@ -69,6 +69,9 @@ class CandidateListFragment(
 
         // Launch the UI States observer
         observeUiStates()
+
+
+        viewModel.observeCandidates()
 
         // Load candidates (the observer will be notified)
         viewModel.initCandidates()

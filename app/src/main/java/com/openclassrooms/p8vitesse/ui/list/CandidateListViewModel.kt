@@ -38,7 +38,22 @@ class CandidateListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CandidateListUIStates())
     val uiState: StateFlow<CandidateListUIStates> = _uiState.asStateFlow()
 
-    init {
+
+    // searchCandidates
+    fun initCandidates() {
+
+        // nFavorite =>
+        // T005 - All candidates tab
+        // T006 - Favorite candidates tab
+
+
+        viewModelScope.launch {
+            getCandidateUseCaseList.execute("") // Pas de filtre à la création du fragment
+        }
+
+    }
+
+    fun observeCandidates() {
 
         // Ecoute en permanence le flow du repository
 
@@ -89,20 +104,6 @@ class CandidateListViewModel @Inject constructor(
                 }
 
             }
-        }
-
-    }
-
-    // searchCandidates
-    fun initCandidates() {
-
-        // nFavorite =>
-        // T005 - All candidates tab
-        // T006 - Favorite candidates tab
-
-
-        viewModelScope.launch {
-            getCandidateUseCaseList.execute("") // Pas de filtre à la création du fragment
         }
 
     }

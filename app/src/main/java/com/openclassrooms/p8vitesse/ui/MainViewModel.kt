@@ -17,6 +17,8 @@ class MainViewModel @Inject constructor(
     private val getCandidateUseCaseList : CandidateUseCaseList
 ) : ViewModel(){
 
+    var sFilter : String = ""
+
 
     /**
      * Launch the research
@@ -29,6 +31,8 @@ class MainViewModel @Inject constructor(
 //        if (nCurrent==1){
 //            bFavorite = true
 //        }
+
+        this.sFilter = sFilter
 
         viewModelScope.launch {
             //getCandidateUseCaseList.execute(bFavorite, sFilter)

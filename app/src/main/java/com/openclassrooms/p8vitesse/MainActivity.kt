@@ -20,9 +20,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // open the main fragment (list of candidate)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, MainFragment()).commit()
+        // Vérifier si le fragment est déjà ouvert
+        val existingFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (existingFragment == null) {
+            // Le fragment n'est pas déjà ouvert, donc nous pouvons le remplacer
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MainFragment()).commit()
+        } else {
+            // Le fragment est déjà ouvert
+            // C'est le cas lors de la rotation de l'écran
+        }
+
+
+
 
     }
 }

@@ -25,6 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
+    companion object {
+        private const val KEY_RESEARCH = "key_research"
+    }
+
     // Binding
    private lateinit var binding: FragmentMainBinding
 
@@ -46,16 +50,14 @@ class MainFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
+        // A la rotation, le onViewCreated était lancé 2 fois : une fois pour la rotation, une fois reconstruit par le mainActivity
+
+        if (viewModel.sFilter.isNotEmpty()){
+            // Cas de restauration du filtre lors d'une rotation
+            binding.edtResearch.setText(viewModel.sFilter)
+        }
         configureViewPagerAndTabs()
 
-        // TODO : A la rotation de l'écran : Voir réaffecter la valeur recherchée du ViewModel vers le fragment
-//        if (viewModel.searchValue.value != null && binding.edtResearch.text.toString().isEmpty()){
-//            //binding.edtResearch.setText(viewModel.searchValue.value.toString())
-//            // Appel manuel de l'observateur pour lancer initialement
-//            // Marche pas car la valeur ne change pas donc l'observer n'est pas appelé
-//            viewModel.setSearchValue(viewModel.searchValue.value.toString())
-//
-//        }
 
         binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
 
@@ -128,6 +130,7 @@ class MainFragment : Fragment() {
             }
         })
 
+
     }
 
     private fun configureViewPagerAndTabs() {
@@ -148,9 +151,6 @@ class MainFragment : Fragment() {
         }.attach()
 
     }
-
-
-    // TODO : utiliser onSaveInstanceState(). https://developer.android.com/topic/libraries/architecture/saving-states?hl=fr
 
 
 }
