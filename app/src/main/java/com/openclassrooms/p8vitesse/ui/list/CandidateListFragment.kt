@@ -5,14 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,7 +58,7 @@ class CandidateListFragment(
 
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d(TAG_DEBUG,"  onViewCreated bOnlyFavorite = $bOnlyFavorite")
+        Log.d(TAG_DEBUG,"CandidateListFragment : onViewCreated bOnlyFavorite = $bOnlyFavorite")
 
         viewModel.bFavoriteOnly = bOnlyFavorite
 
@@ -72,7 +68,6 @@ class CandidateListFragment(
 
         // Launch the UI States observer
         observeUiStates()
-
 
         viewModel.observeCandidates()
 
@@ -156,6 +151,8 @@ class CandidateListFragment(
      */
     override fun onItemClick(position: Int) {
 
+        // T011 - Implement navigation between the home screen and the detail screen
+
         // Récupération du candidat
         val selectedCandidate = viewModel.uiState.value.listCandidates[position]
         // Récupération de son id
@@ -163,6 +160,7 @@ class CandidateListFragment(
         // Instanciation du fragment
         val fragmentFiche = CandidateDisplayFragment.newInstance(id)
 
+        // TODO : A montrer à Denis
         // parentFragment => pour remonter au MainFragment
         // parentFragmentManager => pour remonter au container de l'activity qui contient MainFragment
         parentFragment?.parentFragmentManager?.beginTransaction()

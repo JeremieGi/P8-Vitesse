@@ -12,7 +12,6 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -20,14 +19,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.R
 import com.openclassrooms.p8vitesse.databinding.FragmentMainBinding
+import com.openclassrooms.p8vitesse.ui.candidate.CandidateEditFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
-
-    companion object {
-        private const val KEY_RESEARCH = "key_research"
-    }
 
     // Binding
    private lateinit var binding: FragmentMainBinding
@@ -109,26 +105,17 @@ class MainFragment : Fragment() {
             }
         })
 
-        // Add a listener to handle tab selection events
-        binding.candidatelistViewpagerTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                // Handle tab selected
-                val position = tab.position
-                // Do something when tab is selected
-            }
+        // T012 - Implement navigation between the home screen and the add screen
+        // Floating button click
+        binding.floatingbuttonAdd.setOnClickListener{
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                // Handle tab unselected
-            }
+            parentFragmentManager.beginTransaction()
+                ?.replace(R.id.fragment_container, CandidateEditFragment.newInstance())
+                ?.addToBackStack(null)
+                ?.commit()
 
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                // Handle tab reselected
-                val position = tab.position
-                // Do something when tab is reselected
-                //viewModel.loadCandidates(binding.edtResearch.text.toString(),position)
-            }
-        })
+        }
 
 
     }

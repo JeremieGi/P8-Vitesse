@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <!-- TODO : Pour utilisation de Material Design, il faut aller sur le site télécharger un SVG puis créer un XMl à partir de ce SVG ?
-     T010 - Filter candidates -->
-    <EditText
-        android:id="@+id/edtResearch"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="20dp"
-        android:drawableEnd="@drawable/search"
-        android:paddingEnd="10dp"
-        android:inputType="text"
-        android:singleLine="true"
-        android:hint="@string/search"
-        android:background="@drawable/rounded_corner"
-       />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/candidatelistViewpagerTabs"
-        android:layout_width="match_parent"
+
+        <!-- TODO : Pour utilisation de Material Design, il faut aller sur le site télécharger un SVG puis créer un XMl à partir de ce SVG ?
+         T010 - Filter candidates -->
+        <EditText
+            android:id="@+id/edtResearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:drawableEnd="@drawable/search"
+            android:paddingEnd="10dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:hint="@string/search"
+            android:background="@drawable/rounded_corner"
+            />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/candidatelistViewpagerTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/textTabColor"
+            app:tabIndicatorFullWidth="false"
+            app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/textTabColor"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/candidatelistViewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <!-- j'ai du créer un ConstraintLayout spécifiquement pour le Floating Button-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingbuttonAdd"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/textTabColor"
-        app:tabIndicatorFullWidth="false"
-        app:tabTextColor="@color/black"
-        app:tabSelectedTextColor="@color/textTabColor"/>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/candidatelistViewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/baseline_add_24"
+        android:backgroundTint="@color/edtResearchColor"
+        android:tint="@color/textTabColor"
+        />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 
