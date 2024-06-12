@@ -9,6 +9,10 @@ import kotlinx.coroutines.Dispatchers
 @HiltAndroidApp
 class MainApplication  : Application(){
 
+    companion object{
+        const val TAG_DEBUG = "**DEBUG**"
+    }
+
     override fun onCreate() {
 
         super.onCreate()

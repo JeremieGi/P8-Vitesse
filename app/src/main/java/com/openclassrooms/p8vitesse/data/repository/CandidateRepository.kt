@@ -1,47 +1,118 @@
 package com.openclassrooms.p8vitesse.data.repository
 
+import android.util.Log
+import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.data.dao.CandidateDao
 import com.openclassrooms.p8vitesse.domain.model.Candidate
+import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 
 class CandidateRepository (
     private val candidateDao : CandidateDao
 ){
+
+    // TODO : A voir avec Denis : Je mets à jour tous candidats à chaque fois.
+    // C'est dans le ViewModel dédié au favori que je filtre par favoris
+    // J'ai hésité à faire 2 flows mais çà complexifie grandement le code
+    private val _allCandidatesFlow = MutableSharedFlow<ResultDatabase<List<Candidate>>>()
+    val allCandidatesFlow: SharedFlow<ResultDatabase<List<Candidate>>> get() = _allCandidatesFlow
+
+
+
+    /*
+
+
     /**
-     * Emit a flow of result
+     * Emit in 2 flows
      * @param bFavoriteP : 0 = no favorite, 1 favorite, null all
      * @param sFilterName : null = no filter else a string to search candidate by name
      */
-    fun getListCandidate(bFavorite: Boolean?, sFilterName : String?) : Flow<ResultDatabase<List<Candidate>>> = flow {
+    suspend fun getListCandidate(bFavorite: Boolean?, sFilterName: String?) {
 
-        // T003 - Loading state
-        emit(ResultDatabase.Loading)
+        withContext(Dispatchers.IO) {
+            flow {
 
-        //delay(5*1000) // To test T003 - Loading state
+                Log.d(TAG_DEBUG,"  getListCandidate( bFavorite = $bFavorite, sFilterName = $sFilterName )")
 
-        // TODO : J'ai pris le parti de descendre la recherche jusqu'à la base de données
-        //  (plus maintenable / plus compréhensible / plus testable)
+                // T003 - Loading state
+                emit(ResultDatabase.Loading)
 
-        val flowListCandidates = candidateDao.getCandidates(bFavorite,sFilterName)
+                //delay(5*1000) // To test T003 - Loading state
 
-        // transform in model object
-        val resultListCandidate = flowListCandidates
-            .first()
-            .map {
-                it.toModelCandidateList()
+                val flowListCandidates = candidateDao.getCandidates(bFavorite,sFilterName)
+
+                // transform in model object
+                val resultListCandidate = flowListCandidates
+                    .first()
+                    .map {
+                        it.toModelCandidateList()
+                    }
+
+                // emit List<Candidate> in success
+                emit(ResultDatabase.Success(resultListCandidate))
+
+            }.catch { error ->
+                Log.d(TAG_DEBUG,"Catch Exception dans getListCandidate( $bFavorite, $sFilterName )")
+                emit(ResultDatabase.Failure(error.message+" "+error.cause?.message)) // Message enrichi
+            }.collect { result ->
+
+                // On émet le flow généré dans le flow du repository
+
+                _candidatesFlow.emit(result)
+
+
+
             }
+        }
+        */
 
-        // emit List<Candidate> in success
-        emit(ResultDatabase.Success(resultListCandidate))
 
-    }.catch { error ->
-        // emit an error
-        emit(ResultDatabase.Failure(error.message+" "+error.cause?.message)) // Message enrichi
+    suspend fun getListAllCandidates(sFilterName: String?) {
+
+        withContext(Dispatchers.IO) {
+            flow {
+
+                Log.d(TAG_DEBUG,"  getListAllCandidate(sFilterName = $sFilterName )")
+
+                // T003 - Loading state
+                emit(ResultDatabase.Loading)
+
+                //delay(5*1000) // To test T003 - Loading state
+
+                // Pas d'utilisation du filtre Favori
+                val flowListCandidates = candidateDao.getCandidates(bFavoriteP = null, sFilterName = sFilterName)
+
+                // transform in model object
+                val resultListCandidate = flowListCandidates
+                    .first()
+                    .map {
+                        it.toModelCandidateList()
+                    }
+
+                // emit List<Candidate> in success
+                emit(ResultDatabase.Success(resultListCandidate))
+
+            }.catch { error ->
+                Log.d(TAG_DEBUG,"Catch Exception dans getListAllCandidate(  $sFilterName )")
+                emit(ResultDatabase.Failure(error.message+" "+error.cause?.message)) // Message enrichi
+            }.collect { result ->
+                // On émet le flow généré dans le flow du repository
+                _allCandidatesFlow.emit(result)
+            }
+        }
+
+
     }
+
+
+
 
 
 }

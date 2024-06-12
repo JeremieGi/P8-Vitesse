@@ -20,11 +20,11 @@ class PageAdapter(
 
         if (position==1){
             // Display favorite candidates
-            return CandidateListFragment.newInstance(bFavorite = true)
+            return CandidateListFragment.newInstance(bOnlyFavorite = true)
         }
         // 1er tab = position 0
         // Display all candidates (Null = no filter)
-        return CandidateListFragment.newInstance(bFavorite = null)
+        return CandidateListFragment.newInstance(bOnlyFavorite = false)
 
     }
 

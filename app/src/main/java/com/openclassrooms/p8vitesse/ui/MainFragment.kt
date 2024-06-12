@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.R
 import com.openclassrooms.p8vitesse.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,9 +30,6 @@ class MainFragment : Fragment() {
 
     // View Model
     private val viewModel: MainViewModel  by viewModels()
-
-    // View Model partagé
-    //private val sharedViewModel: SharedViewModel by activityViewModels() // TODO : Enlever le SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +44,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // TODO : Normalement pas d'observer dans ce fragment
-
         super.onViewCreated(view, savedInstanceState)
 
         configureViewPagerAndTabs()
@@ -60,9 +57,6 @@ class MainFragment : Fragment() {
 //
 //        }
 
-        // Vu aussi une syntaxe dans le layout : android:text="@={viewModel.searchQuery}"
-
-
         binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
 
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -70,8 +64,14 @@ class MainFragment : Fragment() {
                 // Code à exécuter lorsque l'utilisateur appuie sur "Done"
 
                 // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
- //               val inputText = binding.edtResearch.text.toString()
- //               sharedViewModel.setSearchQuery(inputText)
+
+//                val inputText = binding.edtResearch.text.toString()
+//                try{
+//                    viewModel.loadCandidates(inputText,binding.candidatelistViewpager.currentItem)
+//                }
+//                catch (e  : Exception){
+//                    Log.d(TAG_DEBUG,"Exception : ${e.message}")
+//                }
 
                 // Fermer le clavier
                 // TODO : Pourquoi ca ne se fait pas tout seul ? => Voir dans les configs de l'edit Text
@@ -96,7 +96,35 @@ class MainFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                viewModel.loadCandidates(binding.edtResearch.text.toString(),binding.candidatelistViewpager.currentItem)
+                try{
+                    //viewModel.requestCandidates(s.toString(),binding.candidatelistViewpager.currentItem)
+                    viewModel.requestCandidates(s.toString())
+                }
+                catch (e  : Exception){
+                    Log.d(TAG_DEBUG,"Exception : ${e.message}")
+                }
+
+            }
+        })
+
+        // Add a listener to handle tab selection events
+        binding.candidatelistViewpagerTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                // Handle tab selected
+                val position = tab.position
+                // Do something when tab is selected
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                // Handle tab unselected
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                // Handle tab reselected
+                val position = tab.position
+                // Do something when tab is reselected
+                //viewModel.loadCandidates(binding.edtResearch.text.toString(),position)
             }
         })
 

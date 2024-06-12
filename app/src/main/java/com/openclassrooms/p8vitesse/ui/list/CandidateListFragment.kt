@@ -1,6 +1,7 @@
 package com.openclassrooms.p8vitesse.ui.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,14 +25,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CandidateListFragment(
 
-    private val bFavorite : Boolean? = null
+    private val bOnlyFavorite : Boolean
 
 ) : Fragment(), IOnItemClickListener {
 
     companion object {
 
-        fun newInstance(bFavorite : Boolean?): Fragment {
-            return CandidateListFragment(bFavorite)
+        fun newInstance(bOnlyFavorite : Boolean): Fragment {
+            return CandidateListFragment(bOnlyFavorite)
         }
     }
 
@@ -57,23 +59,19 @@ class CandidateListFragment(
 
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.bFavorite = bFavorite
+        Log.d(TAG_DEBUG,"  onViewCreated bOnlyFavorite = $bOnlyFavorite")
+
+        viewModel.bFavoriteOnly = bOnlyFavorite
 
         binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewCandidates.adapter = candidatesAdapter
 
-//        // Observe search query and update the list
-//        sharedViewModel.searchQuery.observe(viewLifecycleOwner, Observer { sFilter ->
-//            //candidatesAdapter.filter(sFilter)
-//            viewModel.sFilter = sFilter
-//            viewModel.loadCandidates()
-//        })
 
         // Launch the UI States observer
         observeUiStates()
 
         // Load candidates (the observer will be notified)
-        viewModel.loadCandidates()
+        viewModel.initCandidates()
 
     }
 

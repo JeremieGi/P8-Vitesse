@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,9 +19,9 @@ class CandidateListViewModel @Inject constructor(
     private val getCandidateUseCaseList : CandidateUseCaseList
  ) : ViewModel() {
 
+    var bFavoriteOnly : Boolean = false
 
-    var bFavorite: Boolean? = null
-
+    /*
     var sFilter: String? = null
         // Accesseur custom
         set(value) {
@@ -31,54 +32,78 @@ class CandidateListViewModel @Inject constructor(
                 null
             }
         }
+     */
 
     // Class for the communication between the ViewModel and the fragment
     private val _uiState = MutableStateFlow(CandidateListUIStates())
     val uiState: StateFlow<CandidateListUIStates> = _uiState.asStateFlow()
 
-    // Load candidates (the observer of UI State will be notified in the fragment)
-    fun loadCandidates() {
+    init {
+
+        // Ecoute en permanence le flow du repository
+
+        // (the observer of UI State will be notified in the fragment)
+        viewModelScope.launch {
+
+            getCandidateUseCaseList.allCandidatesFlow.collect { resultDB ->
+
+                // result of the DB
+                when (resultDB) {
+
+                    // Fail
+                    is ResultDatabase.Failure -> _uiState.update { currentState ->
+                        currentState.copy(
+                            isLoading = false,
+                            errorMessage = resultDB.message.toString()
+                        )
+                    }
+                    // Loading
+                    is ResultDatabase.Loading -> _uiState.update { currentState ->
+                        currentState.copy(
+                            isLoading = true,
+                            errorMessage = ""
+                        )
+                    }
+                    // Success
+                    is ResultDatabase.Success -> _uiState.update { currentState ->
+
+                        // Récupération de la liste des candidats
+                        var listCandidate = resultDB.value
+
+                        // Si le filtre des favoris doit-être appliqué
+                        if (bFavoriteOnly){
+                            listCandidate = listCandidate.filter {
+                                it.topFavorite
+                            }
+                        }
+
+                        // transfert de la liste de candidats
+                        currentState.copy(
+                            listCandidates = listCandidate,
+                            isLoading = false,
+                            errorMessage = ""
+                        )
+                    }
+
+
+                }
+
+            }
+        }
+
+    }
+
+    // searchCandidates
+    fun initCandidates() {
 
         // nFavorite =>
         // T005 - All candidates tab
         // T006 - Favorite candidates tab
 
-        // Call use case instance
-        getCandidateUseCaseList.execute(bFavorite,sFilter).onEach { resultDB ->
 
-            // result of the DB
-            when (resultDB) {
-
-                // Fail
-                is ResultDatabase.Failure -> _uiState.update { currentState ->
-                    currentState.copy(
-                        isLoading = false,
-                        errorMessage = resultDB.message.toString()
-                    )
-                }
-                // Loading
-                is ResultDatabase.Loading -> _uiState.update { currentState ->
-                    currentState.copy(
-                        isLoading = true,
-                        errorMessage = ""
-                    )
-                }
-                // Success
-                is ResultDatabase.Success -> _uiState.update { currentState ->
-
-                    // transfert de la liste de candidats
-                    currentState.copy(
-                        listCandidates = resultDB.value,
-                        isLoading = false,
-                        errorMessage = ""
-                    )
-                }
-
-
-            }
-
-        }.launchIn(viewModelScope)
-
+        viewModelScope.launch {
+            getCandidateUseCaseList.execute("") // Pas de filtre à la création du fragment
+        }
 
     }
 
