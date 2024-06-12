@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.openclassrooms.p8vitesse.databinding.ActivityMainBinding
 import com.openclassrooms.p8vitesse.ui.MainFragment
+import com.openclassrooms.p8vitesse.ui.candidate.CandidateDisplayFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         // Vérifier si le fragment est déjà ouvert
         val existingFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
+
         if (existingFragment == null) {
-            // Le fragment n'est pas déjà ouvert, donc nous pouvons le remplacer
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, MainFragment()).commit()
         } else {

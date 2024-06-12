@@ -93,7 +93,7 @@ class CandidateRepository (
                 val resultListCandidate = flowListCandidates
                     .first()
                     .map {
-                        it.toModelCandidateList()
+                        it.toModelCandidate()
                     }
 
                 // emit List<Candidate> in success
@@ -111,6 +111,18 @@ class CandidateRepository (
 
     }
 
+
+    suspend fun getCandidate(lID: Long): Result<Candidate> {
+
+        return try {
+            val candidateDto = candidateDao.getCandidateById(lID).first()
+            val candidateModel = candidateDto.toModelCandidate()
+            Result.success(candidateModel)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
 
 
 

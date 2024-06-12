@@ -53,4 +53,11 @@ interface CandidateDao {
     @Query("DELETE FROM tblCandidate WHERE id = :id")
     suspend fun deleteCandidateById(id: Long)
 
+    /**
+     * Get a candidate by ID
+     * @param lID : candidate ID
+     */
+    @Query("SELECT * FROM tblCandidate WHERE id = :lID")
+    fun getCandidateById(lID: Long): Flow<CandidateDto>
+
 }

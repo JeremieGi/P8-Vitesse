@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,7 +18,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
+import com.openclassrooms.p8vitesse.R
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateListBinding
+import com.openclassrooms.p8vitesse.ui.candidate.CandidateDisplayFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -153,10 +156,19 @@ class CandidateListFragment(
      */
     override fun onItemClick(position: Int) {
 
+        // Récupération du candidat
         val selectedCandidate = viewModel.uiState.value.listCandidates[position]
+        // Récupération de son id
+        val id = selectedCandidate.id?:0
+        // Instanciation du fragment
+        val fragmentFiche = CandidateDisplayFragment.newInstance(id)
 
-        // Gérez le clic sur l'élément ici
-        Toast.makeText(requireActivity(), "Item candidate ${selectedCandidate.lastName}", Toast.LENGTH_SHORT).show()
+        // parentFragment => pour remonter au MainFragment
+        // parentFragmentManager => pour remonter au container de l'activity qui contient MainFragment
+        parentFragment?.parentFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_container, fragmentFiche)
+            ?.addToBackStack(null)
+            ?.commit()
 
     }
 

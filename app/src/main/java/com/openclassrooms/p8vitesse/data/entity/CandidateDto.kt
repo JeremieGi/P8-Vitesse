@@ -49,7 +49,7 @@ data class CandidateDto(
     /**
      * Tranform candidate DTO in Candidate model
      */
-    fun toModelCandidateList() : Candidate {
+    fun toModelCandidate() : Candidate {
 
         return Candidate(
             id = this.id,
@@ -65,4 +65,6 @@ data class CandidateDto(
         )
 
     }
+
+
 }

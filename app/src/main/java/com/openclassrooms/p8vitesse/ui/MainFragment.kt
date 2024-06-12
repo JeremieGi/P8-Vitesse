@@ -59,33 +59,7 @@ class MainFragment : Fragment() {
         configureViewPagerAndTabs()
 
 
-        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-
-                // Code à exécuter lorsque l'utilisateur appuie sur "Done"
-
-                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
-
-//                val inputText = binding.edtResearch.text.toString()
-//                try{
-//                    viewModel.loadCandidates(inputText,binding.candidatelistViewpager.currentItem)
-//                }
-//                catch (e  : Exception){
-//                    Log.d(TAG_DEBUG,"Exception : ${e.message}")
-//                }
-
-                // Fermer le clavier
-                // TODO : Pourquoi ca ne se fait pas tout seul ? => Voir dans les configs de l'edit Text
-                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
-
-                true // Retourne true pour indiquer que l'action a été gérée
-            } else {
-                false
-            }
-       })
-
+        // T009 - Filter candidates widget
 
         binding.edtResearch.addTextChangedListener(object : TextWatcher {
 
@@ -106,6 +80,32 @@ class MainFragment : Fragment() {
                     Log.d(TAG_DEBUG,"Exception : ${e.message}")
                 }
 
+            }
+        })
+
+        // Code à exécuter lorsque l'utilisateur appuie sur "Done"
+        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
+
+//                val inputText = binding.edtResearch.text.toString()
+//                try{
+//                    viewModel.loadCandidates(inputText,binding.candidatelistViewpager.currentItem)
+//                }
+//                catch (e  : Exception){
+//                    Log.d(TAG_DEBUG,"Exception : ${e.message}")
+//                }
+
+                // Fermer le clavier
+                // TODO : Pourquoi ca ne se fait pas tout seul ? => Voir dans les configs de l'edit Text
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
+
+                true // Retourne true pour indiquer que l'action a été gérée
+            } else {
+                false
             }
         })
 
