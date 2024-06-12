@@ -3,7 +3,7 @@ package com.openclassrooms.p8vitesse.ui.candidate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.p8vitesse.domain.model.Candidate
-import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseList
+import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseDelete
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseLoad
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CandidateDisplayViewModel @Inject constructor(
-    private val getCandidateUseCaseLoad : CandidateUseCaseLoad
+    private val getCandidateUseCaseLoad : CandidateUseCaseLoad,
+    private val getCandidateUseCaseDelete : CandidateUseCaseDelete
 ) : ViewModel(){
 
 

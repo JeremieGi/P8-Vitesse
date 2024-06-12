@@ -6,7 +6,6 @@ import com.openclassrooms.p8vitesse.data.dao.CandidateDao
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import kotlinx.coroutines.Dispatchers
 //import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.catch
@@ -124,7 +123,13 @@ class CandidateRepository (
 
     }
 
+    suspend fun addCandidate(candidate: Candidate) {
+        candidateDao.insertCandidate(candidate.toDto())
+    }
 
+    suspend fun deleteCandidate(id : Long) {
+        candidateDao.deleteCandidateById(id)
+    }
 
 
 }
