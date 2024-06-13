@@ -28,4 +28,7 @@
     <string name="invalid_format">Invalid format</string>
     <string name="select_a_date">Select a date</string>
     <string name="enter_a_date">Enter a date</string>
+    <string name="favorites">Favorites</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

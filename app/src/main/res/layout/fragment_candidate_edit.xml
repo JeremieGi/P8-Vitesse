@@ -7,7 +7,6 @@
     tools:context=".ui.candidate.CandidateEditFragment">
 
 
-    <!-- Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +14,7 @@
 "       app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarEdit"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/edtResearchColor"
@@ -28,13 +27,13 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".ui.candidate.CandidateEditFragment">
 
             <ImageView
@@ -44,7 +43,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="70dp"
                 android:contentDescription="@string/person_logo"
-                android:src="@drawable/baseline_people_24"
+                android:src="@drawable/person_24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

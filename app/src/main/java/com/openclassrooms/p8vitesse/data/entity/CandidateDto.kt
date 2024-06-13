@@ -30,9 +30,6 @@ data class CandidateDto(
     @ColumnInfo(name = "email")
     var email: String,
 
-    @ColumnInfo(name = "about")
-    var about: String,
-
     @ColumnInfo(name = "dateOfBirth")
     var dateOfBirth: Date, // Utilisation d'un Converter car SQLLite ne gère pas nativement les dates et soit utiliser des long
 
@@ -57,7 +54,6 @@ data class CandidateDto(
             firstName = this.firstName,
             phone = this.phone,
             email = this.email,
-            about = this.about,
             dateOfBirth = this.dateOfBirth,
             salaryExpectation = this.salaryExpectation,
             note = this.note,

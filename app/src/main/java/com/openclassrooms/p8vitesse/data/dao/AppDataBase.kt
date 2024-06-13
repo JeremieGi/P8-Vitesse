@@ -19,6 +19,8 @@ abstract class AppDataBase : RoomDatabase(){
     // Dao access
     abstract fun candidateDao(): CandidateDao
 
+    // TODO : Comment on fait pour mettre à jour une base existante ?
+
     private class AppDatabaseCallback(
 
         private val scope: CoroutineScope
@@ -54,7 +56,6 @@ abstract class AppDataBase : RoomDatabase(){
                     firstName = "FirstName$i",
                     phone = "06.12.34.35.3$i",
                     email = "firstname$i.lastname$i@free.fr",
-                    about = "about$i \nContenu du A propos",
                     dateOfBirth = currentDate.time,
                     salaryExpectation = 3000+(i*100),
                     note = "note$i \nDuplexque isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus",

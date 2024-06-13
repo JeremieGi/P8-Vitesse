@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- android:icon="@drawable/star_border_24dp" -->
+    <item
+        android:id="@+id/itemFavorite"
+        android:icon="@drawable/star_border_24dp"
+        android:contentDescription="@string/favorites"
+        app:showAsAction="always"
+        android:title="@string/favorites">
+    </item>
+
+    <item
+        android:id="@+id/itemEdit"
+        android:icon="@drawable/baseline_edit_24"
+        android:contentDescription="@string/edit"
+        app:showAsAction="ifRoom"
+        android:title="@string/edit">
+    </item>
+
+
+    <item
+        android:id="@+id/itemDelete"
+        android:icon="@drawable/baseline_delete_24"
+        android:contentDescription="@string/delete"
+        app:showAsAction="ifRoom"
+        android:title="@string/edit">
+    </item>
+
+
+
+
+</menu>

@@ -37,5 +37,7 @@ class CandidateDisplayViewModel @Inject constructor(
     }
 
 
+
+
 }
 

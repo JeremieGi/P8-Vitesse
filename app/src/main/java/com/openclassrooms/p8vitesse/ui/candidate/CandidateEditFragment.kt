@@ -333,7 +333,6 @@ class CandidateEditFragment : Fragment() {
             firstName = binding.edtFirstName.text.toString(),
             phone = binding.edtPhone.text.toString(),
             email = binding.edtEmail.text.toString(),
-            about = "",
             dateOfBirth = dateOfBirth,
             salaryExpectation = binding.edtExpectedSalary.text.toString().toInt(),
             note = binding.edtNote.text.toString(),
@@ -358,25 +357,19 @@ class CandidateEditFragment : Fragment() {
 
     private fun setupActionBar() {
 
-        // Set the toolbar as the support action bar
-  //      (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-
-//        // Enable the Up button
-//        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-//        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (viewModel.bModeAdd()){
             // T013 - Implement the top app bar title
-            binding.toolbar.title = getString(R.string.add_a_candidate)
+            binding.toolbarEdit.title = getString(R.string.add_a_candidate)
         }
         else{
             //T038 - Implement the top app bar title
-            binding.toolbar.title = getString(R.string.edit_a_candidate)
+            binding.toolbarEdit.title = getString(R.string.edit_a_candidate)
         }
 
         // T014 - Implement the top app bar navigation icon
         // Set up the click listener for the Up button
-        binding.toolbar.setNavigationOnClickListener {
+        binding.toolbarEdit.setNavigationOnClickListener {
             // Handle the click event here
             //requireActivity().onBackPressed()
             requireActivity().onBackPressedDispatcher.onBackPressed()
