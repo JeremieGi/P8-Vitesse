@@ -29,10 +29,9 @@
             android:id="@+id/candidatelistViewpagerTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/textTabColor"
             app:tabIndicatorFullWidth="false"
             app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/textTabColor"/>
+            />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/candidatelistViewpager"

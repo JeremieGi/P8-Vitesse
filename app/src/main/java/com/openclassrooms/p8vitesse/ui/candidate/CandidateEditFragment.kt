@@ -179,39 +179,52 @@ class CandidateEditFragment : Fragment() {
 
         // T023 - Check the information
 
-        // TODO découper cette procédure
+        var bImputsOK = true
+
+        if (! inputLastNameOK()){
+            bImputsOK = false
+        }
+
+        if (! inputFirstNameOK()){
+            bImputsOK = false
+        }
+
+        if (! inputPhoneOK()){
+            bImputsOK = false
+        }
+
+        if (! inputEmailOK()){
+            bImputsOK = false
+        }
+
+        if (! inputDateOK()){
+            bImputsOK = false
+        }
+
+        return bImputsOK
+
+    }
+
+    private fun inputDateOK(): Boolean {
 
         var bImputsOK = true
 
-        val inputLastName = binding.edtLastName.text.toString().trim()
-        if (inputLastName.isEmpty()) {
-            binding.inputLayoutLastName.error = getString(R.string.mandatory_field)
-            binding.inputLayoutLastName.isErrorEnabled = true
+        val inputDate = binding.edtDateOfBirth.text.toString().trim()
+        if (inputDate.isEmpty()) {
+            binding.inputLayoutDateOfBirth.error = getString(R.string.mandatory_field)
+            binding.inputLayoutDateOfBirth.isErrorEnabled = true
             bImputsOK = false
         } else {
-            binding.inputLayoutLastName.error = null
-            binding.inputLayoutLastName.isErrorEnabled = false
+            binding.inputLayoutDateOfBirth.error = null
+            binding.inputLayoutDateOfBirth.isErrorEnabled = false
         }
 
-        val inputFirstName = binding.edtFirstName.text.toString().trim()
-        if (inputFirstName.isEmpty()) {
-            binding.inputLayoutFirstName.error = getString(R.string.mandatory_field)
-            binding.inputLayoutFirstName.isErrorEnabled = true
-            bImputsOK = false
-        } else {
-            binding.inputLayoutFirstName.error = null
-            binding.inputLayoutFirstName.isErrorEnabled = false
-        }
+        return bImputsOK
+    }
 
-        val inputPhone = binding.edtPhone.text.toString().trim()
-        if (inputPhone.isEmpty()) {
-            binding.inputLayoutPhone.error = getString(R.string.mandatory_field)
-            binding.inputLayoutPhone.isErrorEnabled = true
-            bImputsOK = false
-        } else {
-            binding.inputLayoutPhone.error = null
-            binding.inputLayoutPhone.isErrorEnabled = false
-        }
+    private fun inputEmailOK(): Boolean {
+
+        var bImputsOK = true
 
         val inputEmail = binding.edtEmail.text.toString().trim()
         if (inputEmail.isEmpty()) {
@@ -234,11 +247,61 @@ class CandidateEditFragment : Fragment() {
                 bImputsOK = false
 
             }
-
-
         }
 
+        return bImputsOK
 
+    }
+
+    private fun inputPhoneOK(): Boolean {
+
+        var bImputsOK = true
+
+        val inputPhone = binding.edtPhone.text.toString().trim()
+        if (inputPhone.isEmpty()) {
+            binding.inputLayoutPhone.error = getString(R.string.mandatory_field)
+            binding.inputLayoutPhone.isErrorEnabled = true
+            bImputsOK = false
+        } else {
+            binding.inputLayoutPhone.error = null
+            binding.inputLayoutPhone.isErrorEnabled = false
+        }
+
+        return bImputsOK
+
+    }
+
+    private fun inputFirstNameOK(): Boolean {
+
+        var bImputsOK = true
+
+        val inputFirstName = binding.edtFirstName.text.toString().trim()
+        if (inputFirstName.isEmpty()) {
+            binding.inputLayoutFirstName.error = getString(R.string.mandatory_field)
+            binding.inputLayoutFirstName.isErrorEnabled = true
+            bImputsOK = false
+        } else {
+            binding.inputLayoutFirstName.error = null
+            binding.inputLayoutFirstName.isErrorEnabled = false
+        }
+
+        return bImputsOK
+    }
+
+    private fun inputLastNameOK(): Boolean {
+
+        var bImputsOK = true
+
+        val inputLastName = binding.edtLastName.text.toString().trim()
+        if (inputLastName.isEmpty()) {
+            binding.inputLayoutLastName.error = getString(R.string.mandatory_field)
+            binding.inputLayoutLastName.isErrorEnabled = true
+            bImputsOK = false
+
+        } else {
+            binding.inputLayoutLastName.error = null
+            binding.inputLayoutLastName.isErrorEnabled = false
+        }
 
         return bImputsOK
 

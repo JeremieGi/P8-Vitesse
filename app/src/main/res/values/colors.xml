@@ -17,7 +17,7 @@
 
 
     <!-- T002 - Implement the theme of the app -->
-    <color name="colorPrimary">#DF9780</color>
+    <color name="colorPrimary">#6750a4</color> <!-- anciennement DF9780 => changé par rapport aux maquettes  -->
     <color name="colorPrimaryVariant">#749FB8</color>
     <color name="colorSecondary">#E8B952</color>
     <color name="colorSecondaryVariant">#E8B952</color>
