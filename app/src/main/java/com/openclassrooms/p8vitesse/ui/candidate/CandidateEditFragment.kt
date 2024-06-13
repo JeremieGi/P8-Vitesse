@@ -177,6 +177,10 @@ class CandidateEditFragment : Fragment() {
      */
     private fun bCheckInputOK(): Boolean {
 
+        // T023 - Check the information
+
+        // TODO découper cette procédure
+
         var bImputsOK = true
 
         val inputLastName = binding.edtLastName.text.toString().trim()

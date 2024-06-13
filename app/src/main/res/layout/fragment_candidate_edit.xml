@@ -41,7 +41,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:textColor="@color/black"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/_heightField"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/first_name"
@@ -64,7 +64,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:textColor="@color/black"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/_heightField"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="5dp"
@@ -103,7 +103,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:textColor="@color/black"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/_heightField"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/phone"
@@ -137,7 +137,7 @@
         android:id="@+id/inputLayoutEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/email"
@@ -205,20 +205,28 @@
         android:contentDescription="@string/money_logo"
         android:src="@drawable/baseline_attach_money_24"/>
 
-    <EditText
-        android:id="@+id/edtExpectedSalary"
-        android:inputType="numberDecimal"
-        app:boxStrokeColor="@android:color/black"
-        app:boxStrokeWidth="2dp"
-        android:hint="@string/expected_salary"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutExpectedSalary"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/_heightField"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
+        android:hint="@string/expected_salary"
         app:layout_constraintStart_toEndOf="@+id/imgSalary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgSalary"
-        />
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtExpectedSalary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
         android:id="@+id/imgNote"
@@ -227,7 +235,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtExpectedSalary"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutExpectedSalary"
         android:contentDescription="@string/note_logo"
         android:src="@drawable/baseline_edit_24"/>
 
