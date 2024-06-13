@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.P8Vitesse" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Theme.P8Vitesse" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- T002 - Implement the theme of the app -->
 

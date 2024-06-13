@@ -9,10 +9,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
@@ -113,6 +115,7 @@ class CandidateDisplayFragment : Fragment() {
 
         }
 
+
         setupActionBar()
 
 
@@ -143,7 +146,7 @@ class CandidateDisplayFragment : Fragment() {
                     else -> false
                 }
             }
-        })
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     }
 
@@ -151,7 +154,7 @@ class CandidateDisplayFragment : Fragment() {
     private fun updateActionBarTitle(candidate: Candidate) {
 
         //T024 - Implement the top app bar title
-        requireActivity().title = "${candidate.firstName.capitalized()} ${candidate.lastName.uppercase()}"
+        binding.toolbarDisplay.title = "${candidate.firstName.capitalized()} ${candidate.lastName.uppercase()}"
 
     }
 
@@ -161,13 +164,18 @@ class CandidateDisplayFragment : Fragment() {
 
     private fun setupActionBar() {
 
-  /*
+        // Trouver et configurer la Toolbar
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarDisplay)
+
+        // Activer le bouton de retour
+        (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         // T025 - Implement the top app bar navigation icon
         // Set up the click listener for the Up button
-        requireActivity().actionBar.setNavigationOnClickListener {
+        binding.toolbarDisplay.setNavigationOnClickListener {
             onBack()
         }
-*/
+
     }
 
     /**
