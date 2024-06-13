@@ -9,6 +9,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -51,11 +53,12 @@ class CandidateDisplayFragment : Fragment() {
             }
     }
 
-
+/*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true) // Indique que ce fragment a un menu d'options
     }
+*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -112,7 +115,10 @@ class CandidateDisplayFragment : Fragment() {
 
         setupActionBar()
 
-        /*
+
+
+        // Menus
+
         val menuHost: MenuHost = requireActivity()
 
         menuHost.addMenuProvider(object : MenuProvider {
@@ -121,50 +127,31 @@ class CandidateDisplayFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return true
+                return when (menuItem.itemId) {
+                    R.id.itemFavorite -> {
+                        // Gérer l'action de recherche
+                        true
+                    }
+                    R.id.itemEdit -> {
+                        // Gérer l'action des paramètres
+                        true
+                    }
+                    R.id.itemDelete -> {
+                        // Gérer l'action des paramètres
+                        true
+                    }
+                    else -> false
+                }
             }
         })
-        */
-    }
-/*
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_candidate_display, menu)
-        //super.onCreateOptionsMenu(menu, menuInflater)
-        // Do stuff...
+
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.itemFavorite -> {
-                // Gérer l'action de recherche
-                true
-            }
-            R.id.itemEdit -> {
-                // Gérer l'action des paramètres
-                true
-            }
-            R.id.itemDelete -> {
-                // Gérer l'action des paramètres
-                true
-            }
-            else -> false
-        }
-    }
-*/
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_candidate_display, menu)
-        super.onCreateOptionsMenu(menu,inflater);
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return false
-    }
 
     private fun updateActionBarTitle(candidate: Candidate) {
 
         //T024 - Implement the top app bar title
-        //binding.toolbarDisplay.title = "${candidate.firstName.capitalized()} ${candidate.lastName.uppercase()}"
+        requireActivity().title = "${candidate.firstName.capitalized()} ${candidate.lastName.uppercase()}"
 
     }
 
@@ -173,10 +160,11 @@ class CandidateDisplayFragment : Fragment() {
     }
 
     private fun setupActionBar() {
-/*
+
+  /*
         // T025 - Implement the top app bar navigation icon
         // Set up the click listener for the Up button
-        binding.toolbarDisplay.setNavigationOnClickListener {
+        requireActivity().actionBar.setNavigationOnClickListener {
             onBack()
         }
 */
