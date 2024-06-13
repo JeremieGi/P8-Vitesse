@@ -33,12 +33,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/person_logo"
-        android:src="@drawable/baseline_co_present_24"/>
+        android:src="@drawable/baseline_people_24"/>
 
 
-    <!-- Floating label -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayoutFirstName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textColorHint="@color/black"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
@@ -46,31 +47,45 @@
         android:hint="@string/first_name"
         app:layout_constraintStart_toEndOf="@+id/imgPerson"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgPerson">
+        app:layout_constraintTop_toTopOf="@+id/imgPerson"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edtLastName"
-        android:inputType="textPersonName"
-        app:boxStrokeColor="@android:color/black"
-        app:boxStrokeWidth="2dp"
-        android:hint="@string/last_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutLastName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textColorHint="@color/black"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="5dp"
+        android:hint="@string/last_name"
         app:layout_constraintStart_toEndOf="@+id/imgPerson"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputLayoutFirstName"
-        />
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="12dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <ImageView
         android:id="@+id/imgPhone"
@@ -79,7 +94,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtLastName"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutLastName"
         android:contentDescription="@string/phone_logo"
         android:src="@drawable/baseline_phone_24"/>
 

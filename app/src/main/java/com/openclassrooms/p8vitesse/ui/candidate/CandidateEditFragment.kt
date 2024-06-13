@@ -181,7 +181,17 @@ class CandidateEditFragment : Fragment() {
 
         val inputLastName = binding.edtLastName.text.toString().trim()
         if (inputLastName.isEmpty()) {
-            binding.inputLayoutFirstName.error = "Ce champ est requis"
+            binding.inputLayoutLastName.error = getString(R.string.mandatory_field) // TODO : Ce message n'est jamais visible
+            binding.inputLayoutLastName.isErrorEnabled = true
+            bImputsOK = false
+        } else {
+            binding.inputLayoutLastName.error = null
+            binding.inputLayoutLastName.isErrorEnabled = false
+        }
+
+        val inputFirstName = binding.edtFirstName.text.toString().trim()
+        if (inputFirstName.isEmpty()) {
+            binding.inputLayoutFirstName.error = getString(R.string.mandatory_field)
             binding.inputLayoutFirstName.isErrorEnabled = true
             bImputsOK = false
         } else {
