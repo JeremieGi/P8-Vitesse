@@ -23,6 +23,13 @@
             app:navigationIcon="@drawable/baseline_arrow_back_24" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    </ScrollView>
 
     <ImageView
         android:id="@+id/imgPerson"
@@ -131,13 +138,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputLayoutPhone"
         android:contentDescription="@string/email_logo"
-        android:src="@drawable/baseline_mail_24"/>
+        android:src="@drawable/baseline_mail_24"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayoutEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/_heightField"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/email"
@@ -170,29 +178,74 @@
         android:contentDescription="@string/birthday_logo"
         android:src="@drawable/baseline_cake_24"/>
 
-    <Button
-        android:id="@+id/btnPickDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imgBirthday"
-        android:text="Pick date"/>
 
-    <EditText
-        android:id="@+id/edtDateOfBirth"
-        android:inputType="date"
-        app:boxStrokeColor="@android:color/black"
-        app:boxStrokeWidth="2dp"
-        android:hint="@string/date"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutDateOfBirth"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textColor="@color/black"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
+
         app:layout_constraintStart_toEndOf="@+id/imgEmail"
-        app:layout_constraintEnd_toStartOf="@+id/btnPickDate"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail"
-        />
+        android:background="@drawable/rounded_corner"
+        >
+
+        <!-- ConstraintLayout in TextInputLayout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvSelectDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_a_date"
+                />
+
+            <Button
+                android:id="@+id/btnPickDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSelectDate"
+                android:text="@string/enter_a_date"
+                android:background="@android:color/transparent"
+                android:textColor="@color/black"
+                android:textAlignment="textStart"
+                android:textSize="25dp"
+                android:textAllCaps="false"
+                android:drawableRight="@drawable/baseline_edit_calendar_24"/>
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtDateOfBirth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:inputType="date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnPickDate"
+            android:enabled="false"
+            android:hint="@string/date"
+            />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
         android:id="@+id/imgSalary"
@@ -201,7 +254,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtDateOfBirth"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutDateOfBirth"
         android:contentDescription="@string/money_logo"
         android:src="@drawable/baseline_attach_money_24"/>
 
@@ -275,6 +328,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/rounded_corner_button"
+        android:textAllCaps="false"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -185,7 +185,7 @@ class CandidateEditFragment : Fragment() {
 
         val inputLastName = binding.edtLastName.text.toString().trim()
         if (inputLastName.isEmpty()) {
-            binding.inputLayoutLastName.error = getString(R.string.mandatory_field) // TODO : Ce message n'est jamais visible
+            binding.inputLayoutLastName.error = getString(R.string.mandatory_field)
             binding.inputLayoutLastName.isErrorEnabled = true
             bImputsOK = false
         } else {

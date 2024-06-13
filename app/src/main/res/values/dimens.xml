@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="_heightField">60dp</dimen>
+    <dimen name="_heightField">80dp</dimen>
 </resources>
