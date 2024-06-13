@@ -30,7 +30,7 @@ class CandidateEditFragment : Fragment() {
     companion object {
         fun newInstance() = CandidateEditFragment()
 
-        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        private val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     }
 
     // Binding
@@ -90,20 +90,26 @@ class CandidateEditFragment : Fragment() {
 
             try {
 
-                val candidateNewData = candidateFromInputs()
+                if (bCheckInputOK()){
 
-                // Add Mode
-                if (viewModel.bModeAdd()){
+                    val candidateNewData = candidateFromInputs()
 
-                    viewModel.add(candidateNewData)
+                    // Add Mode
+                    if (viewModel.bModeAdd()){
 
-                    // Close the fragment
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                        viewModel.add(candidateNewData)
+
+                        // Close the fragment
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+
+                    }
+                    else{
+
+                    }
 
                 }
-                else{
 
-                }
+
 
             }
             catch (e: Exception) {
@@ -146,9 +152,9 @@ class CandidateEditFragment : Fragment() {
 
                         // Si date saisie dans le futur
                         if (selectedCalendar.after(todayCalendar)) {
-                            Toast.makeText(requireContext(), "Vous ne pouvez pas sélectionner une date future", Toast.LENGTH_SHORT).show()
+                            displayError(getString(R.string.impossible_to_selected_a_date_of_birth_in_the_future))
                         } else {
-                            val selectedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedCalendar.time)
+                            val selectedDate = dateFormatter.format(selectedCalendar.time)
                             binding.edtDateOfBirth.setText(selectedDate)
                         }
 
@@ -163,6 +169,27 @@ class CandidateEditFragment : Fragment() {
 
         }
 
+
+    }
+
+    /**
+     * Vérifie que les champs sont saisis
+     */
+    private fun bCheckInputOK(): Boolean {
+
+        var bImputsOK = true
+
+        val inputLastName = binding.edtLastName.text.toString().trim()
+        if (inputLastName.isEmpty()) {
+            binding.inputLayoutFirstName.error = "Ce champ est requis"
+            binding.inputLayoutFirstName.isErrorEnabled = true
+            bImputsOK = false
+        } else {
+            binding.inputLayoutFirstName.error = null
+            binding.inputLayoutFirstName.isErrorEnabled = false
+        }
+
+        return bImputsOK
 
     }
 
