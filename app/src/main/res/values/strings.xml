@@ -25,4 +25,5 @@
     <string name="birthday_logo">Birthday logo</string>
     <string name="impossible_to_selected_a_date_of_birth_in_the_future">Impossible to selected a date of birth in the future</string>
     <string name="mandatory_field">Mandatory field</string>
+    <string name="invalid_format">Invalid format</string>
 </resources>

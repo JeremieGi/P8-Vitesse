@@ -199,6 +199,43 @@ class CandidateEditFragment : Fragment() {
             binding.inputLayoutFirstName.isErrorEnabled = false
         }
 
+        val inputPhone = binding.edtPhone.text.toString().trim()
+        if (inputPhone.isEmpty()) {
+            binding.inputLayoutPhone.error = getString(R.string.mandatory_field)
+            binding.inputLayoutPhone.isErrorEnabled = true
+            bImputsOK = false
+        } else {
+            binding.inputLayoutPhone.error = null
+            binding.inputLayoutPhone.isErrorEnabled = false
+        }
+
+        val inputEmail = binding.edtEmail.text.toString().trim()
+        if (inputEmail.isEmpty()) {
+            binding.inputLayoutEmail.error = getString(R.string.mandatory_field)
+            binding.inputLayoutEmail.isErrorEnabled = true
+            bImputsOK = false
+        } else {
+
+            // Mail correct
+            if (android.util.Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()){
+
+                binding.inputLayoutEmail.error = null
+                binding.inputLayoutEmail.isErrorEnabled = false
+
+            }
+            else{
+
+                binding.inputLayoutEmail.error = getString(R.string.invalid_format)
+                binding.inputLayoutEmail.isErrorEnabled = true
+                bImputsOK = false
+
+            }
+
+
+        }
+
+
+
         return bImputsOK
 
     }

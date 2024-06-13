@@ -39,7 +39,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayoutFirstName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:textColorHint="@color/black"
+        android:textColor="@color/black"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
@@ -55,15 +55,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="12dp"/>
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayoutLastName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:textColorHint="@color/black"
+        android:textColor="@color/black"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
@@ -80,8 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="12dp"/>
+            android:textColorHint="#757575"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,20 +97,30 @@
         android:contentDescription="@string/phone_logo"
         android:src="@drawable/baseline_phone_24"/>
 
-    <EditText
-        android:id="@+id/edtPhone"
-        android:inputType="phone"
-        app:boxStrokeColor="@android:color/black"
-        app:boxStrokeWidth="2dp"
-        android:hint="@string/phone"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutPhone"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:textColor="@color/black"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
+        android:hint="@string/phone"
         app:layout_constraintStart_toEndOf="@+id/imgPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgPhone"
-        />
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
         android:id="@+id/imgEmail"
@@ -120,24 +129,35 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPhone"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutPhone"
         android:contentDescription="@string/email_logo"
         android:src="@drawable/baseline_mail_24"/>
 
-    <EditText
-        android:id="@+id/edtEmail"
-        android:inputType="textEmailAddress"
-        app:boxStrokeColor="@android:color/black"
-        app:boxStrokeWidth="2dp"
-        android:hint="@string/email"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
+        android:hint="@string/email"
         app:layout_constraintStart_toEndOf="@+id/imgEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgEmail"
-        />
+
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <ImageView
         android:id="@+id/imgBirthday"
@@ -146,7 +166,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail"
         android:contentDescription="@string/birthday_logo"
         android:src="@drawable/baseline_cake_24"/>
 
@@ -171,7 +191,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toEndOf="@+id/imgEmail"
         app:layout_constraintEnd_toStartOf="@+id/btnPickDate"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail"
         />
 
     <ImageView
@@ -211,21 +231,29 @@
         android:contentDescription="@string/note_logo"
         android:src="@drawable/baseline_edit_24"/>
 
-    <EditText
-        android:id="@+id/edtNote"
-        android:inputType="textMultiLine"
-        app:boxStrokeColor="@android:color/black"
-        app:boxStrokeWidth="2dp"
-        android:hint="@string/note"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutNote"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
-        android:gravity="top"
+        android:hint="@string/note"
         app:layout_constraintStart_toEndOf="@+id/imgNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgNote"
-        />
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtNote"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSave"

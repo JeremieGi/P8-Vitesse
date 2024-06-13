@@ -26,4 +26,5 @@
     <string name="birthday_logo">Logo d\'anniversaire</string>
     <string name="impossible_to_selected_a_date_of_birth_in_the_future">Impossible de sélectionner une date d\'anniversaire dans le futur</string>
     <string name="mandatory_field">Champ obligatoire</string>
+    <string name="invalid_format">Format invalide</string>
 </resources>
