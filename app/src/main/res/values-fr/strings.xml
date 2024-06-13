@@ -7,4 +7,21 @@
     <string name="favorite">Favoris</string>
     <string name="candidate_photo">Photo du candidat</string>
     <string name="search">Rechercher un candidat</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_a_candidate">Ajouter un candidat</string>
+    <string name="edit_a_candidate">Modifier un candidat</string>
+    <string name="first_name">Prénom</string>
+    <string name="last_name">Nom</string>
+    <string name="phone">Téléphone</string>
+    <string name="email">Email</string>
+    <string name="email_logo">Logo de l\'email</string>
+    <string name="phone_logo">Logo du téléphone</string>
+    <string name="person_logo">Logo d\'un personnage</string>
+    <string name="date">Date</string>
+    <string name="money_logo">Logo Euro</string>
+    <string name="expected_salary">Prétentions salariales</string>
+    <string name="note_logo">Logo d\'une note</string>
+    <string name="note">Note</string>
+    <string name="save">Sauvegarder</string>
+    <string name="birthday_logo">Logo d\'anniversaire</string>
 </resources>

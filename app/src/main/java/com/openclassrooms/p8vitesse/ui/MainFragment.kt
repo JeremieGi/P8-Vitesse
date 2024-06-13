@@ -120,6 +120,14 @@ class MainFragment : Fragment() {
 
     }
 
+    /**
+     *
+     */
+    override fun onResume() {
+        super.onResume()
+
+    }
+
     private fun configureViewPagerAndTabs() {
 
         val viewPager2: ViewPager2 = binding.candidatelistViewpager

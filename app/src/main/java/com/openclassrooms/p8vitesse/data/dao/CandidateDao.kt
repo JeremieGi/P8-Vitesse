@@ -22,9 +22,13 @@ interface CandidateDao {
 
 
     /**
-     * Return all candidate
+     * Return all candidate ordy by name
      */
-    @Query("SELECT * FROM tblCandidate")
+    @Query("""
+        SELECT * 
+        FROM tblCandidate
+        ORDER BY lastName, firstName
+         """)
     fun getAllCandidates(): Flow<List<CandidateDto>>
 
 

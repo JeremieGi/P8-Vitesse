@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CandidateListFragment(
 
+    // TODO : Est ce que je passerai pas cet argument en paramètre (via Bundle) ?
     private val bOnlyFavorite : Boolean = false
 
 ) : Fragment(), IOnItemClickListener {

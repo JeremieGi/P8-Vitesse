@@ -1,13 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.candidate.CandidateEditFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Edit fragment" />
 
-</FrameLayout>
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent
+"       app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/edtResearchColor"
+            app:title="A definir"
+            app:navigationIcon="@drawable/baseline_arrow_back_24" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ImageView
+        android:id="@+id/imgPerson"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/person_logo"
+        android:src="@drawable/baseline_co_present_24"/>
+
+
+    <!-- Floating label -->
+    <EditText
+        android:id="@+id/edtFirstName"
+        android:inputType="textPersonName"
+        app:boxStrokeColor="@android:color/black"
+        app:boxStrokeWidth="2dp"
+        android:hint="@string/first_name"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toEndOf="@+id/imgPerson"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgPerson"
+        />
+
+    <EditText
+        android:id="@+id/edtLastName"
+        android:inputType="textPersonName"
+        app:boxStrokeColor="@android:color/black"
+        app:boxStrokeWidth="2dp"
+        android:hint="@string/last_name"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@+id/imgPerson"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtFirstName"
+        />
+
+    <ImageView
+        android:id="@+id/imgPhone"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtLastName"
+        android:contentDescription="@string/phone_logo"
+        android:src="@drawable/baseline_phone_24"/>
+
+    <EditText
+        android:id="@+id/edtPhone"
+        android:inputType="phone"
+        app:boxStrokeColor="@android:color/black"
+        app:boxStrokeWidth="2dp"
+        android:hint="@string/phone"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toEndOf="@+id/imgPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgPhone"
+        />
+
+    <ImageView
+        android:id="@+id/imgEmail"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtPhone"
+        android:contentDescription="@string/email_logo"
+        android:src="@drawable/baseline_mail_24"/>
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:inputType="textEmailAddress"
+        app:boxStrokeColor="@android:color/black"
+        app:boxStrokeWidth="2dp"
+        android:hint="@string/email"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toEndOf="@+id/imgEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgEmail"
+        />
+
+    <ImageView
+        android:id="@+id/imgBirthday"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        android:contentDescription="@string/birthday_logo"
+        android:src="@drawable/baseline_cake_24"/>
+
+    <Button
+        android:id="@+id/btnPickDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgBirthday"
+        android:text="Pick date"/>
+
+    <EditText
+        android:id="@+id/edtDateOfBirth"
+        android:inputType="date"
+        app:boxStrokeColor="@android:color/black"
+        app:boxStrokeWidth="2dp"
+        android:hint="@string/date"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toEndOf="@+id/imgEmail"
+        app:layout_constraintEnd_toStartOf="@+id/btnPickDate"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        />
+
+    <ImageView
+        android:id="@+id/imgSalary"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtDateOfBirth"
+        android:contentDescription="@string/money_logo"
+        android:src="@drawable/baseline_attach_money_24"/>
+
+    <EditText
+        android:id="@+id/edtExpectedSalary"
+        android:inputType="numberDecimal"
+        app:boxStrokeColor="@android:color/black"
+        app:boxStrokeWidth="2dp"
+        android:hint="@string/expected_salary"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toEndOf="@+id/imgSalary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgSalary"
+        />
+
+    <ImageView
+        android:id="@+id/imgNote"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtExpectedSalary"
+        android:contentDescription="@string/note_logo"
+        android:src="@drawable/baseline_edit_24"/>
+
+    <EditText
+        android:id="@+id/edtNote"
+        android:inputType="textMultiLine"
+        app:boxStrokeColor="@android:color/black"
+        app:boxStrokeWidth="2dp"
+        android:hint="@string/note"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="top"
+        app:layout_constraintStart_toEndOf="@+id/imgNote"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgNote"
+        />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/rounded_corner_button"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

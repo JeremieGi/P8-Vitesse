@@ -6,6 +6,21 @@
     <string name="favorite">Favorite</string>
     <string name="candidate_photo">Candidate photo</string>
     <string name="search">Search</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_a_candidate">Add a candidate</string>
+    <string name="edit_a_candidate">Edit a candidate</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="email_logo">eMail logo</string>
+    <string name="phone_logo">Phone logo</string>
+    <string name="person_logo">Person logo</string>
+    <string name="date">Date</string>
+    <string name="money_logo">Money logo</string>
+    <string name="expected_salary">Expected salary</string>
+    <string name="note_logo">Note logo</string>
+    <string name="note">Note</string>
+    <string name="save">Save</string>
+    <string name="birthday_logo">Birthday logo</string>
 </resources>
