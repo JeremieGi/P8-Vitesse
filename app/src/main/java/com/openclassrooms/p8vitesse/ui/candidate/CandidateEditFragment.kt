@@ -129,6 +129,8 @@ class CandidateEditFragment : Fragment() {
         binding.btnPickDate.setOnClickListener{
 
             val cldr: Calendar = Calendar.getInstance()
+
+            // TODo : Si une date est saisie, il serait bien de repositionner le picker sur cette date
             val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
             val month: Int = cldr.get(Calendar.MONTH)
             val year: Int = cldr.get(Calendar.YEAR)

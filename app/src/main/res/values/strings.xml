@@ -31,4 +31,9 @@
     <string name="favorites">Favorites</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="no_parameter">No parameter - Impossible to find the candidate</string>
+    <string name="delete_confirmation">Are you sure you want to delete this candidate? This action cannot be undone.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="error">Error</string>
 </resources>

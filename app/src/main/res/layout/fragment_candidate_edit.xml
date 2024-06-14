@@ -8,6 +8,7 @@
 
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent
@@ -28,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -41,7 +43,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="15dp"
                 android:contentDescription="@string/person_logo"
                 android:src="@drawable/person_24dp"
                 app:layout_constraintStart_toStartOf="parent"

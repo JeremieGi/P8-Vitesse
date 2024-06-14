@@ -32,4 +32,10 @@
     <string name="favorites">Favoris</string>
     <string name="edit">Modifier</string>
     <string name="delete">Supprimer</string>
+    <string name="no_parameter">Pas de paramètre - Impossible de trouver le candidat</string>
+    <string name="delete_confirmation">Etes-vous sûr de vouloir supprimer ce candidat? Cette action est irréversible.</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="error">Erreur</string>
+
 </resources>

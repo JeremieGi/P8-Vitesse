@@ -20,17 +20,17 @@ interface CandidateDao {
     @Insert
     suspend fun insertCandidate(candidate: CandidateDto): Long
 
-
+/*
     /**
-     * Return all candidate ordy by name
+     * Return all candidate order by name
      */
     @Query("""
-        SELECT * 
+        SELECT *
         FROM tblCandidate
         ORDER BY lastName, firstName
          """)
     fun getAllCandidates(): Flow<List<CandidateDto>>
-
+*/
 
     /**
      * Return candidate filter by favorite and by name
@@ -41,6 +41,7 @@ interface CandidateDao {
         SELECT * FROM tblCandidate 
         WHERE (:bFavoriteP IS NULL OR topFavorite = :bFavoriteP) 
         AND (:sFilterName IS NULL OR firstName LIKE '%' || :sFilterName || '%' OR lastName LIKE '%' || :sFilterName || '%' )
+        ORDER BY lastName, firstName
     """)
     fun getCandidates ( bFavoriteP: Boolean? , sFilterName : String? ) : Flow<List<CandidateDto>>
 

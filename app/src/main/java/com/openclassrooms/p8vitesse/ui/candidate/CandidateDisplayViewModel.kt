@@ -1,5 +1,6 @@
 package com.openclassrooms.p8vitesse.ui.candidate
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.p8vitesse.domain.model.Candidate
@@ -20,8 +21,13 @@ class CandidateDisplayViewModel @Inject constructor(
 
 
     // Communication avec le fragment via StateFlow
-    private val _candidateFlow = MutableStateFlow<Result<Candidate>?>(null)
-    val candidateFlow: StateFlow<Result<Candidate>?> = _candidateFlow.asStateFlow() // Exposé au fragment (read only)
+    private val _candidateStateFlow = MutableStateFlow<CandidateState?>(null)
+    val candidateStateFlow: StateFlow<CandidateState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
+
+
+    // TODO : Propriété pour faciliter a manipulation du candidat courant
+    // et l'avoir dans le ViewModel
+    private lateinit var currentCandidate : Candidate
 
 
     fun loadCandidate(sIDCandidate: String?) {
@@ -29,14 +35,48 @@ class CandidateDisplayViewModel @Inject constructor(
         val lID : Long = sIDCandidate?.toLong()?:0
         viewModelScope.launch {
 
-            val candidate = getCandidateUseCaseLoad.execute(lID)
-            _candidateFlow.value = candidate
+            val resultCandidate = getCandidateUseCaseLoad.execute(lID)
+
+            resultCandidate.fold(
+                onSuccess = { candidate ->
+                    // Keep the candidate in the View Model
+                    currentCandidate = candidate
+
+                    _candidateStateFlow.value = CandidateState.Success(candidate)
+                },
+                onFailure = { exception ->
+                    _candidateStateFlow.value = CandidateState.Error(exception)
+                }
+            )
+
 
         }
 
     }
 
+    fun getCurrentCandidate() : Candidate {
+        return currentCandidate
+    }
 
+    fun delete() {
+
+
+        val lID = currentCandidate.id?:0
+        if (lID > 0){
+            viewModelScope.launch {
+                try{
+                    getCandidateUseCaseDelete.execute(lID)
+                    _candidateStateFlow.value = CandidateState.OperationDeleteCompleted
+                }
+                catch (e : Exception){
+                    _candidateStateFlow.value = CandidateState.Error(e)
+                }
+
+            }
+        }
+
+
+    }
 
 
 }

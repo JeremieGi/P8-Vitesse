@@ -1,5 +1,6 @@
 package com.openclassrooms.p8vitesse.ui.candidate
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -55,13 +56,6 @@ class CandidateDisplayFragment : Fragment() {
             }
     }
 
-/*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true) // Indique que ce fragment a un menu d'options
-    }
-*/
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,8 +71,6 @@ class CandidateDisplayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
-
         // Récupération de l'ID du candidat
         var sIDCandidate = ""
         arguments?.let {
@@ -90,30 +82,48 @@ class CandidateDisplayFragment : Fragment() {
         }
 
         if (sIDCandidate.isEmpty()) {
-            displayError("No parameter")
+            displayError(getString(R.string.no_parameter))
             onBack()
         }
         else{
 
-            // Dans une coroutine, collecte du StateFlow
+            // Dans une coroutine, collecte du StateFlow avec le candidat chargé
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.candidateFlow.collect { resultCandidate ->
+                viewModel.candidateStateFlow.collect { resultCandidateState ->
 
-                    resultCandidate?.let {
-                        resultCandidate.onSuccess {
+                    when (resultCandidateState){
 
-                            bind(it)
-                            updateActionBarTitle(it)
+                        // Chargement du candidat
+                        is CandidateState.Success -> {
+                            val candidate = resultCandidateState.candidate
+                            bind(candidate)
+                            updateActionBarTitle(candidate)
+                        }
 
-                        }.onFailure {
-                            Toast.makeText(requireContext(), "Error login \n ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        // Erreur lors du chargement du candidat
+                        is CandidateState.Error -> {
+                            displayError(resultCandidateState.exception.message)
+                        }
+
+                        // Opération de suppression terminée avec succès
+                        is CandidateState.OperationDeleteCompleted -> {
+                            // Fermer le fragment
+                            onBack()
+                        }
+
+                        else -> {
+                            // NULL
                         }
 
                     }
+
+
                 }
             }
 
         }
+
+
 
 
         setupActionBar()
@@ -140,13 +150,37 @@ class CandidateDisplayFragment : Fragment() {
                         true
                     }
                     R.id.itemDelete -> {
-                        // Gérer l'action des paramètres
+                        // Supprime le candidat
+                        deleteCandidateWithConfirmation()
                         true
                     }
                     else -> false
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+    }
+
+
+    private fun deleteCandidateWithConfirmation() {
+
+
+        val builder = AlertDialog.Builder(requireContext())
+        //builder.setTitle("Confirmation de suppression")
+        builder.setMessage(getString(R.string.delete_confirmation))
+
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
+
+            viewModel.delete()
+
+        }
+
+        builder.setNegativeButton(getString(R.string.no)) { dialog, which ->
+            // Fermer la boîte de dialogue
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
 
     }
 
@@ -164,6 +198,7 @@ class CandidateDisplayFragment : Fragment() {
 
     private fun setupActionBar() {
 
+        // TODO : Pas une syntaxe plus simple ?
         // Trouver et configurer la Toolbar
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarDisplay)
 
@@ -196,7 +231,7 @@ class CandidateDisplayFragment : Fragment() {
         sErrorMessage.let {
 
             // Afficher le Snackbar
-            Snackbar.make(requireView(), "Erreur inattendue \n$it", Snackbar.LENGTH_LONG)
+            Snackbar.make(requireView(),"${getString(R.string.error)}\n$it", Snackbar.LENGTH_LONG)
                 .show()
 
         }
