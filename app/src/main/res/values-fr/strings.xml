@@ -48,5 +48,8 @@
     <string name="no_sms_application_found">Aucune application SMS disponible</string>
     <string name="no_application_of_email_found">Aucune application de mail disponible</string>
     <string name="select_email_application">Sélectionner une application de messagerie</string>
+    <string name="about">A propos</string>
+    <string name="birthday">Anniversaire</string>
+    <string name="year">ans</string>
 
 </resources>

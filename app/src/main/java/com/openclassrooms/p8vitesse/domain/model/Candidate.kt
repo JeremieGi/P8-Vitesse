@@ -1,7 +1,11 @@
 package com.openclassrooms.p8vitesse.domain.model
 
 import com.openclassrooms.p8vitesse.data.entity.CandidateDto
+import java.time.LocalDate
+import java.time.Period
+import java.time.ZoneId
 import java.util.Date
+
 
 /**
  * Data class of a Candidate (Model)
@@ -31,5 +35,26 @@ data class Candidate (
             note = this.note,
             topFavorite = this.topFavorite
         )
+    }
+
+    /**
+     * Return the age of the candidate in year
+     */
+    fun nAge(): Int {
+
+        // T034 - Display the age of the candidate
+
+        val dateToday = Date() // Date actuelle
+
+        // Convertir java.util.Date en LocalDate
+        val localTodayDate: LocalDate = dateToday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        val localBirthday: LocalDate = this.dateOfBirth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+
+        // Calculer la différence en années
+
+        val period = Period.between(localBirthday, localTodayDate)
+
+        return period.years
+
     }
 }

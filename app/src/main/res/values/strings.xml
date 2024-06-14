@@ -47,4 +47,7 @@
     <string name="no_sms_application_found">No SMS application found</string>
     <string name="no_application_of_email_found">No application of email found</string>
     <string name="select_email_application">Select an email application</string>
+    <string name="about">About</string>
+    <string name="birthday">Birthday</string>
+    <string name="year">years</string>
 </resources>

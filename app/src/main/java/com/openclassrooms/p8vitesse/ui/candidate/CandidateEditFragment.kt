@@ -17,7 +17,9 @@ import com.openclassrooms.p8vitesse.domain.model.Candidate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
@@ -29,7 +31,6 @@ class CandidateEditFragment : Fragment() {
     companion object {
         fun newInstance() = CandidateEditFragment()
 
-        private val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     }
 
     // Binding
@@ -89,8 +90,7 @@ class CandidateEditFragment : Fragment() {
             val picker = DatePickerDialog(
                 requireContext(),
                 // Listener du date picker
-                {
-                        view, selectedYear, selectedMonth, selectedDay ->
+                { view, selectedYear, selectedMonth, selectedDay ->
 
                     // Date sélectionnée
                     val selectedCalendar = Calendar.getInstance()
@@ -106,8 +106,8 @@ class CandidateEditFragment : Fragment() {
                     if (selectedCalendar.after(todayCalendar)) {
                         displayError(getString(R.string.impossible_to_selected_a_date_of_birth_in_the_future))
                     } else {
-                        val selectedDate = dateFormatter.format(selectedCalendar.time)
-                        binding.edtDateOfBirth.setText(selectedDate)
+                        val sDate = MainApplication.sLocalDateToString(selectedCalendar.time)
+                        binding.edtDateOfBirth.setText(sDate)
                     }
 
 
@@ -336,7 +336,12 @@ class CandidateEditFragment : Fragment() {
     private fun candidateFromInputs(): Candidate {
 
 
-        val dateOfBirth = dateFormatter.parse(binding.edtDateOfBirth.text.toString())
+        var dateOfBirth = MainApplication.dStringToLocalDate(binding.edtDateOfBirth.text.toString())
+
+        if (dateOfBirth==null){
+            displayError("Impossible to convert : ${binding.edtDateOfBirth.text.toString()}")
+            dateOfBirth = Date() // TODO : Je met la date du jour => A voir pour faire mieux
+        }
 
         // Gestion du salaire demandé non renseigné
         val expectedSalaryText = binding.edtExpectedSalary.text.toString()
@@ -368,7 +373,7 @@ class CandidateEditFragment : Fragment() {
         binding.edtFirstName.setText(candidate.firstName)
         binding.edtPhone.setText(candidate.phone)
         binding.edtEmail.setText(candidate.email)
-        binding.edtDateOfBirth.setText(dateFormatter.format(candidate.dateOfBirth))
+        binding.edtDateOfBirth.setText(MainApplication.sLocalDateToString(candidate.dateOfBirth))
         binding.edtExpectedSalary.setText(candidate.salaryExpectation)
         binding.edtNote.setText(candidate.note)
 

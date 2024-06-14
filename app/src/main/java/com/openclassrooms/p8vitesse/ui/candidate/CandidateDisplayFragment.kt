@@ -20,12 +20,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.openclassrooms.p8vitesse.MainApplication
 import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.R
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateDisplayBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 private const val ARG_CANDIDATE_ID = "paramID"
@@ -303,6 +306,12 @@ class CandidateDisplayFragment : Fragment() {
     private fun bind(candidate: Candidate) {
 
         Log.d(TAG_DEBUG,"Candidate ID = ${candidate.id} name = ${candidate.lastName}")
+
+        val sDateOfBirth = MainApplication.sLocalDateToString(candidate.dateOfBirth)
+
+        binding.tvBithdayAndAge.text = "${sDateOfBirth} (${candidate.nAge()} ${getString(R.string.year)})"
+
+
 
     }
 
