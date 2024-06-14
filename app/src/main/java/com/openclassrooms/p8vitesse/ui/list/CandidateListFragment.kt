@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.R
+import com.openclassrooms.p8vitesse.TAG_DEBUG
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateListBinding
 import com.openclassrooms.p8vitesse.ui.candidate.CandidateDisplayFragment
 import dagger.hilt.android.AndroidEntryPoint

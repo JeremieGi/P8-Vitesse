@@ -20,14 +20,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.openclassrooms.p8vitesse.MainApplication
-import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.R
+import com.openclassrooms.p8vitesse.TAG_DEBUG
+import com.openclassrooms.p8vitesse.capitalized
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateDisplayBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
+import com.openclassrooms.p8vitesse.sLocalDateToString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
+import java.util.Currency
 import java.util.Locale
 
 
@@ -190,21 +191,25 @@ class CandidateDisplayFragment : Fragment() {
                 when (resultCandidateState){
 
                     // Chargement du candidat
-                    is CandidateState.Success -> {
+                    is CandidateUIState.Success -> {
                         val candidate = resultCandidateState.candidate
                         bind(candidate)
                         updateActionBarTitle(candidate)
                     }
 
                     // Erreur lors du chargement du candidat
-                    is CandidateState.Error -> {
+                    is CandidateUIState.Error -> {
                         displayError(resultCandidateState.exception.message)
                     }
 
                     // Opération de suppression terminée avec succès
-                    is CandidateState.OperationDeleteCompleted -> {
+                    is CandidateUIState.OperationDeleteCompleted -> {
                         // Fermer le fragment
                         closeFragment()
+                    }
+
+                    is CandidateUIState.Conversion -> {
+                        binding.tvSalaryConversion.text = resultCandidateState.resultConversion
                     }
 
                     else -> {
@@ -307,11 +312,35 @@ class CandidateDisplayFragment : Fragment() {
 
         Log.d(TAG_DEBUG,"Candidate ID = ${candidate.id} name = ${candidate.lastName}")
 
-        val sDateOfBirth = MainApplication.sLocalDateToString(candidate.dateOfBirth)
+        val sDateOfBirth = sLocalDateToString(candidate.dateOfBirth)
 
         binding.tvBithdayAndAge.text = "${sDateOfBirth} (${candidate.nAge()} ${getString(R.string.year)})"
 
+        // T035 - Display the expected salary of the candidate
+        val sSalary = candidate.salaryExpectation.toString()
 
+        val deviseFrom = Currency.getInstance(Locale.getDefault())
+        binding.tvExpectedSalaryValue.text = "$sSalary ${deviseFrom.symbol}"
+
+        viewModel.conversion(deviseFrom.currencyCode, candidate.salaryExpectation.toDouble())
+
+//        when (devise.symbol) {
+//            "EUR" -> {
+//                viewModel.conversion(ICurrencyAPI.CURRENCY_CODE_EURO, candidate.salaryExpectation.toDouble())
+//                // Résultat asynchrone affiché dans le traitement du UI State
+//            }
+//            "GBP" -> {
+//                viewModel.conversion(ICurrencyAPI.CURRENCY_CODE_EURO, candidate.salaryExpectation.toDouble())
+//            }
+//            else -> {
+//
+//            }
+//        }
+
+
+
+
+        binding.tvNotesValues.text = candidate.note
 
     }
 
@@ -331,15 +360,7 @@ class CandidateDisplayFragment : Fragment() {
 
     }
 
-    // Met la première lettre en majuscule
-    // TODO : Pas de fonction existante dans Kotlin ? + la mettre à disposition de toutes les classes
-    fun String.capitalized(): String {
-        return this.replaceFirstChar {
-            if (it.isLowerCase())
-                it.uppercase()
-            else it.toString()
-        }
-    }
+
 
 
 }

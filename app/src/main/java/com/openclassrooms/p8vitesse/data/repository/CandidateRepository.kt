@@ -1,7 +1,7 @@
 package com.openclassrooms.p8vitesse.data.repository
 
 import android.util.Log
-import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
+import com.openclassrooms.p8vitesse.TAG_DEBUG
 import com.openclassrooms.p8vitesse.data.dao.CandidateDao
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import kotlinx.coroutines.Dispatchers
@@ -17,11 +17,11 @@ class CandidateRepository (
     private val candidateDao : CandidateDao
 ){
 
-    // TODO : A voir avec Denis : Je mets à jour tous candidats à chaque fois.
+
     // C'est dans le ViewModel dédié au favori que je filtre par favoris
     // J'ai hésité à faire 2 flows mais çà complexifie grandement le code
-    private val _allCandidatesFlow = MutableSharedFlow<ResultDatabase<List<Candidate>>>()
-    val allCandidatesFlow: SharedFlow<ResultDatabase<List<Candidate>>> get() = _allCandidatesFlow
+    private val _allCandidatesFlow = MutableSharedFlow<ResultCustom<List<Candidate>>>()
+    val allCandidatesFlow: SharedFlow<ResultCustom<List<Candidate>>> get() = _allCandidatesFlow
 
 
 
@@ -81,7 +81,7 @@ class CandidateRepository (
                 Log.d(TAG_DEBUG,"  getListAllCandidate(sFilterName = $sFilterName )")
 
                 // T003 - Loading state
-                emit(ResultDatabase.Loading)
+                emit(ResultCustom.Loading)
 
                 //delay(5*1000) // To test T003 - Loading state
 
@@ -96,11 +96,11 @@ class CandidateRepository (
                     }
 
                 // emit List<Candidate> in success
-                emit(ResultDatabase.Success(resultListCandidate))
+                emit(ResultCustom.Success(resultListCandidate))
 
             }.catch { error ->
                 Log.d(TAG_DEBUG,"Catch Exception dans getListAllCandidate(  $sFilterName )")
-                emit(ResultDatabase.Failure(error.message+" "+error.cause?.message)) // Message enrichi
+                emit(ResultCustom.Failure(error.message+" "+error.cause?.message)) // Message enrichi
             }.collect { result ->
                 // On émet le flow généré dans le flow du repository
                 _allCandidatesFlow.emit(result)

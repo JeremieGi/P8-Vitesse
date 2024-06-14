@@ -2,14 +2,12 @@ package com.openclassrooms.p8vitesse.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.openclassrooms.p8vitesse.data.repository.ResultDatabase
+import com.openclassrooms.p8vitesse.data.repository.ResultCustom
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -66,21 +64,21 @@ class CandidateListViewModel @Inject constructor(
                 when (resultDB) {
 
                     // Fail
-                    is ResultDatabase.Failure -> _uiState.update { currentState ->
+                    is ResultCustom.Failure -> _uiState.update { currentState ->
                         currentState.copy(
                             isLoading = false,
-                            errorMessage = resultDB.message.toString()
+                            errorMessage = resultDB.errorMessage.toString()
                         )
                     }
                     // Loading
-                    is ResultDatabase.Loading -> _uiState.update { currentState ->
+                    is ResultCustom.Loading -> _uiState.update { currentState ->
                         currentState.copy(
                             isLoading = true,
                             errorMessage = ""
                         )
                     }
                     // Success
-                    is ResultDatabase.Success -> _uiState.update { currentState ->
+                    is ResultCustom.Success -> _uiState.update { currentState ->
 
                         // Récupération de la liste des candidats
                         var listCandidate = resultDB.value

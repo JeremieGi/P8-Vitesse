@@ -16,8 +16,8 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.openclassrooms.p8vitesse.MainApplication.Companion.TAG_DEBUG
 import com.openclassrooms.p8vitesse.R
+import com.openclassrooms.p8vitesse.TAG_DEBUG
 import com.openclassrooms.p8vitesse.databinding.FragmentMainBinding
 import com.openclassrooms.p8vitesse.ui.candidate.CandidateEditFragment
 import dagger.hilt.android.AndroidEntryPoint

@@ -22,8 +22,8 @@ class CandidateEditViewModel @Inject constructor(
     val lIDCandidate = _lIDCandidate
 
     // Communication avec le fragment via StateFlow
-    private val _candidateStateFlow = MutableStateFlow<CandidateState?>(null)
-    val candidateStateFlow: StateFlow<CandidateState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
+    private val _candidateStateFlow = MutableStateFlow<CandidateUIState?>(null)
+    val candidateStateFlow: StateFlow<CandidateUIState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
 
 
     fun loadCandidate(sIDCandidate: String?) {
@@ -39,10 +39,10 @@ class CandidateEditViewModel @Inject constructor(
 
             resultCandidate.fold(
                 onSuccess = { candidate ->
-                    _candidateStateFlow.value = CandidateState.Success(candidate)
+                    _candidateStateFlow.value = CandidateUIState.Success(candidate)
                 },
                 onFailure = { exception ->
-                    _candidateStateFlow.value = CandidateState.Error(exception)
+                    _candidateStateFlow.value = CandidateUIState.Error(exception)
                 }
             )
 
@@ -59,17 +59,17 @@ class CandidateEditViewModel @Inject constructor(
     }
 
     /**
-     * Add a candate
+     * Add a candidate
      */
     fun add(candidateNewData: Candidate) {
 
         viewModelScope.launch {
             try{
                 val lIDCreated = getCandidateUseCaseAdd.execute(candidateNewData)
-                _candidateStateFlow.value = CandidateState.OperationAddCompleted
+                _candidateStateFlow.value = CandidateUIState.OperationAddCompleted
             }
             catch (e : Exception){
-                _candidateStateFlow.value = CandidateState.Error(e)
+                _candidateStateFlow.value = CandidateUIState.Error(e)
             }
 
         }

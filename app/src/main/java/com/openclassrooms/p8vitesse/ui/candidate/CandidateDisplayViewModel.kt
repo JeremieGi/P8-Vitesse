@@ -1,28 +1,34 @@
 package com.openclassrooms.p8vitesse.ui.candidate
 
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.openclassrooms.p8vitesse.data.repository.ResultCustom
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseDelete
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseLoad
+import com.openclassrooms.p8vitesse.domain.usecase.ConversionUseCase
+import com.openclassrooms.p8vitesse.getOtherCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Currency
 import javax.inject.Inject
 
 @HiltViewModel
 class CandidateDisplayViewModel @Inject constructor(
     private val getCandidateUseCaseLoad : CandidateUseCaseLoad,
-    private val getCandidateUseCaseDelete : CandidateUseCaseDelete
+    private val getCandidateUseCaseDelete : CandidateUseCaseDelete,
+    private val getConversionUseCase : ConversionUseCase
 ) : ViewModel(){
 
 
     // Communication avec le fragment via StateFlow
-    private val _candidateStateFlow = MutableStateFlow<CandidateState?>(null)
-    val candidateStateFlow: StateFlow<CandidateState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
+    private val _candidateStateFlow = MutableStateFlow<CandidateUIState?>(null)
+    val candidateStateFlow: StateFlow<CandidateUIState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
 
 
     // TODO : Propriété pour faciliter a manipulation du candidat courant
@@ -30,6 +36,7 @@ class CandidateDisplayViewModel @Inject constructor(
     private lateinit var currentCandidate : Candidate
 
 
+    // Charge le candidat depuis la base de données
     fun loadCandidate(sIDCandidate: String?) {
 
         val lID : Long = sIDCandidate?.toLong()?:0
@@ -42,10 +49,10 @@ class CandidateDisplayViewModel @Inject constructor(
                     // Keep the candidate in the View Model
                     currentCandidate = candidate
 
-                    _candidateStateFlow.value = CandidateState.Success(candidate)
+                    _candidateStateFlow.value = CandidateUIState.Success(candidate)
                 },
                 onFailure = { exception ->
-                    _candidateStateFlow.value = CandidateState.Error(exception)
+                    _candidateStateFlow.value = CandidateUIState.Error(exception)
                 }
             )
 
@@ -65,20 +72,72 @@ class CandidateDisplayViewModel @Inject constructor(
             viewModelScope.launch {
                 try{
                     getCandidateUseCaseDelete.execute(lID)
-                    _candidateStateFlow.value = CandidateState.OperationDeleteCompleted
+                    _candidateStateFlow.value = CandidateUIState.OperationDeleteCompleted
                 }
                 catch (e : Exception){
-                    _candidateStateFlow.value = CandidateState.Error(e)
+                    _candidateStateFlow.value = CandidateUIState.Error(e)
                 }
 
             }
         }
         else{
-            _candidateStateFlow.value = CandidateState.Error(Exception("Invalid ID $lID"))
+            _candidateStateFlow.value = CandidateUIState.Error(Exception("Invalid ID $lID"))
         }
 
 
     }
+
+    fun conversion(
+        sCurrencyCodeFrom : String,
+        dOriginalValue : Double
+    ) {
+
+        getConversionUseCase.execute(sCurrencyCodeFrom).onEach { resultAPI ->
+
+            // En fonction du résultat de l'API
+            when (resultAPI) {
+
+                // Echec
+                is ResultCustom.Failure ->
+                    _candidateStateFlow.value = CandidateUIState.Error(Exception(resultAPI.errorMessage))
+
+                // En chargement
+                ResultCustom.Loading -> {
+                    // TODO : pas fait : A faire ou à nettoyer
+                    //_candidateStateFlow.value = CandidateState.
+                }
+
+                // Succès
+                is ResultCustom.Success -> {
+
+                    val mapResult = resultAPI.value
+                    if (mapResult!=null){
+
+                        val deviseTo = getOtherCurrency(sCurrencyCodeFrom)
+
+                        val rate = mapResult[deviseTo]?:0.0
+                        val conversion = dOriginalValue * rate
+                        val sRound = String.format("%.2f", conversion)
+
+                        val sFormattedResult = "$sRound ${Currency.getInstance(deviseTo).symbol}"
+
+                        _candidateStateFlow.value = CandidateUIState.Conversion(sFormattedResult)
+
+                    }
+
+
+
+
+                }
+
+
+            }
+
+        }.launchIn(viewModelScope)
+
+
+    }
+
 
 
 }

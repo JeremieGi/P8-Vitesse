@@ -10,17 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.openclassrooms.p8vitesse.MainApplication
 import com.openclassrooms.p8vitesse.R
+import com.openclassrooms.p8vitesse.TAG_DEBUG
+import com.openclassrooms.p8vitesse.dStringToLocalDate
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateEditBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
+import com.openclassrooms.p8vitesse.sLocalDateToString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 
 private const val ARG_CANDIDATE_ID = "paramID"
@@ -55,19 +54,20 @@ class CandidateEditFragment : Fragment() {
         arguments?.let {
 
             sIDCandidate = it.getString(ARG_CANDIDATE_ID).toString()
-            Log.d(MainApplication.TAG_DEBUG,"editFragment - loadCandidate ID : $sIDCandidate")
+            Log.d(TAG_DEBUG,"editFragment - loadCandidate ID : $sIDCandidate")
             viewModel.loadCandidate(sIDCandidate)
 
         }
 
-        observeStateFlow()
+        // Obverse the UI StateFow
+        observeUIStateFlow()
 
         // T013 - Implement the top app bar title
         setupActionBar()
 
         // Save button
         binding.btnSave.setOnClickListener{
-            addCandidate()
+            saveCandidate()
         }
 
         setDatePickerListener()
@@ -76,15 +76,27 @@ class CandidateEditFragment : Fragment() {
     }
 
     private fun setDatePickerListener() {
+
         // Date picker
         binding.btnPickDate.setOnClickListener{
 
             val cldr: Calendar = Calendar.getInstance()
 
-            // TODo : Si une date est saisie, il serait bien de repositionner le picker sur cette date
-            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
-            val month: Int = cldr.get(Calendar.MONTH)
-            val year: Int = cldr.get(Calendar.YEAR)
+            var day: Int = cldr.get(Calendar.DAY_OF_MONTH)
+            var month: Int = cldr.get(Calendar.MONTH)
+            var year: Int = cldr.get(Calendar.YEAR)
+
+            // Si une date est saisie
+            if (binding.edtDateOfBirth.text.toString().isNotEmpty()){
+                // On se repositionne dessus
+                val calendar = Calendar.getInstance()
+                calendar.time = dStringToLocalDate(binding.edtDateOfBirth.text.toString())
+
+                day = calendar.get(Calendar.DAY_OF_MONTH)
+                month = calendar.get(Calendar.MONTH)
+                year = calendar.get(Calendar.YEAR)
+            }
+
 
             // date picker dialog
             val picker = DatePickerDialog(
@@ -106,7 +118,7 @@ class CandidateEditFragment : Fragment() {
                     if (selectedCalendar.after(todayCalendar)) {
                         displayError(getString(R.string.impossible_to_selected_a_date_of_birth_in_the_future))
                     } else {
-                        val sDate = MainApplication.sLocalDateToString(selectedCalendar.time)
+                        val sDate = sLocalDateToString(selectedCalendar.time)
                         binding.edtDateOfBirth.setText(sDate)
                     }
 
@@ -122,7 +134,7 @@ class CandidateEditFragment : Fragment() {
         }
     }
 
-    private fun observeStateFlow() {
+    private fun observeUIStateFlow() {
         // Dans une coroutine, collecte du StateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.candidateStateFlow.collect { resultCandidateState ->
@@ -130,18 +142,18 @@ class CandidateEditFragment : Fragment() {
                 when (resultCandidateState){
 
                     // Chargement du candidat
-                    is CandidateState.Success -> {
+                    is CandidateUIState.Success -> {
                         val candidate = resultCandidateState.candidate
                         bind(candidate)
                     }
 
                     // Erreur lors du chargement du candidat
-                    is CandidateState.Error -> {
+                    is CandidateUIState.Error -> {
                         displayError(resultCandidateState.exception.message)
                     }
 
                     // Opération de suppression terminée avec succès
-                    is CandidateState.OperationAddCompleted -> {
+                    is CandidateUIState.OperationAddCompleted -> {
                         // Fermer le fragment
                         closeFragment()
                     }
@@ -157,11 +169,15 @@ class CandidateEditFragment : Fragment() {
     }
 
 
-    private fun addCandidate() {
+    /**
+     * Add or update a candidate
+     */
+    private fun saveCandidate() {
 
-
+        // Les champs obligatoires sont bien remplis ?
         if (bCheckInputOK()){
 
+            // Récupération d'un objet à partir de la saisie
             val candidateNewData = candidateFromInputs()
 
             // Add Mode
@@ -174,11 +190,14 @@ class CandidateEditFragment : Fragment() {
             }
 
         }
-        // else : les champs apparaissent en rouge
+        // else : les champs apparaissent déjà en rouge
 
 
     }
 
+    /**
+     * Close this fragment
+     */
     private fun closeFragment() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
@@ -216,6 +235,7 @@ class CandidateEditFragment : Fragment() {
 
     }
 
+    // Check the date
     private fun inputDateOK(): Boolean {
 
         var bImputsOK = true
@@ -233,6 +253,7 @@ class CandidateEditFragment : Fragment() {
         return bImputsOK
     }
 
+    // Check the email adress
     private fun inputEmailOK(): Boolean {
 
         var bImputsOK = true
@@ -264,6 +285,7 @@ class CandidateEditFragment : Fragment() {
 
     }
 
+    // Check the phone
     private fun inputPhoneOK(): Boolean {
 
         var bImputsOK = true
@@ -282,6 +304,7 @@ class CandidateEditFragment : Fragment() {
 
     }
 
+    // Check the first name
     private fun inputFirstNameOK(): Boolean {
 
         var bImputsOK = true
@@ -299,6 +322,7 @@ class CandidateEditFragment : Fragment() {
         return bImputsOK
     }
 
+    // Check the last name
     private fun inputLastNameOK(): Boolean {
 
         var bImputsOK = true
@@ -318,6 +342,9 @@ class CandidateEditFragment : Fragment() {
 
     }
 
+    /**
+     * Display error message in SnackBar
+     */
     private fun displayError(sErrorMessage : String?) {
 
         sErrorMessage.let {
@@ -335,20 +362,19 @@ class CandidateEditFragment : Fragment() {
      */
     private fun candidateFromInputs(): Candidate {
 
-
-        var dateOfBirth = MainApplication.dStringToLocalDate(binding.edtDateOfBirth.text.toString())
-
+        // Récupère la date au format Date
+        var dateOfBirth = dStringToLocalDate(binding.edtDateOfBirth.text.toString())
         if (dateOfBirth==null){
             displayError("Impossible to convert : ${binding.edtDateOfBirth.text.toString()}")
             dateOfBirth = Date() // TODO : Je met la date du jour => A voir pour faire mieux
         }
 
-        // Gestion du salaire demandé non renseigné
+
         val expectedSalaryText = binding.edtExpectedSalary.text.toString()
         val nExpectedSalary = if (expectedSalaryText.isNotEmpty()) {
             expectedSalaryText.toInt()
         } else {
-            0
+            0 // Gestion du salaire demandé non renseigné
         }
 
         return Candidate(
@@ -365,6 +391,9 @@ class CandidateEditFragment : Fragment() {
 
     }
 
+    /**
+     * Display the model data in the UI
+     */
     private fun bind(candidate: Candidate) {
 
         binding.edtLastName.setText(candidate.lastName)
@@ -373,12 +402,15 @@ class CandidateEditFragment : Fragment() {
         binding.edtFirstName.setText(candidate.firstName)
         binding.edtPhone.setText(candidate.phone)
         binding.edtEmail.setText(candidate.email)
-        binding.edtDateOfBirth.setText(MainApplication.sLocalDateToString(candidate.dateOfBirth))
+        binding.edtDateOfBirth.setText(sLocalDateToString(candidate.dateOfBirth))
         binding.edtExpectedSalary.setText(candidate.salaryExpectation)
         binding.edtNote.setText(candidate.note)
 
     }
 
+    /**
+     * Paramètre l'Action Bar
+     */
     private fun setupActionBar() {
 
 
