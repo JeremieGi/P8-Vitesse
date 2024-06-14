@@ -60,8 +60,7 @@ class CandidateDisplayViewModel @Inject constructor(
 
     fun delete() {
 
-
-        val lID = currentCandidate.id?:0
+        val lID : Long = currentCandidate.id?:0
         if (lID > 0){
             viewModelScope.launch {
                 try{
@@ -73,6 +72,9 @@ class CandidateDisplayViewModel @Inject constructor(
                 }
 
             }
+        }
+        else{
+            _candidateStateFlow.value = CandidateState.Error(Exception("Invalid ID $lID"))
         }
 
 

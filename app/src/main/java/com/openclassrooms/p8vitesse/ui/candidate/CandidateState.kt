@@ -6,7 +6,7 @@ sealed class CandidateState {
 
     data class Success(val candidate: Candidate) : CandidateState()
     data class Error(val exception: Throwable) : CandidateState()
-    object OperationDeleteCompleted : CandidateState()
-
+    data object OperationDeleteCompleted : CandidateState()
+    data object OperationAddCompleted : CandidateState()
 
 }

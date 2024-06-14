@@ -60,68 +60,48 @@ class CandidateEditFragment : Fragment() {
 
         }
 
-        if (sIDCandidate.isEmpty()) {
 
-        }
-        else{
+        // Dans une coroutine, collecte du StateFlow
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.candidateStateFlow.collect { resultCandidateState ->
 
-            // Dans une coroutine, collecte du StateFlow
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.candidateFlow.collect { resultCandidate ->
+                when (resultCandidateState){
 
-                    resultCandidate?.let {
-                        resultCandidate.onSuccess {
-                            bind(it)
-                        }.onFailure {
-                            Toast.makeText(requireContext(), "Error login \n ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
-                        }
-
+                    // Chargement du candidat
+                    is CandidateState.Success -> {
+                        val candidate = resultCandidateState.candidate
+                        bind(candidate)
                     }
-                }
-            }
 
+                    // Erreur lors du chargement du candidat
+                    is CandidateState.Error -> {
+                        displayError(resultCandidateState.exception.message)
+                    }
+
+                    // Opération de suppression terminée avec succès
+                    is CandidateState.OperationAddCompleted -> {
+                        // Fermer le fragment
+                        closeFragment()
+                    }
+
+                    else -> {
+                        // NULL
+                    }
+
+                }
+
+            }
         }
+
+
+
 
         // T013 - Implement the top app bar title
         setupActionBar()
 
         // Save button
         binding.btnSave.setOnClickListener{
-
-            try {
-
-                if (bCheckInputOK()){
-
-                    val candidateNewData = candidateFromInputs()
-
-                    // Add Mode
-                    if (viewModel.bModeAdd()){
-
-                        viewModel.add(candidateNewData)
-
-                        // Close the fragment
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
-
-                    }
-                    else{
-
-                    }
-
-                }
-
-
-
-            }
-            catch (e: Exception) {
-
-                displayError(e.message)
-
-            }
-
-
-
-
-
+            addCandidate()
         }
 
 
@@ -172,6 +152,33 @@ class CandidateEditFragment : Fragment() {
         }
 
 
+    }
+
+
+    private fun addCandidate() {
+
+
+        if (bCheckInputOK()){
+
+            val candidateNewData = candidateFromInputs()
+
+            // Add Mode
+            if (viewModel.bModeAdd()){
+                // Le résultat sera traité dans le StateFlow
+                viewModel.add(candidateNewData)
+            }
+            else{
+
+            }
+
+        }
+        // else : les champs apparaissent en rouge
+
+
+    }
+
+    private fun closeFragment() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     /**
@@ -329,6 +336,14 @@ class CandidateEditFragment : Fragment() {
 
         val dateOfBirth = dateFormatter.parse(binding.edtDateOfBirth.text.toString())
 
+        // Gestion du salaire demandé non renseigné
+        val expectedSalaryText = binding.edtExpectedSalary.text.toString()
+        val nExpectedSalary = if (expectedSalaryText.isNotEmpty()) {
+            expectedSalaryText.toInt()
+        } else {
+            0
+        }
+
         return Candidate(
             id = viewModel.lIDCandidate,
             lastName = binding.edtLastName.text.toString(),
@@ -336,7 +351,7 @@ class CandidateEditFragment : Fragment() {
             phone = binding.edtPhone.text.toString(),
             email = binding.edtEmail.text.toString(),
             dateOfBirth = dateOfBirth,
-            salaryExpectation = binding.edtExpectedSalary.text.toString().toInt(),
+            salaryExpectation = nExpectedSalary,
             note = binding.edtNote.text.toString(),
             topFavorite = false
         )
@@ -374,7 +389,7 @@ class CandidateEditFragment : Fragment() {
         binding.toolbarEdit.setNavigationOnClickListener {
             // Handle the click event here
             //requireActivity().onBackPressed()
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            closeFragment()
         }
 
     }

@@ -22,19 +22,30 @@ class CandidateEditViewModel @Inject constructor(
     val lIDCandidate = _lIDCandidate
 
     // Communication avec le fragment via StateFlow
-    private val _candidateFlow = MutableStateFlow<Result<Candidate>?>(null)
-    val candidateFlow: StateFlow<Result<Candidate>?> = _candidateFlow.asStateFlow() // Exposé au fragment (read only)
+    private val _candidateStateFlow = MutableStateFlow<CandidateState?>(null)
+    val candidateStateFlow: StateFlow<CandidateState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
 
 
     fun loadCandidate(sIDCandidate: String?) {
 
+        // TODO : cette procédure est identique à celle de candidateDisplayViewModel : est-elle factorisable
+
         _lIDCandidate = sIDCandidate?.toLong()
 
+        val lID : Long = sIDCandidate?.toLong()?:0
         viewModelScope.launch {
 
-            val lID = _lIDCandidate?:0
-            val candidate = getCandidateUseCaseLoad.execute(lID)
-            _candidateFlow.value = candidate
+            val resultCandidate = getCandidateUseCaseLoad.execute(lID)
+
+            resultCandidate.fold(
+                onSuccess = { candidate ->
+                    _candidateStateFlow.value = CandidateState.Success(candidate)
+                },
+                onFailure = { exception ->
+                    _candidateStateFlow.value = CandidateState.Error(exception)
+                }
+            )
+
 
         }
 
@@ -53,7 +64,14 @@ class CandidateEditViewModel @Inject constructor(
     fun add(candidateNewData: Candidate) {
 
         viewModelScope.launch {
-            getCandidateUseCaseAdd.execute(candidateNewData)
+            try{
+                val lIDCreated = getCandidateUseCaseAdd.execute(candidateNewData)
+                _candidateStateFlow.value = CandidateState.OperationAddCompleted
+            }
+            catch (e : Exception){
+                _candidateStateFlow.value = CandidateState.Error(e)
+            }
+
         }
 
     }

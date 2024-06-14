@@ -41,8 +41,10 @@ interface CandidateDao {
         SELECT * FROM tblCandidate 
         WHERE (:bFavoriteP IS NULL OR topFavorite = :bFavoriteP) 
         AND (:sFilterName IS NULL OR firstName LIKE '%' || :sFilterName || '%' OR lastName LIKE '%' || :sFilterName || '%' )
-        ORDER BY lastName, firstName
-    """)
+        ORDER BY 
+            lastName  COLLATE NOCASE, 
+            firstName COLLATE NOCASE 
+    """)  // NOCASE => permet d'ignorer la casse sinon les majuscule apparaissent avant les minuscule par défaut
     fun getCandidates ( bFavoriteP: Boolean? , sFilterName : String? ) : Flow<List<CandidateDto>>
 
     /**

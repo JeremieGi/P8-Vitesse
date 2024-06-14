@@ -83,7 +83,7 @@ class CandidateDisplayFragment : Fragment() {
 
         if (sIDCandidate.isEmpty()) {
             displayError(getString(R.string.no_parameter))
-            onBack()
+            closeFragment()
         }
         else{
 
@@ -108,7 +108,7 @@ class CandidateDisplayFragment : Fragment() {
                         // Opération de suppression terminée avec succès
                         is CandidateState.OperationDeleteCompleted -> {
                             // Fermer le fragment
-                            onBack()
+                            closeFragment()
                         }
 
                         else -> {
@@ -192,7 +192,7 @@ class CandidateDisplayFragment : Fragment() {
 
     }
 
-    private fun onBack() {
+    private fun closeFragment() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
@@ -208,7 +208,7 @@ class CandidateDisplayFragment : Fragment() {
         // T025 - Implement the top app bar navigation icon
         // Set up the click listener for the Up button
         binding.toolbarDisplay.setNavigationOnClickListener {
-            onBack()
+            closeFragment()
         }
 
     }

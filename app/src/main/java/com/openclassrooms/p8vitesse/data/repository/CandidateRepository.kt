@@ -123,8 +123,8 @@ class CandidateRepository (
 
     }
 
-    suspend fun addCandidate(candidate: Candidate) {
-        candidateDao.insertCandidate(candidate.toDto())
+    suspend fun addCandidate(candidate: Candidate) : Long {
+        return candidateDao.insertCandidate(candidate.toDto())
     }
 
     suspend fun deleteCandidate(id : Long) {

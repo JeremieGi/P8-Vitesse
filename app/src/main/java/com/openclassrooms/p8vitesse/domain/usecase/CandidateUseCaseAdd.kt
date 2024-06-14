@@ -8,8 +8,8 @@ class CandidateUseCaseAdd @Inject constructor(
     private val candidateRepository: CandidateRepository
 ) {
 
-    suspend fun execute(candidate: Candidate) {
-        candidateRepository.addCandidate(candidate)
+    suspend fun execute(candidate: Candidate) : Long {
+        return candidateRepository.addCandidate(candidate)
     }
 
 }
