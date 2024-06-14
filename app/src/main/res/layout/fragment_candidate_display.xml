@@ -7,22 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.candidate.CandidateDisplayFragment">
 
-    <!-- Toolbar
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent
-"       app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbarDisplay"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/edtResearchColor"
-            app:title="A definir"
-            app:navigationIcon="@drawable/baseline_arrow_back_24" />
-    </com.google.android.material.appbar.AppBarLayout>
--->
     <androidx.appcompat.widget.Toolbar
 
         android:layout_width="match_parent"
@@ -32,7 +17,7 @@
 
         android:id="@+id/toolbarDisplay"
         android:minHeight="?attr/actionBarSize"
-        app:title="A definir"
+        app:title="Défini via un menu"
         android:background="@color/edtResearchColor"
         app:navigationIcon="@drawable/baseline_arrow_back_24"
 
@@ -44,6 +29,97 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.candidate.CandidateDisplayFragment">
+            <!-- tools:context :  cela permet à Android Studio de fournir un contexte approprié pour le rendu de la mise en page dans l'éditeur de layout-->
+
+            <ImageView
+                android:id="@+id/imgPhoto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/person_24dp"
+                android:contentDescription="@string/candidate_photo_details"
+                />
+
+            <ImageButton
+                android:id="@+id/btnSMS"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_message_24"
+                android:background="@drawable/rounded_button_background"
+                android:contentDescription="@string/send_a_sms"
+                />
+
+            <TextView
+                android:id="@+id/tvSMS"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSMS"
+                android:text="@string/sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"/>
+
+            <ImageButton
+                android:id="@+id/btnCall"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/btnSMS"
+                app:layout_constraintTop_toBottomOf="@+id/imgPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_phone_24"
+                android:background="@drawable/rounded_button_background"
+                android:contentDescription="@string/call_the_candidate"/>
+
+
+            <TextView
+                android:id="@+id/tvCall"
+                app:layout_constraintStart_toStartOf="@+id/btnCall"
+                app:layout_constraintEnd_toEndOf="@+id/btnCall"
+                app:layout_constraintTop_toBottomOf="@+id/btnCall"
+                android:text="@string/call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:gravity="center" />
+
+
+            <ImageButton
+                android:id="@+id/btnSentEmail"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@+id/btnSMS"
+                app:layout_constraintTop_toBottomOf="@+id/imgPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_email_24"
+                android:background="@drawable/rounded_button_background"
+                android:contentDescription="@string/send_an_email"/>
+
+
+            <TextView
+                android:id="@+id/tvSentEmail"
+                app:layout_constraintStart_toStartOf="@+id/btnSentEmail"
+                app:layout_constraintEnd_toEndOf="@+id/btnSentEmail"
+                app:layout_constraintTop_toBottomOf="@+id/btnSentEmail"
+                android:text="@string/e_mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:gravity="center" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 

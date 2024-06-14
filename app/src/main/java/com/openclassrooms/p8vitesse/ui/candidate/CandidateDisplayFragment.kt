@@ -1,6 +1,8 @@
 package com.openclassrooms.p8vitesse.ui.candidate
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -93,7 +96,86 @@ class CandidateDisplayFragment : Fragment() {
 
         setupActionBarAndMenus()
 
+        binding.btnCall.setOnClickListener{
+            callCandidate()
+        }
 
+        binding.btnSMS.setOnClickListener{
+            sendSMStoCandidate()
+        }
+
+        binding.btnSentEmail.setOnClickListener{
+            sendEmailtoCandidate()
+        }
+    }
+
+    // T033 - Send an email to the candidate
+    private fun sendEmailtoCandidate() {
+
+        // The email is a required field (never empty)
+        val sEmail = viewModel.getCurrentCandidate().phone
+
+        // Doc ici : https://developer.android.com/guide/components/intents-common?hl=fr
+        val mIntent = Intent(Intent.ACTION_SEND) // ACTION_SENDTO => Ca me dit : pas d'application de messagerie..
+        mIntent.data = Uri.parse("mailto:")
+        mIntent.type = "text/plain"
+
+        // TODO : D'après la doc, çà devrait mettre la valeur dans le champ destinataire
+        //  mais :
+        //  dans mon appli Samsung => çà le met dans l'expéditeur
+        //  dans l'appli Gmail çà met rien
+        mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(sEmail))
+
+        //put the Subject in the intent
+ //       mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        //put the message in the intent
+ //       mIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+
+        try {
+            //start email intent
+            startActivity(Intent.createChooser(mIntent, getString(R.string.select_email_application)))
+        }
+        catch (e: Exception){
+            Toast.makeText(context, "${getString(R.string.no_application_of_email_found)}\n${e.message}", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+    }
+
+    // T032 - Send an SMS to the candidate
+    private fun sendSMStoCandidate() {
+
+        // The phone number is a required field (never empty)
+        val sPhoneNumber = viewModel.getCurrentCandidate().phone
+
+        val smsUri = Uri.parse("smsto:$sPhoneNumber")
+        val smsIntent = Intent(Intent.ACTION_SENDTO, smsUri)
+       // smsIntent.putExtra("sms_body", "Votre message ici") // Corps du message facultatif
+
+        // Vérifie si l'activité peut être gérée
+        if (smsIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(smsIntent)
+        } else {
+            // Gérer le cas où aucune application de messagerie SMS n'est disponible
+            Toast.makeText(context, getString(R.string.no_sms_application_found), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // T031 - Call the candidate
+    private fun callCandidate() {
+
+        // The phone number is a required field (never empty)
+        val sPhoneNumber = viewModel.getCurrentCandidate().phone
+
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.setData(Uri.parse("tel:$sPhoneNumber"))
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(requireActivity(), R.string.phone_not_found, Toast.LENGTH_SHORT).show()
+        }
 
     }
 

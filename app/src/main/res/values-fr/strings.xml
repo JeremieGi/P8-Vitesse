@@ -37,5 +37,16 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="error">Erreur</string>
+    <string name="candidate_photo_details">Photo du candidat</string>
+    <string name="sms">SMS</string>
+    <string name="send_a_sms">Envoyer un SMS</string>
+    <string name="call_the_candidate">Appeler le candidat</string>
+    <string name="call">Appeler</string>
+    <string name="send_an_email">Envoyer un email</string>
+    <string name="e_mail">E-mail</string>
+    <string name="phone_not_found">Téléphone non trouvé</string>
+    <string name="no_sms_application_found">Aucune application SMS disponible</string>
+    <string name="no_application_of_email_found">Aucune application de mail disponible</string>
+    <string name="select_email_application">Sélectionner une application de messagerie</string>
 
 </resources>
