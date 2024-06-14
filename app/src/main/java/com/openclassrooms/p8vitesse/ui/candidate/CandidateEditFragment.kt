@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -51,7 +50,7 @@ class CandidateEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Récupération de l'ID du candidat
-        var sIDCandidate = ""
+        var sIDCandidate: String
         arguments?.let {
 
             sIDCandidate = it.getString(ARG_CANDIDATE_ID).toString()
@@ -60,7 +59,70 @@ class CandidateEditFragment : Fragment() {
 
         }
 
+        observeStateFlow()
 
+        // T013 - Implement the top app bar title
+        setupActionBar()
+
+        // Save button
+        binding.btnSave.setOnClickListener{
+            addCandidate()
+        }
+
+        setDatePickerListener()
+
+
+    }
+
+    private fun setDatePickerListener() {
+        // Date picker
+        binding.btnPickDate.setOnClickListener{
+
+            val cldr: Calendar = Calendar.getInstance()
+
+            // TODo : Si une date est saisie, il serait bien de repositionner le picker sur cette date
+            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
+            val month: Int = cldr.get(Calendar.MONTH)
+            val year: Int = cldr.get(Calendar.YEAR)
+
+            // date picker dialog
+            val picker = DatePickerDialog(
+                requireContext(),
+                // Listener du date picker
+                {
+                        view, selectedYear, selectedMonth, selectedDay ->
+
+                    // Date sélectionnée
+                    val selectedCalendar = Calendar.getInstance()
+                    selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+
+                    // DAte d'aujourd'hui
+                    val todayCalendar = Calendar.getInstance()
+
+                    // TODO : Voir avec Denis selectedMonth renvoie un mois comme si janvier = 0
+                    // + dans le debugger ici selectedCalendar est toujours égale à la date du jour...
+
+                    // Si date saisie dans le futur
+                    if (selectedCalendar.after(todayCalendar)) {
+                        displayError(getString(R.string.impossible_to_selected_a_date_of_birth_in_the_future))
+                    } else {
+                        val selectedDate = dateFormatter.format(selectedCalendar.time)
+                        binding.edtDateOfBirth.setText(selectedDate)
+                    }
+
+
+                },
+                // Init parameters
+                year,
+                month,
+                day
+            )
+            picker.show()
+
+        }
+    }
+
+    private fun observeStateFlow() {
         // Dans une coroutine, collecte du StateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.candidateStateFlow.collect { resultCandidateState ->
@@ -92,66 +154,6 @@ class CandidateEditFragment : Fragment() {
 
             }
         }
-
-
-
-
-        // T013 - Implement the top app bar title
-        setupActionBar()
-
-        // Save button
-        binding.btnSave.setOnClickListener{
-            addCandidate()
-        }
-
-
-        // Date picker
-        binding.btnPickDate.setOnClickListener{
-
-            val cldr: Calendar = Calendar.getInstance()
-
-            // TODo : Si une date est saisie, il serait bien de repositionner le picker sur cette date
-            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
-            val month: Int = cldr.get(Calendar.MONTH)
-            val year: Int = cldr.get(Calendar.YEAR)
-
-            // date picker dialog
-            val picker = DatePickerDialog(
-                requireContext(),
-                // Listener du date picker
-                {
-                    view, selectedYear, selectedMonth, selectedDay ->
-
-                        // Date sélectionnée
-                        val selectedCalendar = Calendar.getInstance()
-                        selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
-
-                        // DAte d'aujourd'hui
-                        val todayCalendar = Calendar.getInstance()
-
-                        // TODO : Voir avec Denis selectedMonth renvoie un mois comme si janvier = 0
-                        // + dans le debugger ici selectedCalendar est toujours égale à la date du jour...
-
-                        // Si date saisie dans le futur
-                        if (selectedCalendar.after(todayCalendar)) {
-                            displayError(getString(R.string.impossible_to_selected_a_date_of_birth_in_the_future))
-                        } else {
-                            val selectedDate = dateFormatter.format(selectedCalendar.time)
-                            binding.edtDateOfBirth.setText(selectedDate)
-                        }
-
-
-                },
-                // Init parameters
-                year,
-                month,
-                day
-            )
-            picker.show()
-
-        }
-
-
     }
 
 

@@ -9,7 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -60,7 +59,7 @@ class CandidateDisplayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState)
         binding = FragmentCandidateDisplayBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -87,78 +86,51 @@ class CandidateDisplayFragment : Fragment() {
         }
         else{
 
-            // Dans une coroutine, collecte du StateFlow avec le candidat chargé
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.candidateStateFlow.collect { resultCandidateState ->
-
-                    when (resultCandidateState){
-
-                        // Chargement du candidat
-                        is CandidateState.Success -> {
-                            val candidate = resultCandidateState.candidate
-                            bind(candidate)
-                            updateActionBarTitle(candidate)
-                        }
-
-                        // Erreur lors du chargement du candidat
-                        is CandidateState.Error -> {
-                            displayError(resultCandidateState.exception.message)
-                        }
-
-                        // Opération de suppression terminée avec succès
-                        is CandidateState.OperationDeleteCompleted -> {
-                            // Fermer le fragment
-                            closeFragment()
-                        }
-
-                        else -> {
-                            // NULL
-                        }
-
-                    }
-
-
-                }
-            }
+            observeStateFlow()
 
         }
 
 
-
-
-        setupActionBar()
+        setupActionBarAndMenus()
 
 
 
-        // Menus
+    }
 
-        val menuHost: MenuHost = requireActivity()
+    private fun observeStateFlow() {
+        // Dans une coroutine, collecte du StateFlow avec le candidat chargé
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.candidateStateFlow.collect { resultCandidateState ->
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_candidate_display, menu)
-            }
+                when (resultCandidateState){
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.itemFavorite -> {
-                        // Gérer l'action de recherche
-                        true
+                    // Chargement du candidat
+                    is CandidateState.Success -> {
+                        val candidate = resultCandidateState.candidate
+                        bind(candidate)
+                        updateActionBarTitle(candidate)
                     }
-                    R.id.itemEdit -> {
-                        // Gérer l'action des paramètres
-                        true
+
+                    // Erreur lors du chargement du candidat
+                    is CandidateState.Error -> {
+                        displayError(resultCandidateState.exception.message)
                     }
-                    R.id.itemDelete -> {
-                        // Supprime le candidat
-                        deleteCandidateWithConfirmation()
-                        true
+
+                    // Opération de suppression terminée avec succès
+                    is CandidateState.OperationDeleteCompleted -> {
+                        // Fermer le fragment
+                        closeFragment()
                     }
-                    else -> false
+
+                    else -> {
+                        // NULL
+                    }
+
                 }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+
+            }
+        }
     }
 
 
@@ -196,7 +168,7 @@ class CandidateDisplayFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
-    private fun setupActionBar() {
+    private fun setupActionBarAndMenus() {
 
         // TODO : Pas une syntaxe plus simple ?
         // Trouver et configurer la Toolbar
@@ -210,6 +182,36 @@ class CandidateDisplayFragment : Fragment() {
         binding.toolbarDisplay.setNavigationOnClickListener {
             closeFragment()
         }
+
+
+        // Menus
+
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_candidate_display, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.itemFavorite -> {
+                        // Gérer l'action de recherche
+                        true
+                    }
+                    R.id.itemEdit -> {
+                        // Gérer l'action des paramètres
+                        true
+                    }
+                    R.id.itemDelete -> {
+                        // Supprime le candidat
+                        deleteCandidateWithConfirmation()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
     }
 
