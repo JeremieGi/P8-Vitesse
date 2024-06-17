@@ -131,5 +131,10 @@ class CandidateRepository (
         candidateDao.deleteCandidateById(id)
     }
 
+    suspend fun updateCandidate(candidate: Candidate) : Int {
+        return candidateDao.updateCandidate(candidate.toDto())
+    }
+
+
 
 }

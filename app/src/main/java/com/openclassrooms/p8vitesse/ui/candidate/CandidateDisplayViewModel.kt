@@ -62,6 +62,7 @@ class CandidateDisplayViewModel @Inject constructor(
     }
 
     fun getCurrentCandidate() : Candidate {
+        // TODO : A reprendre avec une variable private val
         return currentCandidate
     }
 

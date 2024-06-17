@@ -223,8 +223,14 @@ class CandidateEditFragment : Fragment() {
                         displayError(resultCandidateState.exception.message)
                     }
 
-                    // Opération de suppression terminée avec succès
+                    // Opération d'ajout terminée avec succès
                     is CandidateUIState.OperationAddCompleted -> {
+                        // Fermer le fragment
+                        closeFragment()
+                    }
+
+                    // Opération de mise à jour terminée avec succès
+                    is CandidateUIState.OperationUpdatedCompleted -> {
                         // Fermer le fragment
                         closeFragment()
                     }
@@ -257,7 +263,7 @@ class CandidateEditFragment : Fragment() {
                 viewModel.add(candidateNewData)
             }
             else{
-
+                viewModel.update(candidateNewData)
             }
 
         }
@@ -467,12 +473,12 @@ class CandidateEditFragment : Fragment() {
         }
         else{
             // Chemin du candidat OU vide si candidat null (Cas d'un ajout sans sélection d'image)
-            sLocalPath = viewModel.currentCandidate?.photoFilePath ?: ""
+            sLocalPath = viewModel.getCurrentCandidate()?.photoFilePath ?: ""
         }
 
 
         return Candidate(
-            id = viewModel.idCandidate,
+            id = viewModel.getIDCandidate(),
             lastName = binding.edtLastName.text.toString(),
             firstName = binding.edtFirstName.text.toString(),
             phone = binding.edtPhone.text.toString(),
@@ -496,11 +502,14 @@ class CandidateEditFragment : Fragment() {
         binding.edtPhone.setText(candidate.phone)
         binding.edtEmail.setText(candidate.email)
         binding.edtDateOfBirth.setText(sLocalDateToString(candidate.dateOfBirth))
-        binding.edtExpectedSalary.setText(candidate.salaryExpectation)
+        binding.edtExpectedSalary.setText(candidate.salaryExpectation.toString())
         binding.edtNote.setText(candidate.note)
 
         // Charger l'image avec Glide
-        loadImageWithGlide(requireContext(), candidate.photoFilePath, binding.imgPhoto)
+        if (candidate.photoFilePath.isNotEmpty()){
+            loadImageWithGlide(requireContext(), candidate.photoFilePath, binding.imgPhoto)
+        }
+
 
     }
 

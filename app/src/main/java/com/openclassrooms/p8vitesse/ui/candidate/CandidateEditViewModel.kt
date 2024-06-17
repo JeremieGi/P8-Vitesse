@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseAdd
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseLoad
+import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseUpdate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,15 +16,15 @@ import javax.inject.Inject
 @HiltViewModel
 class CandidateEditViewModel @Inject constructor(
     private val getCandidateUseCaseLoad : CandidateUseCaseLoad,
-    private val getCandidateUseCaseAdd : CandidateUseCaseAdd
+    private val getCandidateUseCaseAdd : CandidateUseCaseAdd,
+    private val getCandidateUseCaseUpdate : CandidateUseCaseUpdate
 ) : ViewModel(){
 
 
     private var _idCandidate : Long? = null
-    val idCandidate = _idCandidate
 
     private var _currentCandidate : Candidate? = null
-    val currentCandidate = _currentCandidate
+    //val currentCandidate = _currentCandidate // TODO : Dans l'enregistrement => currentCandidate est nul alors que _currentCandidate non ..
 
 
     // Communication avec le fragment via StateFlow
@@ -81,9 +82,34 @@ class CandidateEditViewModel @Inject constructor(
 
     }
 
+
+
+    fun update(candidate: Candidate) {
+
+        viewModelScope.launch {
+            try{
+                val nNbEnregUpdated = getCandidateUseCaseUpdate.execute(candidate)
+                _candidateStateFlow.value = CandidateUIState.OperationUpdatedCompleted
+            }
+            catch (e : Exception){
+                _candidateStateFlow.value = CandidateUIState.Error(e)
+            }
+
+        }
+
+    }
+
     fun setCandidate(candidate: Candidate) {
         this._currentCandidate = candidate
     }
 
+    fun getIDCandidate() : Long? {
+        return this._idCandidate
+    }
+
+
+    fun getCurrentCandidate() : Candidate?{
+        return this._currentCandidate
+    }
 
 }

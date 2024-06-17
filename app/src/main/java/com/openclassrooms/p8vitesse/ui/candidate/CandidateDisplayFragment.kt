@@ -291,7 +291,7 @@ class CandidateDisplayFragment : Fragment() {
                         true
                     }
                     R.id.itemEdit -> {
-                        // Gérer l'action des paramètres
+                        openEditFragment()
                         true
                     }
                     R.id.itemDelete -> {
@@ -303,6 +303,25 @@ class CandidateDisplayFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+    }
+
+    private fun openEditFragment() {
+
+        if (viewModel.getCurrentCandidate() != null){
+
+            val editFragment = CandidateEditFragment.newInstance()
+            val args = Bundle()
+            args.putString(ARG_CANDIDATE_ID, viewModel.getCurrentCandidate().id.toString())
+            editFragment.arguments = args
+
+            parentFragmentManager.beginTransaction()
+                ?.replace(R.id.fragment_container,editFragment )
+                ?.addToBackStack(null)
+                ?.commit()
+
+        }
+
 
     }
 
