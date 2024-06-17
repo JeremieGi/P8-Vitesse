@@ -37,7 +37,7 @@
             <!-- tools:context :  cela permet à Android Studio de fournir un contexte approprié pour le rendu de la mise en page dans l'éditeur de layout-->
 
             <ImageView
-                android:id="@+id/imgPhoto"
+                android:id="@+id/imgPhotoDetails"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +51,7 @@
                 android:id="@+id/btnSMS"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/imgPhotoDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_message_24"
@@ -73,7 +73,7 @@
                 android:id="@+id/btnCall"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toStartOf="@+id/btnSMS"
-                app:layout_constraintTop_toBottomOf="@+id/imgPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/imgPhotoDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_phone_24"
@@ -97,7 +97,7 @@
                 android:id="@+id/btnSentEmail"
                 android:layout_marginStart="20dp"
                 app:layout_constraintStart_toEndOf="@+id/btnSMS"
-                app:layout_constraintTop_toBottomOf="@+id/imgPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/imgPhotoDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_email_24"

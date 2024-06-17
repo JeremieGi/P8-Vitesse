@@ -20,7 +20,8 @@ data class Candidate (
     var dateOfBirth : Date,
     var salaryExpectation : Int,
     var note : String,
-    var topFavorite : Boolean
+    var topFavorite : Boolean,
+    var photoFilePath : String
 
 ) {
     fun toDto(): CandidateDto {
@@ -33,7 +34,8 @@ data class Candidate (
             dateOfBirth = this.dateOfBirth,
             salaryExpectation = this.salaryExpectation,
             note = this.note,
-            topFavorite = this.topFavorite
+            topFavorite = this.topFavorite,
+            photoFilePath = this.photoFilePath
         )
     }
 

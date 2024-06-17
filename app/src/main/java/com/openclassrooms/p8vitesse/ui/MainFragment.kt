@@ -80,7 +80,7 @@ class MainFragment : Fragment() {
         })
 
         // Code à exécuter lorsque l'utilisateur appuie sur "Done"
-        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { tv, actionId, event ->
 
             if (actionId == EditorInfo.IME_ACTION_DONE) {
 

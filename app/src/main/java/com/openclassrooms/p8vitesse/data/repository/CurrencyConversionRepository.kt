@@ -27,9 +27,7 @@ class CurrencyConversionRepository(
         // Transformation du résultat en données du Model
         val model = result.body()?.toDomainModel() ?: throw Exception("Invalid data")
         */
-
-        val model = result.body()
-
+        
         val listResult : Map<String, Double>?
         val listEUR = result.body()?.listEUR
         val listGBP = result.body()?.listGBP

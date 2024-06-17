@@ -1,6 +1,14 @@
 package com.openclassrooms.p8vitesse
 
+import android.content.Context
+import android.net.Uri
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.openclassrooms.p8vitesse.data.network.ICurrencyAPI
+import com.openclassrooms.p8vitesse.ui.candidate.CandidateEditFragment
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -57,4 +65,38 @@ fun getOtherCurrency(sCodeFrom : String): String {
     // TODO : Voir ici comment gérer l'erreur
 
     return sResult
+}
+
+
+fun saveImageToInternalStorage(context: Context, uri: Uri): String {
+
+    val inputStream = context.contentResolver.openInputStream(uri)
+    if (inputStream == null){
+        // TODO : Voir quoi faire ici
+        return ""
+    }
+    else{
+        val fileName = "${System.currentTimeMillis()}.jpg"
+        val file = File(context.filesDir, fileName)
+
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+        inputStream.close()
+        outputStream.close()
+
+        return file.absolutePath
+    }
+
+
+
+
+}
+
+// TODO : Voir avec Denis où mettre cette fonction qui est appelée depuis 2 ViewModel
+fun loadImageWithGlide(context: Context, filePath: String, imageView: ImageView) {
+
+    Glide.with(context)
+        .load(File(filePath))
+        .into(imageView)
+
 }

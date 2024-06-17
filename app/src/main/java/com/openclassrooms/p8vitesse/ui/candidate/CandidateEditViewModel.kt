@@ -18,8 +18,13 @@ class CandidateEditViewModel @Inject constructor(
     private val getCandidateUseCaseAdd : CandidateUseCaseAdd
 ) : ViewModel(){
 
-    private var _lIDCandidate : Long? = null
-    val lIDCandidate = _lIDCandidate
+
+    private var _idCandidate : Long? = null
+    val idCandidate = _idCandidate
+
+    private var _currentCandidate : Candidate? = null
+    val currentCandidate = _currentCandidate
+
 
     // Communication avec le fragment via StateFlow
     private val _candidateStateFlow = MutableStateFlow<CandidateUIState?>(null)
@@ -30,7 +35,7 @@ class CandidateEditViewModel @Inject constructor(
 
         // TODO : cette procédure est identique à celle de candidateDisplayViewModel : est-elle factorisable
 
-        _lIDCandidate = sIDCandidate?.toLong()
+        _idCandidate = sIDCandidate?.toLong()
 
         val lID : Long = sIDCandidate?.toLong()?:0
         viewModelScope.launch {
@@ -55,7 +60,7 @@ class CandidateEditViewModel @Inject constructor(
      * @return : Mode add ? (2 modes : Add and Edit)
      */
     fun bModeAdd(): Boolean {
-        return (_lIDCandidate == null)
+        return ( _idCandidate==null )
     }
 
     /**
@@ -74,6 +79,10 @@ class CandidateEditViewModel @Inject constructor(
 
         }
 
+    }
+
+    fun setCandidate(candidate: Candidate) {
+        this._currentCandidate = candidate
     }
 
 

@@ -39,7 +39,18 @@
             tools:context=".ui.candidate.CandidateEditFragment">
 
             <ImageView
-                android:id="@+id/imgPerson"
+                android:id="@+id/imgPhoto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/person_24dp"
+                android:contentDescription="@string/candidate_photo_details"
+                />
+
+            <ImageView
+                android:id="@+id/imgPersonEdit"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="20dp"
@@ -47,7 +58,7 @@
                 android:contentDescription="@string/person_logo"
                 android:src="@drawable/person_24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/imgPhoto" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -60,8 +71,8 @@
                 android:hint="@string/first_name"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imgPerson"
-                app:layout_constraintTop_toTopOf="@+id/imgPerson">
+                app:layout_constraintStart_toEndOf="@+id/imgPersonEdit"
+                app:layout_constraintTop_toTopOf="@+id/imgPersonEdit">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtFirstName"
@@ -82,7 +93,7 @@
                 android:hint="@string/last_name"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imgPerson"
+                app:layout_constraintStart_toEndOf="@+id/imgPersonEdit"
                 app:layout_constraintTop_toBottomOf="@+id/inputLayoutFirstName">
 
                 <com.google.android.material.textfield.TextInputEditText

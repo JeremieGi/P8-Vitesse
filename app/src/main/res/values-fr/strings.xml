@@ -51,5 +51,8 @@
     <string name="about">A propos</string>
     <string name="birthday">Anniversaire</string>
     <string name="year">ans</string>
+    <string name="no_media_selected">Aucune photo sélectionnée</string>
+    <string name="no_photo_picker">Sélecteur de photo non disponible</string>
+    <string name="impossible_to_copy_the_image_in_local_files">Impossible de récupérer l\'image comme fichier local</string>
 
 </resources>

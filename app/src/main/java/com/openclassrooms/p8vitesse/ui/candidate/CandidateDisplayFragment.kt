@@ -25,6 +25,7 @@ import com.openclassrooms.p8vitesse.TAG_DEBUG
 import com.openclassrooms.p8vitesse.capitalized
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateDisplayBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
+import com.openclassrooms.p8vitesse.loadImageWithGlide
 import com.openclassrooms.p8vitesse.sLocalDateToString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -324,23 +325,12 @@ class CandidateDisplayFragment : Fragment() {
 
         viewModel.conversion(deviseFrom.currencyCode, candidate.salaryExpectation.toDouble())
 
-//        when (devise.symbol) {
-//            "EUR" -> {
-//                viewModel.conversion(ICurrencyAPI.CURRENCY_CODE_EURO, candidate.salaryExpectation.toDouble())
-//                // Résultat asynchrone affiché dans le traitement du UI State
-//            }
-//            "GBP" -> {
-//                viewModel.conversion(ICurrencyAPI.CURRENCY_CODE_EURO, candidate.salaryExpectation.toDouble())
-//            }
-//            else -> {
-//
-//            }
-//        }
-
-
-
-
         binding.tvNotesValues.text = candidate.note
+
+        if (candidate.photoFilePath.isNotEmpty()){
+            loadImageWithGlide(requireContext(),candidate.photoFilePath,binding.imgPhotoDetails)
+        }
+
 
     }
 

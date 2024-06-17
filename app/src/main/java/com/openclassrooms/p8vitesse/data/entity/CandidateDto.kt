@@ -40,7 +40,11 @@ data class CandidateDto(
     var note: String,
 
     @ColumnInfo(name = "topFavorite")
-    var topFavorite: Boolean
+    var topFavorite: Boolean,
+
+    // TODO : A discuter avec Denis : Je stocke l'image dans un répertoire interne de l'appli et je stocke ce fichier dans la base
+    @ColumnInfo(name = "photoFilePath")
+    val photoFilePath: String
 
 ) {
     /**
@@ -57,7 +61,8 @@ data class CandidateDto(
             dateOfBirth = this.dateOfBirth,
             salaryExpectation = this.salaryExpectation,
             note = this.note,
-            topFavorite = this.topFavorite
+            topFavorite = this.topFavorite,
+            photoFilePath = this.photoFilePath
         )
 
     }

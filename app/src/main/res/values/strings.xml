@@ -50,4 +50,7 @@
     <string name="about">About</string>
     <string name="birthday">Birthday</string>
     <string name="year">years</string>
+    <string name="no_media_selected">No media selected</string>
+    <string name="no_photo_picker">Photo picker unavailable</string>
+    <string name="impossible_to_copy_the_image_in_local_files">Impossible to copy the image in local files</string>
 </resources>

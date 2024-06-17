@@ -1,14 +1,20 @@
 package com.openclassrooms.p8vitesse.ui.candidate
 
 import android.app.DatePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.Companion.isPhotoPickerAvailable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.p8vitesse.R
 import com.openclassrooms.p8vitesse.TAG_DEBUG
@@ -16,8 +22,11 @@ import com.openclassrooms.p8vitesse.dStringToLocalDate
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateEditBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import com.openclassrooms.p8vitesse.sLocalDateToString
+import com.openclassrooms.p8vitesse.saveImageToInternalStorage
+import com.openclassrooms.p8vitesse.loadImageWithGlide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.util.Calendar
 import java.util.Date
 
@@ -37,13 +46,36 @@ class CandidateEditFragment : Fragment() {
 
     private val viewModel: CandidateEditViewModel by viewModels()
 
+    private var pickMedia : ActivityResultLauncher<PickVisualMediaRequest>? = null
+
+    // TODO : Je stocke l'URI ici (pas trop moyen de récupérer l'URI de puis l'ImageView apparement)
+    private var sSelectedURI : String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCandidateEditBinding.inflate(inflater, container, false)
+
+        // Cette initialisation doit être faite avant l'initialisation graphique du fragment (onCreateView ou onAttach)
+        pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+
+            // Callback is invoked after the user selects a media item or closes the photo picker.
+            if (uri != null) {
+
+                Log.d(TAG_DEBUG, "Selected photo : URI =  $uri")
+                setImageWithURI(uri)
+
+            } else {
+
+                displayError(getString(R.string.no_media_selected))
+            }
+        }
+
         return binding.root
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -72,8 +104,46 @@ class CandidateEditFragment : Fragment() {
 
         setDatePickerListener()
 
+        setImageListener()
+    }
+
+    private fun setImageListener() {
+
+        // PhotoPicker
+        binding.imgPhoto.setOnClickListener{
+
+            val bPhotoPickerAvailable = isPhotoPickerAvailable(requireContext())
+            if (bPhotoPickerAvailable){
+
+                // Include only one of the following calls to launch(), depending on the types
+                // of media that you want to let the user choose from.
+
+                // Launch the photo picker and let the user choose only images.
+                pickMedia?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
+            }
+            else{
+                displayError(getString(R.string.no_photo_picker))
+            }
+
+
+
+
+        }
 
     }
+
+    private fun setImageWithURI(uri: Uri) {
+
+        sSelectedURI = uri.toString()
+
+        // Charger l'image avec Glide
+        Glide.with(this)
+            .load(uri)
+            .into(binding.imgPhoto)
+
+    }
+
 
     private fun setDatePickerListener() {
 
@@ -145,6 +215,7 @@ class CandidateEditFragment : Fragment() {
                     is CandidateUIState.Success -> {
                         val candidate = resultCandidateState.candidate
                         bind(candidate)
+                        viewModel.setCandidate(candidate)
                     }
 
                     // Erreur lors du chargement du candidat
@@ -377,8 +448,31 @@ class CandidateEditFragment : Fragment() {
             0 // Gestion du salaire demandé non renseigné
         }
 
+
+        // Une nouvelle image a été sélectionnée
+        var sLocalPath = ""
+        if (sSelectedURI.isNotEmpty()){
+
+            // TODO : Quelle couche gère les fichiers à supprimer par exemple
+
+            // Crée un fichier local avec cette image
+            try{
+                sLocalPath = saveImageToInternalStorage(requireContext(), Uri.parse(sSelectedURI))
+            }
+            catch (e: IOException) {
+                displayError(e.message)
+                sLocalPath = ""
+            }
+
+        }
+        else{
+            // Chemin du candidat OU vide si candidat null (Cas d'un ajout sans sélection d'image)
+            sLocalPath = viewModel.currentCandidate?.photoFilePath ?: ""
+        }
+
+
         return Candidate(
-            id = viewModel.lIDCandidate,
+            id = viewModel.idCandidate,
             lastName = binding.edtLastName.text.toString(),
             firstName = binding.edtFirstName.text.toString(),
             phone = binding.edtPhone.text.toString(),
@@ -386,7 +480,8 @@ class CandidateEditFragment : Fragment() {
             dateOfBirth = dateOfBirth,
             salaryExpectation = nExpectedSalary,
             note = binding.edtNote.text.toString(),
-            topFavorite = false
+            topFavorite = false,
+            photoFilePath = sLocalPath
         )
 
     }
@@ -397,14 +492,15 @@ class CandidateEditFragment : Fragment() {
     private fun bind(candidate: Candidate) {
 
         binding.edtLastName.setText(candidate.lastName)
-        // TODO : Denis : je ne peux pas utiliser une syntaxe de ce type : binding.edtLastName.text = candidate.lastName
-
         binding.edtFirstName.setText(candidate.firstName)
         binding.edtPhone.setText(candidate.phone)
         binding.edtEmail.setText(candidate.email)
         binding.edtDateOfBirth.setText(sLocalDateToString(candidate.dateOfBirth))
         binding.edtExpectedSalary.setText(candidate.salaryExpectation)
         binding.edtNote.setText(candidate.note)
+
+        // Charger l'image avec Glide
+        loadImageWithGlide(requireContext(), candidate.photoFilePath, binding.imgPhoto)
 
     }
 
