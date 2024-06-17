@@ -9,6 +9,7 @@ sealed class CandidateUIState {
     data object OperationDeleteCompleted : CandidateUIState()
     data object OperationAddCompleted : CandidateUIState()
     data object OperationUpdatedCompleted : CandidateUIState()
+    data object OperationFavoriteUpdated : CandidateUIState()
 
     data class Conversion(val resultConversion : String)  : CandidateUIState()
 

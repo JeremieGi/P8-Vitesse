@@ -71,7 +71,7 @@ class CandidateEditViewModel @Inject constructor(
 
         viewModelScope.launch {
             try{
-                val lIDCreated = getCandidateUseCaseAdd.execute(candidateNewData)
+                getCandidateUseCaseAdd.execute(candidateNewData)
                 _candidateStateFlow.value = CandidateUIState.OperationAddCompleted
             }
             catch (e : Exception){
@@ -88,7 +88,7 @@ class CandidateEditViewModel @Inject constructor(
 
         viewModelScope.launch {
             try{
-                val nNbEnregUpdated = getCandidateUseCaseUpdate.execute(candidate)
+                getCandidateUseCaseUpdate.execute(candidate)
                 _candidateStateFlow.value = CandidateUIState.OperationUpdatedCompleted
             }
             catch (e : Exception){
@@ -111,5 +111,7 @@ class CandidateEditViewModel @Inject constructor(
     fun getCurrentCandidate() : Candidate?{
         return this._currentCandidate
     }
+
+
 
 }

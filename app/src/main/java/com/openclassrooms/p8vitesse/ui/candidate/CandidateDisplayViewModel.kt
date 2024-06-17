@@ -6,6 +6,7 @@ import com.openclassrooms.p8vitesse.data.repository.ResultCustom
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseDelete
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseLoad
+import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseUpdate
 import com.openclassrooms.p8vitesse.domain.usecase.ConversionUseCase
 import com.openclassrooms.p8vitesse.getOtherCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 class CandidateDisplayViewModel @Inject constructor(
     private val getCandidateUseCaseLoad : CandidateUseCaseLoad,
     private val getCandidateUseCaseDelete : CandidateUseCaseDelete,
-    private val getConversionUseCase : ConversionUseCase
+    private val getConversionUseCase : ConversionUseCase,
+    private val getCandidateUseCaseUpdate : CandidateUseCaseUpdate
 ) : ViewModel(){
 
 
@@ -139,6 +141,38 @@ class CandidateDisplayViewModel @Inject constructor(
 
     }
 
+    fun setFavorite(bNewFavoriteStatut: Boolean) {
+
+        viewModelScope.launch {
+            try{
+
+                if (currentCandidate.id==null){
+
+                    _candidateStateFlow.value = CandidateUIState.Error(Exception("Current candidate ID is null"))
+
+                }
+                else{
+
+                    val lID = currentCandidate.id ?: 0
+
+                    getCandidateUseCaseUpdate.setFavorite(lID,bNewFavoriteStatut)
+
+                    // MAj en mémoire
+                    currentCandidate.topFavorite = bNewFavoriteStatut
+
+                    _candidateStateFlow.value = CandidateUIState.OperationFavoriteUpdated
+
+                }
+
+
+            }
+            catch (e : Exception){
+                _candidateStateFlow.value = CandidateUIState.Error(e)
+            }
+
+        }
+
+    }
 
 
 }

@@ -213,6 +213,10 @@ class CandidateDisplayFragment : Fragment() {
                         binding.tvSalaryConversion.text = resultCandidateState.resultConversion
                     }
 
+                    is CandidateUIState.OperationFavoriteUpdated -> {
+                        setFavoriteIcon(viewModel.getCurrentCandidate().topFavorite)
+                    }
+
                     else -> {
                         // NULL
                     }
@@ -287,7 +291,7 @@ class CandidateDisplayFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.itemFavorite -> {
-                        // Gérer l'action de recherche
+                        updateFavoriteStatut()
                         true
                     }
                     R.id.itemEdit -> {
@@ -306,21 +310,25 @@ class CandidateDisplayFragment : Fragment() {
 
     }
 
+    private fun updateFavoriteStatut() {
+
+        val bOldFavoriteStatut = viewModel.getCurrentCandidate().topFavorite
+        val bNewFavoriteStatut = ! bOldFavoriteStatut
+        viewModel.setFavorite(bNewFavoriteStatut) // lance un update asynchrone
+
+    }
+
     private fun openEditFragment() {
 
-        if (viewModel.getCurrentCandidate() != null){
+        val editFragment = CandidateEditFragment.newInstance()
+        val args = Bundle()
+        args.putString(ARG_CANDIDATE_ID, viewModel.getCurrentCandidate().id.toString())
+        editFragment.arguments = args
 
-            val editFragment = CandidateEditFragment.newInstance()
-            val args = Bundle()
-            args.putString(ARG_CANDIDATE_ID, viewModel.getCurrentCandidate().id.toString())
-            editFragment.arguments = args
-
-            parentFragmentManager.beginTransaction()
-                ?.replace(R.id.fragment_container,editFragment )
-                ?.addToBackStack(null)
-                ?.commit()
-
-        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container,editFragment )
+            ?.addToBackStack(null)
+            ?.commit()
 
 
     }
@@ -334,7 +342,7 @@ class CandidateDisplayFragment : Fragment() {
 
         val sDateOfBirth = sLocalDateToString(candidate.dateOfBirth)
 
-        binding.tvBithdayAndAge.text = "${sDateOfBirth} (${candidate.nAge()} ${getString(R.string.year)})"
+        binding.tvBithdayAndAge.text = "${getString(R.string.year,sDateOfBirth,candidate.nAge().toString())})"
 
         // T035 - Display the expected salary of the candidate
         val sSalary = candidate.salaryExpectation.toString()
@@ -350,11 +358,22 @@ class CandidateDisplayFragment : Fragment() {
             loadImageWithGlide(requireContext(),candidate.photoFilePath,binding.imgPhotoDetails)
         }
 
+        // T026 - Implement the top app bar favorite icon
+        setFavoriteIcon(candidate.topFavorite)
+
+
 
     }
 
-
-
+    private fun setFavoriteIcon(bTopFavorite: Boolean) {
+        val menuItem = binding.toolbarDisplay.menu.findItem(R.id.itemFavorite)
+        if (bTopFavorite){
+            menuItem.setIcon(R.drawable.baseline_fullstar_24)
+        }
+        else{
+            menuItem.setIcon(R.drawable.star_border_24dp)
+        }
+    }
 
 
     private fun displayError(sErrorMessage : String?) {

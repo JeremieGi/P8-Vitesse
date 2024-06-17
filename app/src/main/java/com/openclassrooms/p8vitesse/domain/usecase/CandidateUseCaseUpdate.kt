@@ -14,5 +14,9 @@ class CandidateUseCaseUpdate @Inject constructor(
         return candidateRepository.updateCandidate(candidate)
     }
 
+    suspend fun setFavorite(id: Long, bNewFavoriteStatut: Boolean) : Int {
+        return candidateRepository.updateCandidate(id,bNewFavoriteStatut)
+    }
+
 }
 

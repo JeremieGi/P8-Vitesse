@@ -135,6 +135,10 @@ class CandidateRepository (
         return candidateDao.updateCandidate(candidate.toDto())
     }
 
+    suspend fun updateCandidate(id : Long, bFavorite : Boolean) : Int {
+        return candidateDao.updateCandidateTopFavorite(id,bFavorite)
+    }
+
 
 
 }

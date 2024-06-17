@@ -235,6 +235,7 @@ class CandidateEditFragment : Fragment() {
                         closeFragment()
                     }
 
+
                     else -> {
                         // NULL
                     }
@@ -456,7 +457,7 @@ class CandidateEditFragment : Fragment() {
 
 
         // Une nouvelle image a été sélectionnée
-        var sLocalPath = ""
+        var sLocalPath : String
         if (sSelectedURI.isNotEmpty()){
 
             // TODO : Quelle couche gère les fichiers à supprimer par exemple

@@ -67,4 +67,7 @@ interface CandidateDao {
     @Query("SELECT * FROM tblCandidate WHERE id = :lID")
     fun getCandidateById(lID: Long): Flow<CandidateDto>
 
+    @Query("UPDATE tblCandidate SET topFavorite=:bFavorite WHERE id = :id")
+    suspend fun updateCandidateTopFavorite(id: Long, bFavorite: Boolean): Int
+
 }
