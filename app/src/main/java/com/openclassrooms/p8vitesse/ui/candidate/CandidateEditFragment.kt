@@ -215,7 +215,7 @@ class CandidateEditFragment : Fragment() {
                     is CandidateUIState.Success -> {
                         val candidate = resultCandidateState.candidate
                         bind(candidate)
-                        viewModel.setCandidate(candidate)
+                        viewModel.currentCandidate = candidate
                     }
 
                     // Erreur lors du chargement du candidat
@@ -463,23 +463,22 @@ class CandidateEditFragment : Fragment() {
             // TODO : Quelle couche gère les fichiers à supprimer par exemple
 
             // Crée un fichier local avec cette image
-            try{
-                sLocalPath = saveImageToInternalStorage(requireContext(), Uri.parse(sSelectedURI))
-            }
-            catch (e: IOException) {
+            sLocalPath = try{
+                saveImageToInternalStorage(requireContext(), Uri.parse(sSelectedURI))
+            } catch (e: IOException) {
                 displayError(e.message)
-                sLocalPath = ""
+                ""
             }
 
         }
         else{
             // Chemin du candidat OU vide si candidat null (Cas d'un ajout sans sélection d'image)
-            sLocalPath = viewModel.getCurrentCandidate()?.photoFilePath ?: ""
+            sLocalPath = viewModel.currentCandidate?.photoFilePath ?: ""
         }
 
 
         return Candidate(
-            id = viewModel.getIDCandidate(),
+            id = viewModel.idCandidate,
             lastName = binding.edtLastName.text.toString(),
             firstName = binding.edtFirstName.text.toString(),
             phone = binding.edtPhone.text.toString(),

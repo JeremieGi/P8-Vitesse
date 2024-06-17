@@ -111,7 +111,7 @@ class MainFragment : Fragment() {
         binding.floatingbuttonAdd.setOnClickListener{
 
             parentFragmentManager.beginTransaction()
-                ?.replace(R.id.fragment_container, CandidateEditFragment.newInstance())
+                .replace(R.id.fragment_container, CandidateEditFragment.newInstance())
                 ?.addToBackStack(null)
                 ?.commit()
 
@@ -120,13 +120,6 @@ class MainFragment : Fragment() {
 
     }
 
-    /**
-     *
-     */
-    override fun onResume() {
-        super.onResume()
-
-    }
 
     private fun configureViewPagerAndTabs() {
 

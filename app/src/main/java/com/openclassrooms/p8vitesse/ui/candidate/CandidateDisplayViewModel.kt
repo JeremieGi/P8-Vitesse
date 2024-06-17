@@ -34,10 +34,13 @@ class CandidateDisplayViewModel @Inject constructor(
 
 
     // TODO : Propriété pour faciliter a manipulation du candidat courant et l'avoir dans le ViewModel
-    private lateinit var currentCandidate : Candidate
+    private var _currentCandidate : Candidate? = null
+    val currentCandidate: Candidate? // En lecture seulement
+        get() = _currentCandidate
+   
 
 
-    // Charge le candidat depuis la base de données
+    // Charge le candidat depuis la base de données à partir de son ID
     fun loadCandidate(sIDCandidate: String?) {
 
         val lID : Long = sIDCandidate?.toLong()?:0
@@ -48,7 +51,7 @@ class CandidateDisplayViewModel @Inject constructor(
             resultCandidate.fold(
                 onSuccess = { candidate ->
                     // Keep the candidate in the View Model
-                    currentCandidate = candidate
+                    _currentCandidate = candidate
 
                     _candidateStateFlow.value = CandidateUIState.Success(candidate)
                 },
@@ -62,14 +65,12 @@ class CandidateDisplayViewModel @Inject constructor(
 
     }
 
-    fun getCurrentCandidate() : Candidate {
-        // TODO : A reprendre avec une variable private val
-        return currentCandidate
-    }
-
+    /**
+     * Delete a candidate
+     */
     fun delete() {
 
-        val lID : Long = currentCandidate.id?:0
+        val lID : Long = _currentCandidate?.id?:0
         if (lID > 0){
             viewModelScope.launch {
                 try{
@@ -89,6 +90,9 @@ class CandidateDisplayViewModel @Inject constructor(
 
     }
 
+    /**
+     * Call a webservice to do the conversion
+     */
     fun conversion(
         sCurrencyCodeFrom : String,
         dOriginalValue : Double
@@ -105,7 +109,7 @@ class CandidateDisplayViewModel @Inject constructor(
 
                 // En chargement
                 ResultCustom.Loading -> {
-                    // TODO : pas fait : A faire ou à nettoyer
+                    // Pas géré => Le libellé initial indique que le chargement est en cours
                     //_candidateStateFlow.value = CandidateState.
                 }
 
@@ -115,8 +119,10 @@ class CandidateDisplayViewModel @Inject constructor(
                     val mapResult = resultAPI.value
                     if (mapResult!=null){
 
+                        // eur <=> gpt
                         val deviseTo = getOtherCurrency(sCurrencyCodeFrom)
 
+                        // Récupère le taux de change
                         val rate = mapResult[deviseTo]?:0.0
                         val conversion = dOriginalValue * rate
                         val sRound = String.format("%.2f", conversion)
@@ -145,24 +151,27 @@ class CandidateDisplayViewModel @Inject constructor(
         viewModelScope.launch {
             try{
 
-                if (currentCandidate.id==null){
+                // TODO : A voir avec Denis : si je ne mets pas le let j'ai ce message d'erreur :
+                // Smart cast to 'Candidate' is impossible, because 'currentCandidate' is a mutable property that could have been changed by this time
+                _currentCandidate?.let { candidate ->
 
-                    _candidateStateFlow.value = CandidateUIState.Error(Exception("Current candidate ID is null"))
+                    if (candidate.id==null){
+
+                        _candidateStateFlow.value = CandidateUIState.Error(Exception("Current candidate ID is null"))
+
+                    }
+                    else{
+
+                        getCandidateUseCaseUpdate.setFavorite(candidate.id,bNewFavoriteStatut)
+
+                        // MAj en mémoire
+                        candidate.topFavorite = bNewFavoriteStatut
+
+                        _candidateStateFlow.value = CandidateUIState.OperationFavoriteUpdated
+
+                    }
 
                 }
-                else{
-
-                    val lID = currentCandidate.id ?: 0
-
-                    getCandidateUseCaseUpdate.setFavorite(lID,bNewFavoriteStatut)
-
-                    // MAj en mémoire
-                    currentCandidate.topFavorite = bNewFavoriteStatut
-
-                    _candidateStateFlow.value = CandidateUIState.OperationFavoriteUpdated
-
-                }
-
 
             }
             catch (e : Exception){

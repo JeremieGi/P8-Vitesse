@@ -116,7 +116,7 @@ class CandidateDisplayFragment : Fragment() {
     private fun sendEmailtoCandidate() {
 
         // The email is a required field (never empty)
-        val sEmail = viewModel.getCurrentCandidate().email
+        val sEmail = viewModel.currentCandidate?.email
 
         // Doc ici : https://developer.android.com/guide/components/intents-common?hl=fr
         val mIntent = Intent(Intent.ACTION_SEND)
@@ -146,7 +146,7 @@ class CandidateDisplayFragment : Fragment() {
     private fun sendSMStoCandidate() {
 
         // The phone number is a required field (never empty)
-        val sPhoneNumber = viewModel.getCurrentCandidate().phone
+        val sPhoneNumber = viewModel.currentCandidate?.phone
 
         val smsUri = Uri.parse("smsto:$sPhoneNumber")
         val smsIntent = Intent(Intent.ACTION_SENDTO, smsUri)
@@ -165,7 +165,7 @@ class CandidateDisplayFragment : Fragment() {
     private fun callCandidate() {
 
         // The phone number is a required field (never empty)
-        val sPhoneNumber = viewModel.getCurrentCandidate().phone
+        val sPhoneNumber = viewModel.currentCandidate?.phone
 
         val intent = Intent(Intent.ACTION_DIAL)
         intent.setData(Uri.parse("tel:$sPhoneNumber"))
@@ -207,7 +207,8 @@ class CandidateDisplayFragment : Fragment() {
                     }
 
                     is CandidateUIState.OperationFavoriteUpdated -> {
-                        setFavoriteIcon(viewModel.getCurrentCandidate().topFavorite)
+                        val bTopFavorite = viewModel.currentCandidate?.topFavorite ?: false
+                        setFavoriteIcon(bTopFavorite)
                     }
 
                     else -> {
@@ -305,7 +306,7 @@ class CandidateDisplayFragment : Fragment() {
 
     private fun updateFavoriteStatut() {
 
-        val bOldFavoriteStatut = viewModel.getCurrentCandidate().topFavorite
+        val bOldFavoriteStatut = viewModel.currentCandidate?.topFavorite ?: false
         val bNewFavoriteStatut = ! bOldFavoriteStatut
         viewModel.setFavorite(bNewFavoriteStatut) // lance un update asynchrone
 
@@ -315,12 +316,12 @@ class CandidateDisplayFragment : Fragment() {
 
         val editFragment = CandidateEditFragment.newInstance()
         val args = Bundle()
-        args.putString(ARG_CANDIDATE_ID, viewModel.getCurrentCandidate().id.toString())
+        args.putString(ARG_CANDIDATE_ID, viewModel.currentCandidate?.id.toString())
         editFragment.arguments = args
 
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container,editFragment )
-            ?.addToBackStack(null)
+            .addToBackStack(null)
             ?.commit()
 
 
@@ -341,7 +342,8 @@ class CandidateDisplayFragment : Fragment() {
         val sSalary = candidate.salaryExpectation.toString()
 
         val deviseFrom = Currency.getInstance(Locale.getDefault())
-        binding.tvExpectedSalaryValue.text = "$sSalary ${deviseFrom.symbol}"
+        val sSalaryAndDevise = "$sSalary ${deviseFrom.symbol}" // J'utilise cette affectation pouré viter le warning : Do not concatenate text displayed with 'setText'. Use resource string with placeholders.
+        binding.tvExpectedSalaryValue.text = sSalaryAndDevise
 
         viewModel.conversion(deviseFrom.currencyCode, candidate.salaryExpectation.toDouble())
 

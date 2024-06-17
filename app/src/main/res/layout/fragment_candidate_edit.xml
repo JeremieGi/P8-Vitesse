@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
                         android:background="@android:color/transparent"
-                        android:drawableRight="@drawable/baseline_edit_calendar_24"
+                        android:drawableEnd="@drawable/baseline_edit_calendar_24"
                         android:text="@string/enter_a_date"
                         android:textAlignment="textStart"
                         android:textAllCaps="false"

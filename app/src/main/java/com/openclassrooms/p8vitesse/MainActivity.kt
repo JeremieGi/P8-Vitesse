@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.openclassrooms.p8vitesse.databinding.ActivityMainBinding
 import com.openclassrooms.p8vitesse.ui.MainFragment
-import com.openclassrooms.p8vitesse.ui.candidate.CandidateDisplayFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

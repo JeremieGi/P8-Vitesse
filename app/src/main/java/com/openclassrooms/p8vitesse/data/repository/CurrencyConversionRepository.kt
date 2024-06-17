@@ -1,7 +1,6 @@
 package com.openclassrooms.p8vitesse.data.repository
 
 import android.util.Log
-import com.openclassrooms.p8vitesse.MainApplication
 import com.openclassrooms.p8vitesse.TAG_DEBUG
 import com.openclassrooms.p8vitesse.data.network.ICurrencyAPI
 import kotlinx.coroutines.flow.Flow
@@ -23,28 +22,22 @@ class CurrencyConversionRepository(
         val result = dataService.getConversions(sCurrencyCodeLowerCase)
         // si la requête met du temps, pas grave, on est dans une coroutine, le thread principal n'est pas bloqué
 
-        /*
-        // Transformation du résultat en données du Model
-        val model = result.body()?.toDomainModel() ?: throw Exception("Invalid data")
-        */
-        
+
         val listResult : Map<String, Double>?
         val listEUR = result.body()?.listEUR
         val listGBP = result.body()?.listGBP
 
-        if (listEUR.isNullOrEmpty()){
-            listResult = listGBP
-        }
-        else{
-            listResult = listEUR
+        // Dans le json de retour, soit la liste s'appelle EUR, soit GBP
+        listResult = if (listEUR.isNullOrEmpty()){
+            listGBP
+        } else{
+            listEUR
         }
 
         Log.d(TAG_DEBUG, "Reponse du WS : ${listResult?.size} devises")
 
         // Ajout au flow
-
         emit(ResultCustom.Success(listResult))
-
 
 
     }.catch { error ->

@@ -82,13 +82,11 @@ class CandidateAdapter(
             binding.itemCandidateNotes.text = candidate.note
 
 
-            // TODO : Gérer l'image ici => il me faut remonter le contexte
-
-//            // Charger l'image avec Glide
-//            if (candidate.photoFilePath.isNotEmpty()){
-//                // TODO : Je suis obligé de passer le contexte en paramètre ici ?
-//                loadImageWithGlide(context, candidate.photoFilePath, binding.itemCandidatePhoto)
-//            }
+            // Charger l'image avec Glide
+            if (candidate.photoFilePath.isNotEmpty()){
+                // J'utilise le contexte de l'ImageView
+                loadImageWithGlide(binding.itemCandidatePhoto.context, candidate.photoFilePath, binding.itemCandidatePhoto)
+            }
         }
     }
 

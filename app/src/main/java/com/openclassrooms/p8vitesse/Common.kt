@@ -5,10 +5,8 @@ import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.openclassrooms.p8vitesse.data.network.ICurrencyAPI
-import com.openclassrooms.p8vitesse.ui.candidate.CandidateEditFragment
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -21,8 +19,7 @@ const val TAG_DEBUG = "**DEBUG**"
 fun sLocalDateToString(dDate : Date): String {
     val locale = Locale.getDefault()
     val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT, locale)
-    val formattedDate = dateFormat.format(dDate)
-    return formattedDate
+    return dateFormat.format(dDate)
 }
 
 
@@ -45,6 +42,10 @@ fun String.capitalized(): String {
     }
 }
 
+/**
+ * @param sCodeFrom : eur / gbp
+ * @return : gbp if param sCodeFrom = eur, eur if param sCodeFrom = gbp
+ */
 fun getOtherCurrency(sCodeFrom : String): String {
 
     var sResult : String = ""
@@ -92,7 +93,7 @@ fun saveImageToInternalStorage(context: Context, uri: Uri): String {
 
 }
 
-// TODO : Voir avec Denis où mettre cette fonction qui est appelée depuis 2 ViewModel
+// TODO : Voir avec Denis où mettre cette fonction qui est appelée depuis 2 ViewModel - Peut-être dans le use case update ?
 fun loadImageWithGlide(context: Context, filePath: String, imageView: ImageView) {
 
     Glide.with(context)

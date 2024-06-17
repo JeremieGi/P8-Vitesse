@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">Speed</string>
-    <string name="title_activity_main">List of candidates</string>
     <string name="no_candidate">No candidate</string>
     <string name="all">All</string>
     <string name="favorite">Favorite</string>
     <string name="candidate_photo">Candidate photo</string>
     <string name="search">Search</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_a_candidate">Add a candidate</string>
     <string name="edit_a_candidate">Edit a candidate</string>
     <string name="first_name">First name</string>

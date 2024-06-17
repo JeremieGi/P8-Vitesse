@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Vitesse</string>
-    <string name="title_activity_main">Liste des candidats</string>
     <string name="no_candidate">Aucun candidat</string>
     <string name="all">Tous</string>
     <string name="favorite">Favoris</string>
     <string name="candidate_photo">Photo du candidat</string>
     <string name="search">Rechercher un candidat</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_a_candidate">Ajouter un candidat</string>
     <string name="edit_a_candidate">Modifier un candidat</string>
     <string name="first_name">Prénom</string>

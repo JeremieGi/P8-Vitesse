@@ -2,7 +2,6 @@ package com.openclassrooms.p8vitesse.domain.usecase
 
 import com.openclassrooms.p8vitesse.data.repository.CandidateRepository
 import com.openclassrooms.p8vitesse.domain.model.Candidate
-import com.openclassrooms.p8vitesse.ui.candidate.CandidateEditFragment
 import javax.inject.Inject
 
 class CandidateUseCaseLoad @Inject constructor(

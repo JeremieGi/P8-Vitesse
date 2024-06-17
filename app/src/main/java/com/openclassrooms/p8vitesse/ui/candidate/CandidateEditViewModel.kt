@@ -21,10 +21,19 @@ class CandidateEditViewModel @Inject constructor(
 ) : ViewModel(){
 
 
+    // ID courant du candidat
     private var _idCandidate : Long? = null
+    val idCandidate: Long? // En lecture seulement
+        get() = _idCandidate
 
+
+    // Candidat courant
     private var _currentCandidate : Candidate? = null
-    //val currentCandidate = _currentCandidate // TODO : Dans l'enregistrement => currentCandidate est nul alors que _currentCandidate non ..
+    var currentCandidate : Candidate?
+        get() = _currentCandidate
+        set(value) {
+            _currentCandidate = value
+        }
 
 
     // Communication avec le fragment via StateFlow
@@ -32,9 +41,10 @@ class CandidateEditViewModel @Inject constructor(
     val candidateStateFlow: StateFlow<CandidateUIState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
 
 
+    // Chargement d'un candidat
     fun loadCandidate(sIDCandidate: String?) {
 
-        // TODO : cette procédure est identique à celle de candidateDisplayViewModel : est-elle factorisable
+        // TODO : cette procédure est identique à celle de candidateDisplayViewModel : est-elle factorisable ?
 
         _idCandidate = sIDCandidate?.toLong()
 
@@ -83,7 +93,9 @@ class CandidateEditViewModel @Inject constructor(
     }
 
 
-
+    /**
+     * Update a candidate
+     */
     fun update(candidate: Candidate) {
 
         viewModelScope.launch {
@@ -98,20 +110,6 @@ class CandidateEditViewModel @Inject constructor(
         }
 
     }
-
-    fun setCandidate(candidate: Candidate) {
-        this._currentCandidate = candidate
-    }
-
-    fun getIDCandidate() : Long? {
-        return this._idCandidate
-    }
-
-
-    fun getCurrentCandidate() : Candidate?{
-        return this._currentCandidate
-    }
-
 
 
 }
