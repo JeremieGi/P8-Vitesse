@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="25dp"
-                        android:text="JJ/MM/AAAA (xx ans)"
+                        android:text="@string/jj_mm_aaaa_xx_ans"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvAbout"/>
 
@@ -215,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="25dp"
-                        android:text="XXXX €"
+                        android:text="€"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSalaryLabel"/>
 
@@ -225,7 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="2dp"
-                        android:text="Soit £ XXXX,XX"
+                        android:text="@string/en_cours_de_conversion"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvExpectedSalaryValue"/>
 
@@ -277,7 +277,8 @@
                         android:text="Oportunum est, ut arbitror, explanare nunc causam, quae ad exitium praecipitem Aginatium inpulit iam inde a priscis maioribus nobilem, ut locuta est pertinacior fama. nec enim super hoc ulla documentorum rata est fides."
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvNotesLabel"/>
+                        app:layout_constraintTop_toBottomOf="@+id/tvNotesLabel"
+                        tools:ignore="HardcodedText" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

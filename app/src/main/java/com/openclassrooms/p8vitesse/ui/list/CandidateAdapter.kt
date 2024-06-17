@@ -1,10 +1,12 @@
 package com.openclassrooms.p8vitesse.ui.list
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.p8vitesse.databinding.ItemCandidateBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
+import com.openclassrooms.p8vitesse.loadImageWithGlide
 
 /**
  * Adapter of the Recycler View
@@ -73,11 +75,20 @@ class CandidateAdapter(
 
             //T007 - Display all candidates
 
-            // TODO : Gérer l'image ici
-            //binding.itemCandidatePhoto.setImageResource(0)
 
-            binding.itemCandidateNames.text = "${candidate.firstName} ${candidate.lastName}"
+            val sNames = "${candidate.firstName} ${candidate.lastName}"
+
+            binding.itemCandidateNames.text = sNames
             binding.itemCandidateNotes.text = candidate.note
+
+
+            // TODO : Gérer l'image ici => il me faut remonter le contexte
+
+//            // Charger l'image avec Glide
+//            if (candidate.photoFilePath.isNotEmpty()){
+//                // TODO : Je suis obligé de passer le contexte en paramètre ici ?
+//                loadImageWithGlide(context, candidate.photoFilePath, binding.itemCandidatePhoto)
+//            }
         }
     }
 

@@ -28,6 +28,7 @@
 
 
         <!-- Trigger Google Play services to install the backported photo picker module. -->
+        <!-- TODO : Warning "unsolved reference ModuleDependencies" -->
         <service android:name="com.google.android.gms.metadata.ModuleDependencies"
             android:enabled="false"
             android:exported="false"

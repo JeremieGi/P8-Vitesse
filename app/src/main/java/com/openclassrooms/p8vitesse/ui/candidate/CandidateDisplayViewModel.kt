@@ -33,8 +33,7 @@ class CandidateDisplayViewModel @Inject constructor(
     val candidateStateFlow: StateFlow<CandidateUIState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
 
 
-    // TODO : Propriété pour faciliter a manipulation du candidat courant
-    // et l'avoir dans le ViewModel
+    // TODO : Propriété pour faciliter a manipulation du candidat courant et l'avoir dans le ViewModel
     private lateinit var currentCandidate : Candidate
 
 

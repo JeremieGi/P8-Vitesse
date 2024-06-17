@@ -35,8 +35,6 @@ import java.util.Locale
 
 private const val ARG_CANDIDATE_ID = "paramID"
 
-// Regarder çà pour les options de menu qui s'affichent pas : https://www.youtube.com/watch?v=xPzI0EPP07g
-
 
 @AndroidEntryPoint
 class CandidateDisplayFragment : Fragment() {
@@ -74,9 +72,9 @@ class CandidateDisplayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         super.onViewCreated(view, savedInstanceState)
 
+        setupActionBarAndMenus()
 
         // Récupération de l'ID du candidat
         var sIDCandidate = ""
@@ -88,18 +86,18 @@ class CandidateDisplayFragment : Fragment() {
 
         }
 
+        // Pas d'argument passé au fragment
         if (sIDCandidate.isEmpty()) {
             displayError(getString(R.string.no_parameter))
             closeFragment()
         }
         else{
-
+            // Observation du StateFlow
             observeStateFlow()
-
         }
 
 
-        setupActionBarAndMenus()
+        // ********** LISTENERS ***************************************************
 
         binding.btnCall.setOnClickListener{
             callCandidate()
@@ -118,24 +116,19 @@ class CandidateDisplayFragment : Fragment() {
     private fun sendEmailtoCandidate() {
 
         // The email is a required field (never empty)
-        val sEmail = viewModel.getCurrentCandidate().phone
+        val sEmail = viewModel.getCurrentCandidate().email
 
         // Doc ici : https://developer.android.com/guide/components/intents-common?hl=fr
-        val mIntent = Intent(Intent.ACTION_SEND) // ACTION_SENDTO => Ca me dit : pas d'application de messagerie..
+        val mIntent = Intent(Intent.ACTION_SEND)
         mIntent.data = Uri.parse("mailto:")
         mIntent.type = "text/plain"
 
-        // TODO : D'après la doc, çà devrait mettre la valeur dans le champ destinataire
-        //  mais :
-        //  dans mon appli Samsung => çà le met dans l'expéditeur
-        //  dans l'appli Gmail çà met rien
         mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(sEmail))
 
         //put the Subject in the intent
  //       mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
         //put the message in the intent
  //       mIntent.putExtra(Intent.EXTRA_TEXT, message)
-
 
         try {
             //start email intent
@@ -367,12 +360,18 @@ class CandidateDisplayFragment : Fragment() {
 
     private fun setFavoriteIcon(bTopFavorite: Boolean) {
         val menuItem = binding.toolbarDisplay.menu.findItem(R.id.itemFavorite)
-        if (bTopFavorite){
-            menuItem.setIcon(R.drawable.baseline_fullstar_24)
+        if (menuItem != null){
+            if (bTopFavorite){
+                menuItem.setIcon(R.drawable.baseline_fullstar_24)
+            }
+            else{
+                menuItem.setIcon(R.drawable.star_border_24dp)
+            }
         }
-        else{
-            menuItem.setIcon(R.drawable.star_border_24dp)
-        }
+        // TODO : Je ne comprends pas comment menuItem peut être égal à null ici.
+        // C'est le cas lors de la repro suivante : Sélectionner un élément, l'éditer, revenir en arrière..
+        // Les menus sont paramétrés dès l'ouverture du fragment...
+
     }
 
 
