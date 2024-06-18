@@ -24,55 +24,6 @@ class CandidateRepository (
     val allCandidatesFlow: SharedFlow<ResultCustom<List<Candidate>>> get() = _allCandidatesFlow
 
 
-
-    /*
-
-
-    /**
-     * Emit in 2 flows
-     * @param bFavoriteP : 0 = no favorite, 1 favorite, null all
-     * @param sFilterName : null = no filter else a string to search candidate by name
-     */
-    suspend fun getListCandidate(bFavorite: Boolean?, sFilterName: String?) {
-
-        withContext(Dispatchers.IO) {
-            flow {
-
-                Log.d(TAG_DEBUG,"  getListCandidate( bFavorite = $bFavorite, sFilterName = $sFilterName )")
-
-                // T003 - Loading state
-                emit(ResultDatabase.Loading)
-
-                //delay(5*1000) // To test T003 - Loading state
-
-                val flowListCandidates = candidateDao.getCandidates(bFavorite,sFilterName)
-
-                // transform in model object
-                val resultListCandidate = flowListCandidates
-                    .first()
-                    .map {
-                        it.toModelCandidateList()
-                    }
-
-                // emit List<Candidate> in success
-                emit(ResultDatabase.Success(resultListCandidate))
-
-            }.catch { error ->
-                Log.d(TAG_DEBUG,"Catch Exception dans getListCandidate( $bFavorite, $sFilterName )")
-                emit(ResultDatabase.Failure(error.message+" "+error.cause?.message)) // Message enrichi
-            }.collect { result ->
-
-                // On émet le flow généré dans le flow du repository
-
-                _candidatesFlow.emit(result)
-
-
-
-            }
-        }
-        */
-
-
     suspend fun getListAllCandidates(sFilterName: String?) {
 
         withContext(Dispatchers.IO) {

@@ -9,13 +9,7 @@ import javax.inject.Inject
 class ConversionUseCase @Inject constructor(
     private val currencyRepository: CurrencyConversionRepository
 ) {
-/*
-    fun execute(sCurrencyCode : String) : Flow<ResultDatabase<Map<String, Double>>> = flow {
 
-       currencyRepository.conversion(sCurrencyCode)
-
-    }
-*/
     fun execute(sCurrencyCode: String): Flow<ResultCustom<Map<String, Double>?>> {
         return currencyRepository.listExchangeRates(sCurrencyCode)
     }
