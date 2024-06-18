@@ -80,7 +80,7 @@ class MainFragment : Fragment() {
         })
 
         // Code à exécuter lorsque l'utilisateur appuie sur "Done"
-        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { tv, actionId, event ->
+        binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
 
             if (actionId == EditorInfo.IME_ACTION_DONE) {
 
@@ -112,8 +112,8 @@ class MainFragment : Fragment() {
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, CandidateEditFragment.newInstance())
-                ?.addToBackStack(null)
-                ?.commit()
+                .addToBackStack(null)
+                .commit()
 
         }
 

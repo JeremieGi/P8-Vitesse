@@ -8,6 +8,7 @@ import java.util.Date
 
 /**
  * Entity Candidate in the database
+ * DTO = Data Transfer Object
  */
 @Entity(
     tableName = "tblCandidate"

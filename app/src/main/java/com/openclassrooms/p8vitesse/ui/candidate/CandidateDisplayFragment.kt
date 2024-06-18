@@ -230,13 +230,13 @@ class CandidateDisplayFragment : Fragment() {
         //builder.setTitle("Confirmation de suppression")
         builder.setMessage(getString(R.string.delete_confirmation))
 
-        builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
 
             viewModel.delete()
 
         }
 
-        builder.setNegativeButton(getString(R.string.no)) { dialog, which ->
+        builder.setNegativeButton(getString(R.string.no)) { _, _ ->
             // Fermer la boîte de dialogue
         }
 
@@ -322,7 +322,7 @@ class CandidateDisplayFragment : Fragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container,editFragment )
             .addToBackStack(null)
-            ?.commit()
+            .commit()
 
 
     }

@@ -14,15 +14,12 @@ import org.junit.Test
 import org.junit.Before
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Assert.assertEquals
-import retrofit2.Response
 import java.util.Calendar
 
 /**
@@ -30,7 +27,10 @@ import java.util.Calendar
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+@OptIn(ExperimentalCoroutinesApi::class) // pour utilisation de advanceUntilIdle()
 class CandidateRepositoryTest {
+
+    // TODO : 4 TU => 2 par repository (Room / Retrofit) => quoi d'autre de pertinent ?
 
     private lateinit var cutCandidateRepository : CandidateRepository //Class Under Test
     private lateinit var mockCandidateDao: CandidateDao
@@ -111,7 +111,7 @@ class CandidateRepositoryTest {
      * Cas basique d'une liste simple
      */
     @Test
-    fun getListAllCandidates_BasicCase() = runTest {
+    fun test_getListAllCandidates_BasicCase() = runTest {
 
         // definition du mock
         val listCandidates = getMockList()
@@ -129,7 +129,7 @@ class CandidateRepositoryTest {
         }
 
         //when => Test réel de la fonction
-        val flowTest = run {
+        run {
             cutCandidateRepository.getListAllCandidates("")
         }
         // Note : J'ai du mettre org.gradle.jvmargs=-noverify  dans gradle.properties pour que les logs sont ignorés par les tests
@@ -143,7 +143,7 @@ class CandidateRepositoryTest {
         advanceUntilIdle()
 
         // On attend 2 valeurs dans le flow du repository
-        Assert.assertEquals(2, resultList.size)
+        assertEquals(2, resultList.size)
 
         if (resultList.isNotEmpty()) {
 
@@ -167,7 +167,7 @@ class CandidateRepositoryTest {
      * Room retourne une exception
      */
     @Test
-    fun getListAllCandidates_Exception() = runTest {
+    fun test_getListAllCandidates_Exception() = runTest {
 
         // definition du mock => raise Exception
         val sExpectedException = "Test exception"
@@ -185,7 +185,7 @@ class CandidateRepositoryTest {
         }
 
         //when => Test réel de la fonction
-        val flowTest = run {
+        run {
             cutCandidateRepository.getListAllCandidates("ABC")
         }
         // Note : J'ai du mettre org.gradle.jvmargs=-noverify  dans gradle.properties pour que les logs sont ignorés par les tests
@@ -199,7 +199,7 @@ class CandidateRepositoryTest {
         advanceUntilIdle()
 
         // On attend 2 valeurs dans le flow du repository
-        Assert.assertEquals(2, resultList.size)
+        assertEquals(2, resultList.size)
 
         if (resultList.isNotEmpty()) {
 

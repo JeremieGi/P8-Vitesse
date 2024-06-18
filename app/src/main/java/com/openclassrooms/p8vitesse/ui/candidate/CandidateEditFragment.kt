@@ -160,11 +160,16 @@ class CandidateEditFragment : Fragment() {
             if (binding.edtDateOfBirth.text.toString().isNotEmpty()){
                 // On se repositionne dessus
                 val calendar = Calendar.getInstance()
-                calendar.time = dStringToLocalDate(binding.edtDateOfBirth.text.toString())
 
-                day = calendar.get(Calendar.DAY_OF_MONTH)
-                month = calendar.get(Calendar.MONTH)
-                year = calendar.get(Calendar.YEAR)
+                val dDate = dStringToLocalDate(binding.edtDateOfBirth.text.toString())
+                if (dDate!=null){
+                    calendar.time = dDate
+
+                    day = calendar.get(Calendar.DAY_OF_MONTH)
+                    month = calendar.get(Calendar.MONTH)
+                    year = calendar.get(Calendar.YEAR)
+                }
+
             }
 
 
@@ -172,7 +177,7 @@ class CandidateEditFragment : Fragment() {
             val picker = DatePickerDialog(
                 requireContext(),
                 // Listener du date picker
-                { view, selectedYear, selectedMonth, selectedDay ->
+                { _, selectedYear, selectedMonth, selectedDay ->
 
                     // Date sélectionnée
                     val selectedCalendar = Calendar.getInstance()

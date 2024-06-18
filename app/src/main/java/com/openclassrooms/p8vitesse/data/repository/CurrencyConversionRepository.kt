@@ -19,25 +19,36 @@ class CurrencyConversionRepository(
 
         // Appel à l'API
         val sCurrencyCodeLowerCase = sCurrencyCode.lowercase() // Pour faciliter le fonctionnement
-        val result = dataService.getConversions(sCurrencyCodeLowerCase)
+        val responseRetrofit = dataService.getConversions(sCurrencyCodeLowerCase)
         // si la requête met du temps, pas grave, on est dans une coroutine, le thread principal n'est pas bloqué
 
+        if (responseRetrofit.isSuccessful){
 
-        val listResult : Map<String, Double>?
-        val listEUR = result.body()?.listEUR
-        val listGBP = result.body()?.listGBP
+            val listResult : Map<String, Double>?
+            val listEUR = responseRetrofit.body()?.listEUR
+            val listGBP = responseRetrofit.body()?.listGBP
 
-        // Dans le json de retour, soit la liste s'appelle EUR, soit GBP
-        listResult = if (listEUR.isNullOrEmpty()){
-            listGBP
-        } else{
-            listEUR
+            // Dans le json de retour, soit la liste s'appelle EUR, soit GBP
+            listResult = if (listEUR.isNullOrEmpty()){
+                listGBP
+            } else{
+                listEUR
+            }
+
+            Log.d(TAG_DEBUG, "Reponse du WS : ${listResult?.size} devises")
+
+            // Ajout au flow
+            emit(ResultCustom.Success(listResult))
+
+        }
+        else{
+
+            emit(ResultCustom.Failure("Error code ${responseRetrofit.code()}"))
+
         }
 
-        Log.d(TAG_DEBUG, "Reponse du WS : ${listResult?.size} devises")
 
-        // Ajout au flow
-        emit(ResultCustom.Success(listResult))
+
 
 
     }.catch { error ->
