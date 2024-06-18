@@ -56,7 +56,13 @@ data class Candidate (
 
         val period = Period.between(localBirthday, localTodayDate)
 
-        return period.years
+        return if (period.years<0){
+            0
+        } else{
+            period.years
+        }
+
+
 
     }
 }

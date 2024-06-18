@@ -120,8 +120,13 @@ class CandidateDisplayFragment : Fragment() {
 
         // Doc ici : https://developer.android.com/guide/components/intents-common?hl=fr
         val mIntent = Intent(Intent.ACTION_SEND)
+
+        // TODO : Warning : Calling 'setType' after calling 'setData' will clear the data: Call 'setDataAndType' instead? (Originally set here)
+        // Mais ca ne marche pas si j'inverse les 2 lignes ci-dessous
         mIntent.data = Uri.parse("mailto:")
         mIntent.type = "text/plain"
+
+
 
         mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(sEmail))
 
@@ -336,13 +341,14 @@ class CandidateDisplayFragment : Fragment() {
 
         val sDateOfBirth = sLocalDateToString(candidate.dateOfBirth)
 
-        binding.tvBithdayAndAge.text = "${getString(R.string.year,sDateOfBirth,candidate.nAge().toString())})"
+        val formattedText = "${getString(R.string.year,sDateOfBirth,candidate.nAge().toString())}"
+        binding.tvBithdayAndAge.text = formattedText
 
         // T035 - Display the expected salary of the candidate
         val sSalary = candidate.salaryExpectation.toString()
 
         val deviseFrom = Currency.getInstance(Locale.getDefault())
-        val sSalaryAndDevise = "$sSalary ${deviseFrom.symbol}" // J'utilise cette affectation pouré viter le warning : Do not concatenate text displayed with 'setText'. Use resource string with placeholders.
+        val sSalaryAndDevise = "$sSalary ${deviseFrom.symbol}" // J'utilise cette affectation pour éviter le warning : Do not concatenate text displayed with 'setText'. Use resource string with placeholders.
         binding.tvExpectedSalaryValue.text = sSalaryAndDevise
 
         viewModel.conversion(deviseFrom.currencyCode, candidate.salaryExpectation.toDouble())

@@ -17,8 +17,19 @@ class CurrencyConversionRepository(
 
         emit(ResultCustom.Loading)
 
+        // Pour faciliter les appels
+        var sCurrencyCodeLowerCase = sCurrencyCode.lowercase()
+
+        sCurrencyCodeLowerCase = if (sCurrencyCodeLowerCase == ICurrencyAPI.CURRENCY_CODE_EURO){
+            ICurrencyAPI.CURRENCY_CODE_EURO
+        } else{
+            // Pas Euro = Pound (par exemple, l'émulateur Android utilise des dollars'
+            ICurrencyAPI.CURRENCY_CODE_POUND
+        }
+
+
         // Appel à l'API
-        val sCurrencyCodeLowerCase = sCurrencyCode.lowercase() // Pour faciliter le fonctionnement
+
         val responseRetrofit = dataService.getConversions(sCurrencyCodeLowerCase)
         // si la requête met du temps, pas grave, on est dans une coroutine, le thread principal n'est pas bloqué
 

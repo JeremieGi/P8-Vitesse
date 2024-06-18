@@ -4,6 +4,35 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- En ajoutant cette déclaration <queries> dans votre fichier AndroidManifest.xml,
+    vous indiquez au système Android que votre application nécessite un accès spécifique à certaines intentions
+    et que vous respectez les nouvelles politiques de confidentialité introduites dans Android 11 et versions ultérieures.
+     Cela permet de résoudre le warning et de garantir que votre application fonctionne correctement sur toutes les versions d'Android,
+     en respectant les dernières politiques de sécurité et de confidentialité. -->
+    <queries>
+
+        <!-- Pour les e-mails -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+
+        <!-- Pour les SMS -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto" />
+        </intent>
+
+
+        <!-- Pour les appels -->
+        <intent>
+            <action android:name="android.intent.action.ACTION_DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+
+
+    </queries>
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"

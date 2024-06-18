@@ -44,7 +44,7 @@ class CandidateEditViewModel @Inject constructor(
     // Chargement d'un candidat
     fun loadCandidate(sIDCandidate: String?) {
 
-        // TODO : cette procédure est identique à celle de candidateDisplayViewModel : est-elle factorisable ?
+        // TODO prio : cette procédure est identique à celle de candidateDisplayViewModel : est-elle factorisable ?
 
         _idCandidate = sIDCandidate?.toLong()
 

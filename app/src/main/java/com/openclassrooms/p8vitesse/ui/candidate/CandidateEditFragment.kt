@@ -109,6 +109,9 @@ class CandidateEditFragment : Fragment() {
 
     private fun setImageListener() {
 
+        // T015 - Add a photo
+        // T040 - Edit the photo
+
         // PhotoPicker
         binding.imgPhoto.setOnClickListener{
 
@@ -260,16 +263,27 @@ class CandidateEditFragment : Fragment() {
         // Les champs obligatoires sont bien remplis ?
         if (bCheckInputOK()){
 
-            // Récupération d'un objet à partir de la saisie
-            val candidateNewData = candidateFromInputs()
-
-            // Add Mode
-            if (viewModel.bModeAdd()){
-                // Le résultat sera traité dans le StateFlow
-                viewModel.add(candidateNewData)
+            // Conversion de la date
+            val dateOfBirth = dStringToLocalDate(binding.edtDateOfBirth.text.toString())
+            if (dateOfBirth==null){
+                // Si problème, affichage dans l'UI
+                binding.inputLayoutDateOfBirth.error = getString(R.string.format_date_problem)
+                binding.inputLayoutDateOfBirth.isErrorEnabled = true
             }
             else{
-                viewModel.update(candidateNewData)
+
+                // Récupération d'un objet à partir de la saisie
+                val candidateNewData = candidateFromInputs(dateOfBirth)
+
+                // Add Mode
+                if (viewModel.bModeAdd()){
+                    // Le résultat sera traité dans le StateFlow
+                    viewModel.add(candidateNewData)
+                }
+                else{
+                    viewModel.update(candidateNewData)
+                }
+
             }
 
         }
@@ -329,8 +343,10 @@ class CandidateEditFragment : Fragment() {
             binding.inputLayoutDateOfBirth.isErrorEnabled = true
             bImputsOK = false
         } else {
+
             binding.inputLayoutDateOfBirth.error = null
             binding.inputLayoutDateOfBirth.isErrorEnabled = false
+
         }
 
         return bImputsOK
@@ -432,9 +448,25 @@ class CandidateEditFragment : Fragment() {
 
         sErrorMessage.let {
 
+
             // Afficher le Snackbar
-            Snackbar.make(requireView(), "Erreur inattendue \n$it", Snackbar.LENGTH_LONG)
-                .show()
+//            Snackbar.make(requireView(), "Erreur inattendue \n$it", Snackbar.LENGTH_LONG)
+//                .show()
+
+            val snackbar = Snackbar.make(
+                requireView(),
+                it.toString(),
+                Snackbar.LENGTH_LONG
+            )
+
+            val snackbarView = snackbar.view
+
+            // Affiche une snap bar qui affiche l'intégralité du message
+            val layoutParams = snackbarView.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            snackbarView.layoutParams = layoutParams
+
+            snackbar.show()
 
         }
 
@@ -443,14 +475,7 @@ class CandidateEditFragment : Fragment() {
     /**
      * Create a candidate instance with the input data
      */
-    private fun candidateFromInputs(): Candidate {
-
-        // Récupère la date au format Date
-        var dateOfBirth = dStringToLocalDate(binding.edtDateOfBirth.text.toString())
-        if (dateOfBirth==null){
-            displayError("Impossible to convert : ${binding.edtDateOfBirth.text.toString()}")
-            dateOfBirth = Date() // TODO : Je met la date du jour => A voir pour faire mieux
-        }
+    private fun candidateFromInputs(dateOfBirth : Date): Candidate {
 
 
         val expectedSalaryText = binding.edtExpectedSalary.text.toString()
@@ -462,23 +487,20 @@ class CandidateEditFragment : Fragment() {
 
 
         // Une nouvelle image a été sélectionnée
-        var sLocalPath : String
-        if (sSelectedURI.isNotEmpty()){
-
-            // TODO : Quelle couche gère les fichiers à supprimer par exemple
+        val sLocalPath : String
+        sLocalPath = if (sSelectedURI.isNotEmpty()){
 
             // Crée un fichier local avec cette image
-            sLocalPath = try{
+            try{
                 saveImageToInternalStorage(requireContext(), Uri.parse(sSelectedURI))
             } catch (e: IOException) {
                 displayError(e.message)
                 ""
             }
 
-        }
-        else{
+        } else{
             // Chemin du candidat OU vide si candidat null (Cas d'un ajout sans sélection d'image)
-            sLocalPath = viewModel.currentCandidate?.photoFilePath ?: ""
+            viewModel.currentCandidate?.photoFilePath ?: ""
         }
 
 

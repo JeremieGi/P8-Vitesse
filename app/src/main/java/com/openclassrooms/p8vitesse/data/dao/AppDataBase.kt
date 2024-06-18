@@ -54,7 +54,7 @@ abstract class AppDataBase : RoomDatabase(){
                 val candidateTest = CandidateDto(
                     lastName = "LastName$i",
                     firstName = "FirstName$i",
-                    phone = "06.12.34.35.3$i",
+                    phone = "06.12.34.35.${String.format("%02d", i)}",
                     email = "firstname$i.lastname$i@free.fr",
                     dateOfBirth = currentDate.time,
                     salaryExpectation = 3000+(i*100),

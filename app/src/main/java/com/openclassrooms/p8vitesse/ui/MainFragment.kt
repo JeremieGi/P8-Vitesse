@@ -81,18 +81,10 @@ class MainFragment : Fragment() {
 
         // Code à exécuter lorsque l'utilisateur appuie sur "Done"
         binding.edtResearch.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
-
+            //EditorInfo.IME_ACTION_SEARCH IME_ACTION_DONE
             if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-                // On envoie la valeur dans un view model partagé (écouté par CnadidateListFragment)
-
-//                val inputText = binding.edtResearch.text.toString()
-//                try{
-//                    viewModel.loadCandidates(inputText,binding.candidatelistViewpager.currentItem)
-//                }
-//                catch (e  : Exception){
-//                    Log.d(TAG_DEBUG,"Exception : ${e.message}")
-//                }
+                // Ici, la recherche a déjà été effectuée via addTextChangedListener
 
                 // Fermer le clavier
                 // TODO : Pourquoi ca ne se fait pas tout seul ? => Voir dans les configs de l'edit Text

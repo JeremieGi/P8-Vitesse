@@ -8,7 +8,7 @@ import com.openclassrooms.p8vitesse.data.entity.CandidateDto
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Room interface
+ * Room interface - DAO = Data Access Object => regroupe l'accès aux données
  */
 @Dao
 interface CandidateDao {

@@ -47,10 +47,10 @@
     <string name="select_email_application">Select an email application</string>
     <string name="about">About</string>
     <string name="birthday">Birthday</string>
-    <string name="year">%s (%s) years</string>
+    <string name="year">%s (%s years)</string>
     <string name="no_media_selected">No media selected</string>
     <string name="no_photo_picker">Photo picker unavailable</string>
-    <string name="impossible_to_copy_the_image_in_local_files">Impossible to copy the image in local files</string>
     <string name="jj_mm_aaaa_xx_ans">YYYY/MM/DD (xx years)</string>
-    <string name="en_cours_de_conversion">Currently converting...</string>
+    <string name="en_cours_de_conversion">Currently converting…</string>
+    <string name="format_date_problem">Format date problem</string>
 </resources>

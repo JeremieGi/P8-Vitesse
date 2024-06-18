@@ -30,7 +30,7 @@ import java.util.Calendar
 @OptIn(ExperimentalCoroutinesApi::class) // pour utilisation de advanceUntilIdle()
 class CandidateRepositoryTest {
 
-    // TODO : 4 TU => 2 par repository (Room / Retrofit) => quoi d'autre de pertinent ?
+    // TODO prio : 6 TU => 2 par repository (Room / Retrofit) + 2 sur l'age dans Candidate : quoi d'autres de pertinent ?
 
     private lateinit var cutCandidateRepository : CandidateRepository //Class Under Test
     private lateinit var mockCandidateDao: CandidateDao

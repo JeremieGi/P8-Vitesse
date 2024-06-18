@@ -33,7 +33,7 @@ class CandidateDisplayViewModel @Inject constructor(
     val candidateStateFlow: StateFlow<CandidateUIState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
 
 
-    // TODO : Propriété pour faciliter a manipulation du candidat courant et l'avoir dans le ViewModel
+    // TODO prio : Propriété pour faciliter a manipulation du candidat courant et l'avoir dans le ViewModel
     private var _currentCandidate : Candidate? = null
     val currentCandidate: Candidate? // En lecture seulement
         get() = _currentCandidate
@@ -70,22 +70,31 @@ class CandidateDisplayViewModel @Inject constructor(
      */
     fun delete() {
 
-        val lID : Long = _currentCandidate?.id?:0
-        if (lID > 0){
-            viewModelScope.launch {
-                try{
-                    getCandidateUseCaseDelete.execute(lID)
-                    _candidateStateFlow.value = CandidateUIState.OperationDeleteCompleted
-                }
-                catch (e : Exception){
-                    _candidateStateFlow.value = CandidateUIState.Error(e)
-                }
+        if (_currentCandidate!=null){
 
+            val lID : Long = _currentCandidate?.id?:0
+            if (lID > 0){
+                viewModelScope.launch {
+                    try{
+                        getCandidateUseCaseDelete.execute(_currentCandidate!!) // !! => car test non null précédent
+                        _candidateStateFlow.value = CandidateUIState.OperationDeleteCompleted
+                    }
+                    catch (e : Exception){
+                        _candidateStateFlow.value = CandidateUIState.Error(e)
+                    }
+
+                }
             }
+            else{
+                _candidateStateFlow.value = CandidateUIState.Error(Exception("Invalid ID $lID"))
+            }
+
         }
         else{
-            _candidateStateFlow.value = CandidateUIState.Error(Exception("Invalid ID $lID"))
+            _candidateStateFlow.value = CandidateUIState.Error(Exception("Current candidate Null"))
         }
+
+
 
 
     }

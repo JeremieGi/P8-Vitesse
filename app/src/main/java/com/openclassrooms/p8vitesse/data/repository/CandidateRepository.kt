@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
 
 class CandidateRepository (
     private val candidateDao : CandidateDao
@@ -78,8 +80,28 @@ class CandidateRepository (
         return candidateDao.insertCandidate(candidate.toDto())
     }
 
-    suspend fun deleteCandidate(id : Long) {
-        candidateDao.deleteCandidateById(id)
+    suspend fun deleteCandidate(candidate : Candidate) {
+
+        candidateDao.deleteCandidateById(candidate.id?:0)
+
+        // TODO prio : Doit-on gérer les fichiers images orphelins
+        // Fait ici mais çà va être compliqué pour les updates
+        if (candidate.photoFilePath.isNotEmpty()){
+            deleteFile(candidate.photoFilePath)
+        }
+
+    }
+
+    private fun deleteFile(photoFilePath: String) {
+
+        val file = File(photoFilePath)
+        try {
+            if (file.exists())
+                file.delete()
+
+        } catch (e: IOException) {
+            Log.d(TAG_DEBUG,"deleteFile $photoFilePath - An error occurred: ${e.message}")
+        }
     }
 
     suspend fun updateCandidate(candidate: Candidate) : Int {

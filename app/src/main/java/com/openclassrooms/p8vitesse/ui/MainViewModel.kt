@@ -17,8 +17,7 @@ class MainViewModel @Inject constructor(
 
     /**
      * Launch the research
-     * @param sFilter : Filter
-     * @param nCurrent : Index of viewpager (0 or 1)
+     * @param sFilter : Filter by name
      */
     fun requestCandidates(sFilter : String) {
 

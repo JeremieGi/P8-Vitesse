@@ -9,9 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <!-- TODO : Pour utilisation de Material Design, il faut aller sur le site télécharger un SVG puis créer un XMl à partir de ce SVG ?
-         T010 - Filter candidates -->
+        <!-- T010 - Filter candidates -->
         <EditText
             android:id="@+id/edtResearch"
             android:layout_width="match_parent"
@@ -23,7 +21,9 @@
             android:singleLine="true"
             android:hint="@string/search"
             android:background="@drawable/rounded_corner"
-            />
+
+            /> <!-- android:imeOptions="actionSearch" permet d'avoir une loupe sur le clavier virtuel
+            Je ne l'utilise pas car lors du clic sur la loupe, le clavier persiste et affiche le bouton "Entrée"-->
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/candidatelistViewpagerTabs"

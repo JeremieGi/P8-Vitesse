@@ -48,22 +48,17 @@ fun String.capitalized(): String {
  */
 fun getOtherCurrency(sCodeFrom : String): String {
 
-    var sResult : String = ""
-
-
-    when (sCodeFrom.lowercase()){
-
-        ICurrencyAPI.CURRENCY_CODE_POUND -> {
-            sResult = ICurrencyAPI.CURRENCY_CODE_EURO
-        }
+    var sResult = when (sCodeFrom.lowercase()){
 
         ICurrencyAPI.CURRENCY_CODE_EURO -> {
-            sResult = ICurrencyAPI.CURRENCY_CODE_POUND
+            ICurrencyAPI.CURRENCY_CODE_POUND
+        }
+
+        else -> {
+            ICurrencyAPI.CURRENCY_CODE_EURO
         }
 
     }
-
-    // TODO : Voir ici comment gérer l'erreur
 
     return sResult
 }
@@ -73,8 +68,8 @@ fun saveImageToInternalStorage(context: Context, uri: Uri): String {
 
     val inputStream = context.contentResolver.openInputStream(uri)
     if (inputStream == null){
-        // TODO : Voir quoi faire ici
-        return ""
+        throw Exception("null inputStream")
+        //return ""
     }
     else{
         val fileName = "${System.currentTimeMillis()}.jpg"

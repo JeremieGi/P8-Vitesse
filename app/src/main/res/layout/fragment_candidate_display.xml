@@ -146,7 +146,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:textStyle="bold"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textColor="@color/black"
                         />
 
@@ -204,7 +204,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:textStyle="bold"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textColor="@color/black"
                         />
 
@@ -215,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="25dp"
-                        android:text="€"
+                        tools:text="@string/expected_salary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSalaryLabel"/>
 
@@ -262,7 +262,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:textStyle="bold"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textColor="@color/black"
                         />
 
