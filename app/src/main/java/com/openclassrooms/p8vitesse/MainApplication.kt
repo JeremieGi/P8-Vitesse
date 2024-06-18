@@ -9,8 +9,6 @@ import kotlinx.coroutines.Dispatchers
 @HiltAndroidApp
 class MainApplication  : Application(){
 
-    // TODO prio : Question soutenance : Peut-on faire du MVVM sans POO ?
-
     override fun onCreate() {
 
         super.onCreate()

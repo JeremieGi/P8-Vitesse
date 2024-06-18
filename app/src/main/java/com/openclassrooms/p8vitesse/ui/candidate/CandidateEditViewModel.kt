@@ -44,8 +44,6 @@ class CandidateEditViewModel @Inject constructor(
     // Chargement d'un candidat
     fun loadCandidate(sIDCandidate: String?) {
 
-        // TODO prio : cette procédure est identique à celle de candidateDisplayViewModel : est-elle factorisable ?
-
         _idCandidate = sIDCandidate?.toLong()
 
         val lID : Long = sIDCandidate?.toLong()?:0
@@ -61,7 +59,6 @@ class CandidateEditViewModel @Inject constructor(
                     _candidateStateFlow.value = CandidateUIState.Error(exception)
                 }
             )
-
 
         }
 

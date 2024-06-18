@@ -121,7 +121,7 @@ class CandidateDisplayFragment : Fragment() {
         // Doc ici : https://developer.android.com/guide/components/intents-common?hl=fr
         val mIntent = Intent(Intent.ACTION_SEND)
 
-        // TODO : Warning : Calling 'setType' after calling 'setData' will clear the data: Call 'setDataAndType' instead? (Originally set here)
+        // Warning : Calling 'setType' after calling 'setData' will clear the data: Call 'setDataAndType' instead? (Originally set here)
         // Mais ca ne marche pas si j'inverse les 2 lignes ci-dessous
         mIntent.data = Uri.parse("mailto:")
         mIntent.type = "text/plain"
@@ -264,7 +264,6 @@ class CandidateDisplayFragment : Fragment() {
 
     private fun setupActionBarAndMenus() {
 
-        // TODO : Pas une syntaxe plus simple ?
         // Trouver et configurer la Toolbar
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarDisplay)
 
@@ -367,6 +366,7 @@ class CandidateDisplayFragment : Fragment() {
     }
 
     private fun setFavoriteIcon(bTopFavorite: Boolean) {
+
         val menuItem = binding.toolbarDisplay.menu.findItem(R.id.itemFavorite)
         if (menuItem != null){
             if (bTopFavorite){
@@ -376,7 +376,7 @@ class CandidateDisplayFragment : Fragment() {
                 menuItem.setIcon(R.drawable.star_border_24dp)
             }
         }
-        // TODO : Je ne comprends pas comment menuItem peut être égal à null ici.
+        // Je ne comprends pas comment menuItem peut être égal à null ici.
         // C'est le cas lors de la repro suivante : Sélectionner un élément, l'éditer, revenir en arrière..
         // Les menus sont paramétrés dès l'ouverture du fragment...
 

@@ -13,9 +13,6 @@ import java.util.Locale
 
 const val TAG_DEBUG = "**DEBUG**"
 
-
-// TODO : A discuter avec Denis, utilisation d'un fichier de script Kotlin
-
 fun sLocalDateToString(dDate : Date): String {
     val locale = Locale.getDefault()
     val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT, locale)
@@ -88,7 +85,7 @@ fun saveImageToInternalStorage(context: Context, uri: Uri): String {
 
 }
 
-// TODO : Voir avec Denis où mettre cette fonction qui est appelée depuis 2 ViewModel - Peut-être dans le use case update ?
+// TODO : Mettre dans un fichier à part + enlever paramètre Context qu'on peut retrouver à partir du imageView
 fun loadImageWithGlide(context: Context, filePath: String, imageView: ImageView) {
 
     Glide.with(context)

@@ -84,7 +84,6 @@ class CandidateRepository (
 
         candidateDao.deleteCandidateById(candidate.id?:0)
 
-        // TODO prio : Doit-on gérer les fichiers images orphelins
         // Fait ici mais çà va être compliqué pour les updates
         if (candidate.photoFilePath.isNotEmpty()){
             deleteFile(candidate.photoFilePath)
@@ -93,6 +92,8 @@ class CandidateRepository (
     }
 
     private fun deleteFile(photoFilePath: String) {
+
+        // TODO Evol => nommer les fichiers pour les retrouver
 
         val file = File(photoFilePath)
         try {

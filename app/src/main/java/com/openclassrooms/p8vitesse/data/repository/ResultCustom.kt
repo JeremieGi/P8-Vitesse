@@ -5,8 +5,6 @@ package com.openclassrooms.p8vitesse.data.repository
  */
 sealed class ResultCustom<out T> {
 
-    // TODO : Voir avec Denis car je partage cette classe pour Room et Retrofit
-
     data object Loading : ResultCustom<Nothing>()
 
     // C'est une classe de données qui représente l'état où l'opération a échoué. Elle peut contenir un message décrivant l'erreur survenue.

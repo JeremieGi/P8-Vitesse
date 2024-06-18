@@ -4,7 +4,7 @@ import com.openclassrooms.p8vitesse.data.repository.CandidateRepository
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import javax.inject.Inject
 
-// TODO : Ca fait beaucoup de UseCase tout çà ?
+
 
 class CandidateUseCaseUpdate @Inject constructor(
     private val candidateRepository: CandidateRepository
@@ -14,6 +14,7 @@ class CandidateUseCaseUpdate @Inject constructor(
         return candidateRepository.updateCandidate(candidate)
     }
 
+    // TODO : Faire un UseCase
     suspend fun setFavorite(id: Long, bNewFavoriteStatut: Boolean) : Int {
         return candidateRepository.updateCandidate(id,bNewFavoriteStatut)
     }

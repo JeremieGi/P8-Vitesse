@@ -33,7 +33,7 @@ class CandidateDisplayViewModel @Inject constructor(
     val candidateStateFlow: StateFlow<CandidateUIState?> = _candidateStateFlow.asStateFlow() // Exposé au fragment (read only)
 
 
-    // TODO prio : Propriété pour faciliter a manipulation du candidat courant et l'avoir dans le ViewModel
+    // Propriété pour faciliter a manipulation du candidat courant et l'avoir dans le ViewModel
     private var _currentCandidate : Candidate? = null
     val currentCandidate: Candidate? // En lecture seulement
         get() = _currentCandidate
@@ -160,8 +160,8 @@ class CandidateDisplayViewModel @Inject constructor(
         viewModelScope.launch {
             try{
 
-                // TODO : A voir avec Denis : si je ne mets pas le let j'ai ce message d'erreur :
-                // Smart cast to 'Candidate' is impossible, because 'currentCandidate' is a mutable property that could have been changed by this time
+                // let = section critique
+                // sinon : Smart cast to 'Candidate' is impossible, because 'currentCandidate' is a mutable property that could have been changed by this time
                 _currentCandidate?.let { candidate ->
 
                     if (candidate.id==null){
@@ -181,6 +181,8 @@ class CandidateDisplayViewModel @Inject constructor(
                     }
 
                 }
+
+
 
             }
             catch (e : Exception){

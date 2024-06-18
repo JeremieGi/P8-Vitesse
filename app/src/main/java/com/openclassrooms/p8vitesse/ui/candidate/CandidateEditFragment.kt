@@ -48,7 +48,7 @@ class CandidateEditFragment : Fragment() {
 
     private var pickMedia : ActivityResultLauncher<PickVisualMediaRequest>? = null
 
-    // TODO : Je stocke l'URI ici (pas trop moyen de récupérer l'URI de puis l'ImageView apparement)
+    // Je stocke l'URI ici (pas trop moyen de récupérer l'URI depuis l'ImageView apparement)
     private var sSelectedURI : String = ""
 
     override fun onCreateView(
@@ -189,7 +189,7 @@ class CandidateEditFragment : Fragment() {
                     // DAte d'aujourd'hui
                     val todayCalendar = Calendar.getInstance()
 
-                    // TODO : Voir avec Denis selectedMonth renvoie un mois comme si janvier = 0
+                    // selectedMonth renvoie un mois comme si janvier = 0
                     // + dans le debugger ici selectedCalendar est toujours égale à la date du jour...
 
                     // Si date saisie dans le futur

@@ -87,7 +87,7 @@ class MainFragment : Fragment() {
                 // Ici, la recherche a déjà été effectuée via addTextChangedListener
 
                 // Fermer le clavier
-                // TODO : Pourquoi ca ne se fait pas tout seul ? => Voir dans les configs de l'edit Text
+                // Je suis étonné que ca ne se fasse pas tout seul
                 val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.edtResearch.windowToken, 0)
 
