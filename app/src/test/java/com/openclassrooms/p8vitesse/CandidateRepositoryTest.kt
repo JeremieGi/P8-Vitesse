@@ -35,6 +35,9 @@ class CandidateRepositoryTest {
     private lateinit var cutCandidateRepository : CandidateRepository //Class Under Test
     private lateinit var mockCandidateDao: CandidateDao
 
+    /**
+     * Create mock object
+     */
     @Before
     fun createRepositoryWithMockedDao() {
 
@@ -49,7 +52,10 @@ class CandidateRepositoryTest {
     }
 
 
-    fun getMockList() : List<CandidateDto> {
+    /**
+     * return list to simulate the result of Room
+     */
+    private fun getMockList() : List<CandidateDto> {
 
         val listReturn : MutableList<CandidateDto> = mutableListOf()
 
@@ -87,6 +93,9 @@ class CandidateRepositoryTest {
     }
 
 
+    /**
+     * Convertit une List de CandidateDto en Candidate
+     */
     private fun convertToModelList(mockedList : List<CandidateDto>) : List<Candidate> {
 
         val listModel = mockedList.map {
@@ -98,10 +107,13 @@ class CandidateRepositoryTest {
     }
 
 
+    /**
+     * Cas basique d'une liste simple
+     */
     @Test
     fun getListAllCandidates_BasicCase() = runTest {
 
-        // definition of mock
+        // definition du mock
         val listCandidates = getMockList()
         coEvery {
             mockCandidateDao.getCandidates(any(),any())
@@ -151,6 +163,60 @@ class CandidateRepositoryTest {
 
     }
 
+    /**
+     * Room retourne une exception
+     */
+    @Test
+    fun getListAllCandidates_Exception() = runTest {
+
+        // definition du mock => raise Exception
+        val sExpectedException = "Test exception"
+        coEvery {
+            mockCandidateDao.getCandidates(any(),any())
+        } throws Exception(sExpectedException)
+
+
+        // Créer le collecteur du flow du repository
+        val resultList = mutableListOf<ResultCustom<List<Candidate>>>()
+        val job = launch {
+            cutCandidateRepository.allCandidatesFlow.collect { result ->
+                resultList.add(result)
+            }
+        }
+
+        //when => Test réel de la fonction
+        val flowTest = run {
+            cutCandidateRepository.getListAllCandidates("ABC")
+        }
+        // Note : J'ai du mettre org.gradle.jvmargs=-noverify  dans gradle.properties pour que les logs sont ignorés par les tests
+
+        // coVerify : s'assure que la fonction  du mock  a été appelée
+        coVerify {
+            mockCandidateDao.getCandidates(any(),any())
+        }
+
+        // Attend que toutes les couroutines en attente s'executent
+        advanceUntilIdle()
+
+        // On attend 2 valeurs dans le flow du repository
+        Assert.assertEquals(2, resultList.size)
+
+        if (resultList.isNotEmpty()) {
+
+            // Première valeur => Loading
+            assertEquals(ResultCustom.Loading, resultList[0])
+
+            // Deuxième valeur => Erreur
+            val expectedResult = ResultCustom.Failure(sExpectedException)
+            assertEquals(expectedResult, resultList[1])
+
+        }
+
+        // Cancel the collection job
+        job.cancel()
+
+
+    }
 
 
 }

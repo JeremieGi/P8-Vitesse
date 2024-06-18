@@ -51,7 +51,7 @@ class CandidateRepository (
 
             }.catch { error ->
                 Log.d(TAG_DEBUG,"Catch Exception dans getListAllCandidate(  $sFilterName )")
-                emit(ResultCustom.Failure(error.message+" "+error.cause?.message)) // Message enrichi
+                emit(ResultCustom.Failure(error.message))
             }.collect { result ->
                 // On émet le flow généré dans le flow du repository
                 _allCandidatesFlow.emit(result)
