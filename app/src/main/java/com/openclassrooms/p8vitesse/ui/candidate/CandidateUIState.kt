@@ -2,7 +2,7 @@ package com.openclassrooms.p8vitesse.ui.candidate
 
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 
-// TODO : Faire 2 UIState
+// Classe qui permet la communication entre les fragments Edit / Display et leurs ViewModels
 
 sealed class CandidateUIState {
 

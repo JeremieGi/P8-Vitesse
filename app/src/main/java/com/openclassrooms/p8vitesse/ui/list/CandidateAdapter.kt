@@ -82,9 +82,9 @@ class CandidateAdapter(
 
 
             // Charger l'image avec Glide
-            if (candidate.photoFilePath.isNotEmpty()){
+            if (candidate.bPhotoExist()){
                 // J'utilise le contexte de l'ImageView
-                loadImageWithGlide(binding.itemCandidatePhoto.context, candidate.photoFilePath, binding.itemCandidatePhoto)
+                loadImageWithGlide(candidate.sGetPhotoPath(), binding.itemCandidatePhoto)
             }
         }
     }

@@ -354,8 +354,8 @@ class CandidateDisplayFragment : Fragment() {
 
         binding.tvNotesValues.text = candidate.note
 
-        if (candidate.photoFilePath.isNotEmpty()){
-            loadImageWithGlide(requireContext(),candidate.photoFilePath,binding.imgPhotoDetails)
+        if (candidate.bPhotoExist()){
+            loadImageWithGlide(candidate.sGetPhotoPath(),binding.imgPhotoDetails)
         }
 
         // T026 - Implement the top app bar favorite icon

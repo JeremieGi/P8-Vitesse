@@ -30,8 +30,8 @@ import java.util.Calendar
 @OptIn(ExperimentalCoroutinesApi::class) // pour utilisation de advanceUntilIdle()
 class CandidateRepositoryTest {
 
-    // TODO : Test Common.kt
-    // TODO : Test instrumenté sur Room
+    // TODO : Test Util
+    // TODO : Test instrumentés sur Room
 
     private lateinit var cutCandidateRepository : CandidateRepository //Class Under Test
     private lateinit var mockCandidateDao: CandidateDao
@@ -77,8 +77,8 @@ class CandidateRepositoryTest {
                 dateOfBirth = currentDate.time,
                 salaryExpectation = 3000+(i*100),
                 note = "note$i \nDuplexque isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus",
-                topFavorite = bFavorite,
-                photoFilePath = ""
+                topFavorite = bFavorite/*,
+                photoFilePath = ""*/
             )
 
             // Insert in the DB

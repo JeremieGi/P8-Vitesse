@@ -59,8 +59,8 @@ abstract class AppDataBase : RoomDatabase(){
                     dateOfBirth = currentDate.time,
                     salaryExpectation = 3000+(i*100),
                     note = "note$i \nDuplexque isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus",
-                    topFavorite = bFavorite,
-                    photoFilePath = ""
+                    topFavorite = bFavorite/*,
+                    photoFilePath = ""*/
                 )
 
                 // Insert in the DB

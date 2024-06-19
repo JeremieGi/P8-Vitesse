@@ -43,9 +43,10 @@ data class CandidateDto(
     @ColumnInfo(name = "topFavorite")
     var topFavorite: Boolean,
 
-    // Je stocke l'image dans un répertoire interne de l'appli et je stocke le chemin de ce fichier dans la base
-    @ColumnInfo(name = "photoFilePath")
-    val photoFilePath: String
+    // Je stocke l'image dans un répertoire interne de l'appli avec le nom ID.png
+    // pas besoin de stocker cette information
+    //@ColumnInfo(name = "photoFilePath")
+    //val photoFilePath: String
 
 ) {
     /**
@@ -63,7 +64,7 @@ data class CandidateDto(
             salaryExpectation = this.salaryExpectation,
             note = this.note,
             topFavorite = this.topFavorite,
-            photoFilePath = this.photoFilePath
+            sPathTempSelectedPhoto = ""
         )
 
     }

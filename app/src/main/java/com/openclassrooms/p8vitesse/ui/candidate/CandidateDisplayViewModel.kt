@@ -6,9 +6,8 @@ import com.openclassrooms.p8vitesse.data.repository.ResultCustom
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseDelete
 import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseLoad
-import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseUpdate
+import com.openclassrooms.p8vitesse.domain.usecase.CandidateUseCaseSetFavorite
 import com.openclassrooms.p8vitesse.domain.usecase.ConversionUseCase
-import com.openclassrooms.p8vitesse.getOtherCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +23,7 @@ class CandidateDisplayViewModel @Inject constructor(
     private val getCandidateUseCaseLoad : CandidateUseCaseLoad,
     private val getCandidateUseCaseDelete : CandidateUseCaseDelete,
     private val getConversionUseCase : ConversionUseCase,
-    private val getCandidateUseCaseUpdate : CandidateUseCaseUpdate
+    private val getCandidateUseCaseSetFavorite : CandidateUseCaseSetFavorite
 ) : ViewModel(){
 
 
@@ -129,7 +128,7 @@ class CandidateDisplayViewModel @Inject constructor(
                     if (mapResult!=null){
 
                         // eur <=> gpt
-                        val deviseTo = getOtherCurrency(sCurrencyCodeFrom)
+                        val deviseTo = getConversionUseCase.getOtherCurrency(sCurrencyCodeFrom)
 
                         // Récupère le taux de change
                         val rate = mapResult[deviseTo]?:0.0
@@ -171,7 +170,7 @@ class CandidateDisplayViewModel @Inject constructor(
                     }
                     else{
 
-                        getCandidateUseCaseUpdate.setFavorite(candidate.id,bNewFavoriteStatut)
+                        getCandidateUseCaseSetFavorite.execute(candidate.id,bNewFavoriteStatut)
 
                         // MAj en mémoire
                         candidate.topFavorite = bNewFavoriteStatut

@@ -19,14 +19,10 @@ class CurrencyConversionRepository(
 
         // Pour faciliter les appels
         var sCurrencyCodeLowerCase = sCurrencyCode.lowercase()
-
-        sCurrencyCodeLowerCase = if (sCurrencyCodeLowerCase == ICurrencyAPI.CURRENCY_CODE_EURO){
-            ICurrencyAPI.CURRENCY_CODE_EURO
-        } else{
+        if (sCurrencyCodeLowerCase != ICurrencyAPI.CURRENCY_CODE_EURO){
             // Pas Euro = Pound (par exemple, l'émulateur Android utilise des dollars'
-            ICurrencyAPI.CURRENCY_CODE_POUND
+            sCurrencyCodeLowerCase = ICurrencyAPI.CURRENCY_CODE_POUND
         }
-
 
         // Appel à l'API
 
@@ -65,6 +61,28 @@ class CurrencyConversionRepository(
     }.catch { error ->
         emit(ResultCustom.Failure(error.message+" "+error.cause?.message))
         Log.d(TAG_DEBUG, "Excepion dans ")
+    }
+
+
+    /**
+     * @param sCodeFrom : eur / gbp
+     * @return : gbp if param sCodeFrom = eur, eur if param sCodeFrom = gbp
+     */
+    fun getOtherCurrency(sCodeFrom : String): String {
+
+        var sResult = when (sCodeFrom.lowercase()){
+
+            ICurrencyAPI.CURRENCY_CODE_EURO -> {
+                ICurrencyAPI.CURRENCY_CODE_POUND
+            }
+
+            else -> {
+                ICurrencyAPI.CURRENCY_CODE_EURO
+            }
+
+        }
+
+        return sResult
     }
 
 }

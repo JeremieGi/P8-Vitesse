@@ -77,40 +77,44 @@ class CandidateRepository (
     }
 
     suspend fun addCandidate(candidate: Candidate) : Long {
-        return candidateDao.insertCandidate(candidate.toDto())
+
+        val id = candidateDao.insertCandidate(candidate.toDto())
+
+        // Si une photo a été renseignée
+        if (candidate.sPathTempSelectedPhoto.isNotEmpty()){
+            candidate.transferAndFormatPhotoFile(id)
+        }
+
+
+        return id
+
     }
 
     suspend fun deleteCandidate(candidate : Candidate) {
 
         candidateDao.deleteCandidateById(candidate.id?:0)
 
-        // Fait ici mais çà va être compliqué pour les updates
-        if (candidate.photoFilePath.isNotEmpty()){
-            deleteFile(candidate.photoFilePath)
-        }
+        candidate.deletePhotoFile()
 
     }
 
-    private fun deleteFile(photoFilePath: String) {
 
-        // TODO Evol => nommer les fichiers pour les retrouver
-
-        val file = File(photoFilePath)
-        try {
-            if (file.exists())
-                file.delete()
-
-        } catch (e: IOException) {
-            Log.d(TAG_DEBUG,"deleteFile $photoFilePath - An error occurred: ${e.message}")
-        }
-    }
 
     suspend fun updateCandidate(candidate: Candidate) : Int {
+
+        if (candidate.id != null){
+            // Si une photo a été renseignée
+            if (candidate.sPathTempSelectedPhoto.isNotEmpty()){
+                candidate.transferAndFormatPhotoFile()
+            }
+        }
         return candidateDao.updateCandidate(candidate.toDto())
     }
 
-    suspend fun updateCandidate(id : Long, bFavorite : Boolean) : Int {
+    suspend fun updateCandidateTopFavorite(id : Long, bFavorite : Boolean) : Int {
+
         return candidateDao.updateCandidateTopFavorite(id,bFavorite)
+
     }
 
 

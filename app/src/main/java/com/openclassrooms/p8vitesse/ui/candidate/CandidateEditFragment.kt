@@ -22,8 +22,8 @@ import com.openclassrooms.p8vitesse.dStringToLocalDate
 import com.openclassrooms.p8vitesse.databinding.FragmentCandidateEditBinding
 import com.openclassrooms.p8vitesse.domain.model.Candidate
 import com.openclassrooms.p8vitesse.sLocalDateToString
-import com.openclassrooms.p8vitesse.saveImageToInternalStorage
 import com.openclassrooms.p8vitesse.loadImageWithGlide
+import com.openclassrooms.p8vitesse.saveImageToInternalStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -49,7 +49,7 @@ class CandidateEditFragment : Fragment() {
     private var pickMedia : ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     // Je stocke l'URI ici (pas trop moyen de récupérer l'URI depuis l'ImageView apparement)
-    private var sSelectedURI : String = ""
+    private var selectedURI : Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -138,7 +138,7 @@ class CandidateEditFragment : Fragment() {
 
     private fun setImageWithURI(uri: Uri) {
 
-        sSelectedURI = uri.toString()
+        selectedURI = uri
 
         // Charger l'image avec Glide
         Glide.with(this)
@@ -485,22 +485,15 @@ class CandidateEditFragment : Fragment() {
             0 // Gestion du salaire demandé non renseigné
         }
 
-
         // Une nouvelle image a été sélectionnée
-        val sLocalPath : String
-        sLocalPath = if (sSelectedURI.isNotEmpty()){
-
-            // Crée un fichier local avec cette image
+        var sLocalPath = ""
+        selectedURI?.let { uri -> // Bloc exécuter si selectedURI non null
             try{
-                saveImageToInternalStorage(requireContext(), Uri.parse(sSelectedURI))
+                // Crée un fichier local avec cette image
+                sLocalPath = saveImageToInternalStorage(requireContext(), uri)
             } catch (e: IOException) {
                 displayError(e.message)
-                ""
             }
-
-        } else{
-            // Chemin du candidat OU vide si candidat null (Cas d'un ajout sans sélection d'image)
-            viewModel.currentCandidate?.photoFilePath ?: ""
         }
 
 
@@ -514,7 +507,7 @@ class CandidateEditFragment : Fragment() {
             salaryExpectation = nExpectedSalary,
             note = binding.edtNote.text.toString(),
             topFavorite = false,
-            photoFilePath = sLocalPath
+            sPathTempSelectedPhoto = sLocalPath
         )
 
     }
@@ -533,8 +526,8 @@ class CandidateEditFragment : Fragment() {
         binding.edtNote.setText(candidate.note)
 
         // Charger l'image avec Glide
-        if (candidate.photoFilePath.isNotEmpty()){
-            loadImageWithGlide(requireContext(), candidate.photoFilePath, binding.imgPhoto)
+        if (candidate.bPhotoExist()){
+            loadImageWithGlide(candidate.sGetPhotoPath(), binding.imgPhoto)
         }
 
 

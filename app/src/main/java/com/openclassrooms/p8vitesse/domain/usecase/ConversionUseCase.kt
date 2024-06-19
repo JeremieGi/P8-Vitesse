@@ -13,4 +13,8 @@ class ConversionUseCase @Inject constructor(
     fun execute(sCurrencyCode: String): Flow<ResultCustom<Map<String, Double>?>> {
         return currencyRepository.listExchangeRates(sCurrencyCode)
     }
+
+    fun getOtherCurrency(sCurrencyCodeFrom: String): String {
+        return currencyRepository.getOtherCurrency(sCurrencyCodeFrom)
+    }
 }

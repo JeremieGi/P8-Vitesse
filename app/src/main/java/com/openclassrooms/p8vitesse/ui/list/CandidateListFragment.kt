@@ -24,7 +24,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CandidateListFragment(
 
-    // TODO : Est ce que je passerai pas cet argument en paramètre (via Bundle) ?
     private val bOnlyFavorite : Boolean = false
 
 ) : Fragment(), IOnItemClickListener {
@@ -58,6 +57,8 @@ class CandidateListFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+
+
 
         Log.d(TAG_DEBUG,"CandidateListFragment : onViewCreated bOnlyFavorite = $bOnlyFavorite")
 
@@ -161,7 +162,6 @@ class CandidateListFragment(
         // Instanciation du fragment
         val fragmentFiche = CandidateDisplayFragment.newInstance(id)
 
-        // TODO : A montrer à Denis
         // parentFragment => pour remonter au MainFragment
         // parentFragmentManager => pour remonter au container de l'activity qui contient MainFragment
         parentFragment?.parentFragmentManager?.beginTransaction()
