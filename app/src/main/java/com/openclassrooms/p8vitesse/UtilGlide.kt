@@ -8,7 +8,6 @@ import java.io.File
 // Charge un fichier image dans une ImageView
 fun loadImageWithGlide(filePath: String, imageView: ImageView) {
 
-
     Glide.with(imageView.context)
         .load(File(filePath))
         .diskCacheStrategy(DiskCacheStrategy.NONE)

@@ -74,7 +74,6 @@ class CandidateAdapter(
 
             //T007 - Display all candidates
 
-
             val sNames = "${candidate.firstName} ${candidate.lastName}"
 
             binding.itemCandidateNames.text = sNames
@@ -83,9 +82,9 @@ class CandidateAdapter(
 
             // Charger l'image avec Glide
             if (candidate.bPhotoExist()){
-                // J'utilise le contexte de l'ImageView
-                loadImageWithGlide(candidate.sGetPhotoPath(), binding.itemCandidatePhoto)
+                loadImageWithGlide(candidate.sGetPhotoPath(),binding.itemCandidatePhoto)
             }
+
         }
     }
 

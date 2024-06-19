@@ -1,8 +1,5 @@
 package com.openclassrooms.p8vitesse.domain.model
 
-import android.net.Uri
-import android.util.Log
-import com.openclassrooms.p8vitesse.TAG_DEBUG
 import com.openclassrooms.p8vitesse.data.entity.CandidateDto
 import com.openclassrooms.p8vitesse.deleteFile
 import com.openclassrooms.p8vitesse.moveFile
@@ -92,12 +89,10 @@ data class Candidate (
 
 
         // Si un paramètre est passé (cas du insert)
-        val sFormattedFile : String
-        if (idP > 0){
-            sFormattedFile = sGetPhotoPath(idP)
-        }
-        else{
-            sFormattedFile = sGetPhotoPath()
+        val sFormattedFile = if (idP > 0){
+            sGetPhotoPath(idP)
+        } else{
+            sGetPhotoPath()
         }
 
         moveFile(this.sPathTempSelectedPhoto, sFormattedFile)
@@ -107,51 +102,58 @@ data class Candidate (
 
     }
 
+    /**
+     * Retourne le fichier de la photo du candidat. Chaine vide si ce fichier n'existe pas.
+     */
     fun sGetPhotoPath(idP: Long = 0) : String {
 
+
+        var sPath = ""
         if (idP > 0){
-            return File(fCurrentRep, getFileName(idP)).absolutePath
+            sPath = File(_fCurrentRep, idP.toString()).absolutePath
         }
         else{
-            if (this.id==null){
-                return ""
-            }
-            else{
-                return File(fCurrentRep, getFileName(this.id)).absolutePath
+            if (this.id != null){
+                sPath = File(_fCurrentRep, this.id.toString()).absolutePath
             }
         }
 
+        sPath += ".jpg"
+
+        return sPath
 
     }
 
-    // TODO : Mettre un booléen dans la base de données pour limiter les accès au système de fichier
+    /**
+     * A photo exist for this candidate
+     */
     fun bPhotoExist() : Boolean {
 
-        if (this.id==null){
-            return false
-        }
-        else{
-            val filePhoto = File(sGetPhotoPath())
-            return filePhoto.exists()
+        var sPath = ""
+        if (this.id != null){
+            sPath = sGetPhotoPath(this.id)
         }
 
+        if (sPath!=""){
+            return File(sPath).exists()
+        }
+
+        return false
 
     }
-
 
 
     companion object {
 
-        /**
-         * Cette méthode est statique car je ne connais l'ID qu'après l'insert
-         */
-        fun getFileName(id: Long) : String {
-            return "$id.jpg"
-        }
+        // Utilisation d'une globale pour obtenir le répertoire de base de l'application
 
-        // Utilisation d'une globale
-        // TODO : Voir pour faire plus propre
-        var fCurrentRep : File? = null
+        private var _fCurrentRep : File? = null
+        var fCurrentRep: File?  = null
+            set(value) {
+                _fCurrentRep = value
+                field = value
+            }
+
         // DAns l'émulateur : /data/data/your.package.name/files/
 
     }

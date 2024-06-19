@@ -527,7 +527,7 @@ class CandidateEditFragment : Fragment() {
 
         // Charger l'image avec Glide
         if (candidate.bPhotoExist()){
-            loadImageWithGlide(candidate.sGetPhotoPath(), binding.imgPhoto)
+            loadImageWithGlide(candidate.sGetPhotoPath(),binding.imgPhoto)
         }
 
 

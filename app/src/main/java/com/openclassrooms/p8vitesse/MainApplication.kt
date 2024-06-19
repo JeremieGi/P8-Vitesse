@@ -16,8 +16,9 @@ class MainApplication  : Application(){
 
         super.onCreate()
 
+        // Je n'ai pas trouvé une solution plus simple
+        // J'ai besoin du chemin de ce répertoire dans la classe Candidate surtout quand elle est appelée depuis le Repository pour gérer les fichiers images
         Candidate.fCurrentRep = applicationContext.filesDir
-        //Candidate.fCurrentRep = applicationContext.cacheDir
 
         // Create the database if not existing
         AppDataBase.getDatabase(this, CoroutineScope(Dispatchers.Default))
