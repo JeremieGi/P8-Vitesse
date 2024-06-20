@@ -26,9 +26,13 @@ class CandidateListViewModel @Inject constructor(
     // Pour savoir si on a filtre sur les favoris ou non
     var bFavoriteOnly : Boolean = false
 
+    init {
+        observeCandidates()
+    }
+
 
     // Lance la requête qui liste les candidats
-    fun initCandidates() {
+    fun loadCandidates() {
 
         // T005 - All candidates tab
         // T006 - Favorite candidates tab
@@ -40,7 +44,7 @@ class CandidateListViewModel @Inject constructor(
     }
 
     // Ecoute en permanence le flow du repository
-    fun observeCandidates() {
+    private fun observeCandidates() {
 
         // Durée de vie du scope = durée de vie du viewModel
         viewModelScope.launch {

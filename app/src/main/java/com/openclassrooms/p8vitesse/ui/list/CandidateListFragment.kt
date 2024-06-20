@@ -69,10 +69,9 @@ class CandidateListFragment(
         // Launch the UI States observer
         observeUiStates()
 
-        viewModel.observeCandidates()
-
         // Load candidates (the observer will be notified)
-        viewModel.initCandidates()
+        viewModel.loadCandidates()
+
 
     }
 

@@ -43,7 +43,7 @@ data class CandidateDto(
     @ColumnInfo(name = "topFavorite")
     var topFavorite: Boolean,
 
-    // Je stocke l'image dans un répertoire interne de l'appli avec le nom ID.png
+    // Je stocke l'image dans un répertoire interne de l'appli avec le nom ID.jpg
     // pas besoin de stocker cette information
     //@ColumnInfo(name = "photoFilePath")
     //val photoFilePath: String

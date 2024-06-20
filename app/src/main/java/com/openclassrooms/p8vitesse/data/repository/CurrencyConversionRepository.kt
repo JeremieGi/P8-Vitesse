@@ -19,15 +19,11 @@ class CurrencyConversionRepository(
 
         emit(ResultCustom.Loading)
 
-        // Pour faciliter les appels
-        var sCurrencyCodeLowerCase = sCurrencyCode.lowercase()
-        if (sCurrencyCodeLowerCase != ICurrencyAPI.CURRENCY_CODE_EURO){
-            // Pas Euro = Pound (par exemple, l'émulateur Android utilise des dollars'
-            sCurrencyCodeLowerCase = ICurrencyAPI.CURRENCY_CODE_POUND
-        }
+        // Par sécurité, on remet en minuscule
+        val sCurrencyCodeLowerCase = sCurrencyCode.lowercase()
+
 
         // Appel à l'API
-
         val responseRetrofit = dataService.getConversions(sCurrencyCodeLowerCase)
         // si la requête met du temps, pas grave, on est dans une coroutine, le thread principal n'est pas bloqué
 
@@ -61,8 +57,10 @@ class CurrencyConversionRepository(
 
 
     }.catch { error ->
+
         emit(ResultCustom.Failure(error.message+" "+error.cause?.message))
-        Log.d(TAG_DEBUG, "Excepion dans ")
+
+        Log.d(TAG_DEBUG, "Exception : ${error.message}")
     }
 
 
