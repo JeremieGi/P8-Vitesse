@@ -69,7 +69,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="20dp"
                 android:hint="@string/first_name"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgPersonEdit"
                 app:layout_constraintTop_toTopOf="@+id/imgPersonEdit">
@@ -78,6 +77,7 @@
                     android:id="@+id/edtFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -214,6 +214,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:text="@string/select_a_date"
+                        android:textColor="@color/colorValueDetail"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -265,7 +266,7 @@
                 android:id="@+id/inputLayoutExpectedSalary"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_heightField"
+                android:layout_height="60dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="20dp"
                 android:hint="@string/expected_salary"
@@ -277,7 +278,8 @@
                     android:id="@+id/edtExpectedSalary"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -311,6 +313,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="top"
+
                     android:inputType="textMultiLine" />
 
             </com.google.android.material.textfield.TextInputLayout>

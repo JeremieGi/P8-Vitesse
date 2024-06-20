@@ -53,4 +53,7 @@
     <string name="jj_mm_aaaa_xx_ans">YYYY/MM/DD (xx years)</string>
     <string name="en_cours_de_conversion">Currently converting…</string>
     <string name="format_date_problem">Format date problem</string>
+    <string name="contentDescriptionOfTab">All candidates or favorite candidate</string>
+    <string name="tab_showing_all_candidates">Tab showing all candidates</string>
+    <string name="tab_showing_favorite_candidates">Tab showing favorite candidates</string>
 </resources>

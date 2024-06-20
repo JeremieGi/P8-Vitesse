@@ -54,5 +54,8 @@
     <string name="jj_mm_aaaa_xx_ans">JJ/MM/AAAA (xx ans)</string>
     <string name="en_cours_de_conversion">En cours de conversion…</string>
     <string name="format_date_problem">Problem de format de date</string>
+    <string name="contentDescriptionOfTab">Tous les candidats ou les favoris</string>
+    <string name="tab_showing_all_candidates">Onglet qui affiche tous les candidats</string>
+    <string name="tab_showing_favorite_candidates">Onglet qui affiche les candidats favoris</string>
 
 </resources>

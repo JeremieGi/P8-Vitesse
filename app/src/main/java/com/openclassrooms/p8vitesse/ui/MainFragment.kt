@@ -125,8 +125,16 @@ class MainFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             // Code lancé à l'init du fragment uniquement
             when (position) {
-                0 -> tab.setText(getString(R.string.all))
-                else -> tab.setText(getString(R.string.favorite))
+                0 -> {
+                    tab.setText(getString(R.string.all))
+                    tab.contentDescription = getString(R.string.tab_showing_all_candidates)
+                }
+
+                else -> {
+                    tab.setText(getString(R.string.favorite))
+                    tab.contentDescription = getString(R.string.tab_showing_favorite_candidates)
+                }
+
             }
         }.attach()
 

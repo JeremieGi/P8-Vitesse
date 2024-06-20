@@ -17,27 +17,17 @@ class CandidateListViewModel @Inject constructor(
     private val getCandidateUseCaseList : CandidateUseCaseList
  ) : ViewModel() {
 
-    var bFavoriteOnly : Boolean = false
-
-    /*
-    var sFilter: String? = null
-        // Accesseur custom
-        set(value) {
-            // si le filtre est pas null ou vide => Null
-            field = if (!value.isNullOrEmpty()) {
-                value
-            } else {
-                null
-            }
-        }
-     */
 
     // Class for the communication between the ViewModel and the fragment
     private val _uiState = MutableStateFlow(CandidateListUIStates())
     val uiState: StateFlow<CandidateListUIStates> = _uiState.asStateFlow()
 
 
-    // searchCandidates
+    // Pour savoir si on a filtre sur les favoris ou non
+    var bFavoriteOnly : Boolean = false
+
+
+    // Lance la requête qui liste les candidats
     fun initCandidates() {
 
         // nFavorite =>
@@ -51,13 +41,13 @@ class CandidateListViewModel @Inject constructor(
 
     }
 
+    // Ecoute en permanence le flow du repository
     fun observeCandidates() {
 
-        // Ecoute en permanence le flow du repository
-
-        // (the observer of UI State will be notified in the fragment)
+        // Durée de vie du scope = durée de vie du viewModel
         viewModelScope.launch {
 
+            // Collecte du Flow
             getCandidateUseCaseList.allCandidatesFlow.collect { resultDB ->
 
                 // result of the DB

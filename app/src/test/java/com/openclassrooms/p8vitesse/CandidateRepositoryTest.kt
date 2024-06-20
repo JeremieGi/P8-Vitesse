@@ -313,11 +313,6 @@ class CandidateRepositoryTest {
     @Test
     fun test_getListAllCandidates_Exception() = runTest {
 
-        // TODO : Les tests ici ne sont pas dépendants,
-        //  si celui qui passe en dernier ne reçoit jamais le ResultCustom.Loading
-        //  on dirait qu'il perturbe le flow du 2ème tests
-        // pourtant ce test est vert si il est lancé seul
-
         // definition du mock => raise Exception
         val sExpectedException = "Test exception"
         coEvery {

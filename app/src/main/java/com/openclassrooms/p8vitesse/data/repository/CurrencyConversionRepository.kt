@@ -70,7 +70,7 @@ class CurrencyConversionRepository(
      */
     fun getOtherCurrency(sCodeFrom : String): String {
 
-        var sResult = when (sCodeFrom.lowercase()){
+        val sResult = when (sCodeFrom.lowercase()){
 
             ICurrencyAPI.CURRENCY_CODE_EURO -> {
                 ICurrencyAPI.CURRENCY_CODE_POUND

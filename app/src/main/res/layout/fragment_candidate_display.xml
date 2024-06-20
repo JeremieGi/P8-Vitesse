@@ -72,7 +72,7 @@
 
             <ImageButton
                 android:id="@+id/btnCall"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="30dp"
                 app:layout_constraintEnd_toStartOf="@+id/btnSMS"
                 app:layout_constraintTop_toTopOf="@+id/btnSMS"
                 android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
 
             <ImageButton
                 android:id="@+id/btnSentEmail"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="30dp"
                 app:layout_constraintStart_toEndOf="@+id/btnSMS"
                 app:layout_constraintTop_toTopOf="@+id/btnSMS"
                 android:layout_width="wrap_content"
@@ -157,6 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="25dp"
+                        android:textColor="@color/colorValueDetail"
                         android:text="@string/jj_mm_aaaa_xx_ans"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvAbout"/>
@@ -168,6 +169,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="2dp"
                         android:text="@string/birthday"
+                        android:textColor="@color/colorValueDetail"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvBithdayAndAge"/>
 
@@ -216,6 +218,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="25dp"
                         tools:text="@string/expected_salary"
+                        android:textColor="@color/colorValueDetail"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvSalaryLabel"/>
 
@@ -226,6 +229,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="2dp"
                         android:text="@string/en_cours_de_conversion"
+                        android:textColor="@color/colorValueDetail"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvExpectedSalaryValue"/>
 
@@ -275,8 +279,8 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginTop="25dp"
                         android:text="Oportunum est, ut arbitror, explanare nunc causam, quae ad exitium praecipitem Aginatium inpulit iam inde a priscis maioribus nobilem, ut locuta est pertinacior fama. nec enim super hoc ulla documentorum rata est fides."
+                        android:textColor="@color/colorValueDetail"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvNotesLabel"
                         tools:ignore="HardcodedText" />
 
