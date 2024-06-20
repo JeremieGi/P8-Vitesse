@@ -23,7 +23,7 @@ class PageAdapter(
             return CandidateListFragment.newInstance(bOnlyFavorite = true)
         }
         // 1er tab = position 0
-        // Display all candidates (Null = no filter)
+        // Display all candidates
         return CandidateListFragment.newInstance(bOnlyFavorite = false)
 
     }

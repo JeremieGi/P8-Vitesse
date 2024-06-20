@@ -10,12 +10,13 @@ interface ICurrencyAPI {
 
     companion object {
         const val CURRENCY_CODE_EURO = "eur"
-        const val CURRENCY_CODE_POUND = "gbp"
     }
 
     //T036 - Integrate currency conversion API
-
-    @GET("currencies/{currency}.json") // EndPoint eur / gbp
+    /**
+     * {currency} = "eur" / "gbp"
+     */
+    @GET("currencies/{currency}.json") // EndPoint
     suspend fun getConversions(@Path("currency") currencyCode: String): Response<APIResponseCurrency>
 
 }
