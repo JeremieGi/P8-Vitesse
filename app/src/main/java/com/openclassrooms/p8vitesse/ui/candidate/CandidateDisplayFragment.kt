@@ -343,14 +343,10 @@ class CandidateDisplayFragment : Fragment() {
         val formattedText = "${getString(R.string.year,sDateOfBirth,candidate.nAge().toString())}"
         binding.tvBithdayAndAge.text = formattedText
 
+
         // T035 - Display the expected salary of the candidate
-        val sSalary = candidate.salaryExpectation.toString()
+        bindSalary(candidate.salaryExpectation)
 
-        val deviseFrom = Currency.getInstance(Locale.getDefault())
-        val sSalaryAndDevise = "$sSalary ${deviseFrom.symbol}" // J'utilise cette affectation pour éviter le warning : Do not concatenate text displayed with 'setText'. Use resource string with placeholders.
-        binding.tvExpectedSalaryValue.text = sSalaryAndDevise
-
-        viewModel.conversion(deviseFrom.currencyCode, candidate.salaryExpectation.toDouble())
 
         binding.tvNotesValues.text = candidate.note
 
@@ -362,6 +358,26 @@ class CandidateDisplayFragment : Fragment() {
         setFavoriteIcon(candidate.topFavorite)
 
 
+
+    }
+
+    /**
+     * Affiche le salaire avec le format souhaité
+     */
+    private fun bindSalary(nSalary : Int) {
+
+        // Devise locale
+        val currencyFromPhone = Currency.getInstance(Locale.getDefault())
+        val currencyFrom = viewModel.getOtherCurrencyWithCode(currencyFromPhone.currencyCode, bOther = false)
+        val sSalaryAndDevise = "$nSalary ${currencyFrom.symbol}"             // J'utilise cette affectation pour éviter le warning : Do not concatenate text displayed with 'setText'. Use resource string with placeholders.
+        binding.tvExpectedSalaryValue.text = sSalaryAndDevise
+
+
+        // Appel au WS via retrofit
+
+        // eur <=> gpt / gpt <=> eur
+        val currencyTo = viewModel.getOtherCurrencyWithCode(currencyFrom.currencyCode, bOther = true)
+        viewModel.conversion(nSalary, currencyFrom, currencyTo)
 
     }
 

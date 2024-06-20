@@ -102,11 +102,12 @@ class CandidateDisplayViewModel @Inject constructor(
      * Call a webservice to do the conversion
      */
     fun conversion(
-        sCurrencyCodeFrom : String,
-        dOriginalValue : Double
+        nSalary : Int,
+        cCurrencyFrom : Currency,
+        cCurrencyTo : Currency
     ) {
 
-        getConversionUseCase.execute(sCurrencyCodeFrom).onEach { resultAPI ->
+        getConversionUseCase.execute(cCurrencyFrom.currencyCode).onEach { resultAPI ->
 
             // En fonction du résultat de l'API
             when (resultAPI) {
@@ -127,16 +128,17 @@ class CandidateDisplayViewModel @Inject constructor(
                     val mapResult = resultAPI.value
                     if (mapResult!=null){
 
-                        // eur <=> gpt
-                        val deviseTo = getConversionUseCase.getOtherCurrency(sCurrencyCodeFrom)
-
                         // Récupère le taux de change
-                        val rate = mapResult[deviseTo]?:0.0
-                        val conversion = dOriginalValue * rate
+                        val rate = mapResult[cCurrencyTo.currencyCode.lowercase()]?:0.0
+
+                        // Effectue la conversion
+                        val conversion = nSalary * rate
+
+                        // Formate le résultat
                         val sRound = String.format("%.2f", conversion)
+                        val sFormattedResult = "$sRound ${cCurrencyTo.symbol}"
 
-                        val sFormattedResult = "$sRound ${Currency.getInstance(deviseTo).symbol}"
-
+                        // L'envoi au fragment
                         _candidateStateFlow.value = CandidateUIState.Conversion(sFormattedResult)
 
                     }
@@ -153,6 +155,8 @@ class CandidateDisplayViewModel @Inject constructor(
 
 
     }
+
+
 
     fun setFavorite(bNewFavoriteStatut: Boolean) {
 
@@ -189,6 +193,14 @@ class CandidateDisplayViewModel @Inject constructor(
             }
 
         }
+
+    }
+
+
+
+    fun getOtherCurrencyWithCode(sCurrencyCodeFrom: String, bOther : Boolean) : Currency {
+
+        return getConversionUseCase.getCurrencyWithCode(sCurrencyCodeFrom,bOther)
 
     }
 

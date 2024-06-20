@@ -28,13 +28,13 @@
               <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="R58MA294RLY" />
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\User\.android\avd\Medium_Phone_API_33.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-06-20T07:49:51.436385900Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-06-20T10:13:09.145692500Z" />
         </State>
       </entry>
       <entry key="update_returnsTrue()">

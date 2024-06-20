@@ -30,10 +30,8 @@ class CandidateListViewModel @Inject constructor(
     // Lance la requête qui liste les candidats
     fun initCandidates() {
 
-        // nFavorite =>
         // T005 - All candidates tab
         // T006 - Favorite candidates tab
-
 
         viewModelScope.launch {
             getCandidateUseCaseList.execute("") // Pas de filtre à la création du fragment

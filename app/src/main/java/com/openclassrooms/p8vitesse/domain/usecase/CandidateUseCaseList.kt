@@ -25,12 +25,6 @@ class CandidateUseCaseList @Inject constructor(
     // Accesseur au flow partagé
     val allCandidatesFlow: SharedFlow<ResultCustom<List<Candidate>>> get() = candidateRepository.allCandidatesFlow
 
-//    // Mise à jour de la recherche
-//    suspend fun execute(bFavorite: Boolean?, sFilterName : String?) {
-//
-//        return candidateRepository.getListAllCandidates(bFavorite,sFilterName)
-//
-//    }
 
     suspend fun execute(sFilterName : String?) {
 

@@ -58,8 +58,6 @@ class CandidateListFragment(
 
         super.onViewCreated(view, savedInstanceState)
 
-
-
         Log.d(TAG_DEBUG,"CandidateListFragment : onViewCreated bOnlyFavorite = $bOnlyFavorite")
 
         viewModel.bFavoriteOnly = bOnlyFavorite

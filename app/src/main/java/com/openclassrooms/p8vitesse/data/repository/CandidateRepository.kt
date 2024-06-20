@@ -23,6 +23,10 @@ class CandidateRepository (
     val allCandidatesFlow: SharedFlow<ResultCustom<List<Candidate>>> get() = _allCandidatesFlow
 
 
+    /**
+     * List the candidate filter by name
+     * @param sFilterName : Filter on the first name and last name. Empty string = no filter
+     */
     suspend fun getListAllCandidates(sFilterName: String?) {
 
         withContext(Dispatchers.IO) {

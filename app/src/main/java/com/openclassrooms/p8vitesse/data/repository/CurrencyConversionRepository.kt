@@ -6,6 +6,8 @@ import com.openclassrooms.p8vitesse.data.network.ICurrencyAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import java.util.Currency
+import java.util.Locale
 
 
 class CurrencyConversionRepository(
@@ -65,24 +67,45 @@ class CurrencyConversionRepository(
 
 
     /**
-     * @param sCodeFrom : eur / gbp
-     * @return : gbp if param sCodeFrom = eur, eur if param sCodeFrom = gbp
+     * @param sCurrencyCodeFrom : eur / gbp
+     * @param bOther : the finction return the other devise
+     * @return : bOther=true => gbp if param sCodeFrom = eur, eur if param sCodeFrom = gbp
+     *             bOther=false => gbp if param sCodeFrom = gbp, eur if param sCodeFrom = eur, gbp if param sCodeFrom = usd
      */
-    fun getOtherCurrency(sCodeFrom : String): String {
+    fun getCurrencyWithCode(sCurrencyCodeFrom : String, bOther : Boolean): Currency {
 
-        val sResult = when (sCodeFrom.lowercase()){
+        // Je suis obligé d'écrire cette fonction pour gérer le cas EUR (sinon Livre)
+        // Aux USA, cette application affichera des livres
+
+        val cResult : Currency
+
+        when (sCurrencyCodeFrom.lowercase()){
 
             ICurrencyAPI.CURRENCY_CODE_EURO -> {
-                ICurrencyAPI.CURRENCY_CODE_POUND
+                if (bOther){
+                    cResult = Currency.getInstance(Locale.UK)
+                }
+                else{
+                    cResult = Currency.getInstance(Locale.FRANCE)
+                }
+
             }
 
             else -> {
-                ICurrencyAPI.CURRENCY_CODE_EURO
+                if (bOther){
+                    cResult = Currency.getInstance(Locale.FRANCE)
+                }
+                else{
+                    cResult = Currency.getInstance(Locale.UK)
+                }
+
             }
 
         }
 
-        return sResult
+        return cResult
     }
+
+
 
 }

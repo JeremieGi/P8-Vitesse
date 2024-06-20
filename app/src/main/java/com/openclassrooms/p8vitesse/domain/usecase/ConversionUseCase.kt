@@ -3,6 +3,7 @@ package com.openclassrooms.p8vitesse.domain.usecase
 import com.openclassrooms.p8vitesse.data.repository.CurrencyConversionRepository
 import com.openclassrooms.p8vitesse.data.repository.ResultCustom
 import kotlinx.coroutines.flow.Flow
+import java.util.Currency
 import javax.inject.Inject
 
 
@@ -14,7 +15,7 @@ class ConversionUseCase @Inject constructor(
         return currencyRepository.listExchangeRates(sCurrencyCode)
     }
 
-    fun getOtherCurrency(sCurrencyCodeFrom: String): String {
-        return currencyRepository.getOtherCurrency(sCurrencyCodeFrom)
+    fun getCurrencyWithCode(sCurrencyCodeFrom : String, bOther : Boolean): Currency {
+        return currencyRepository.getCurrencyWithCode(sCurrencyCodeFrom,bOther)
     }
 }
