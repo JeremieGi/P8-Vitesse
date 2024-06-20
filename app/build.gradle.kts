@@ -44,26 +44,12 @@ android {
         viewBinding = true
     }
 
-
-
-}
-
-/*
-// Exécuter les tests unitaires avant de construire
-// TODO prio : les tests ne sont pas lancés au build
-tasks.withType<Test> {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
     }
+
 }
 
-tasks.whenTaskAdded {
-    if (name == "assembleDebug" || name == "assembleRelease") {
-        finalizedBy("testDebugUnitTest")
-    }
-}
-*/
 
 dependencies {
 
@@ -83,7 +69,7 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.1.0")
 
     testImplementation("junit:junit:4.13.2")
-    //implementation("org.mockito:mockito-core:3.12.4")
+    implementation("org.mockito:mockito-core:3.12.4")
     //Tests de routines avec des Mocks
     testImplementation("io.mockk:mockk:1.13.9")
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0-RC2")

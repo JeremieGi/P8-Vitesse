@@ -40,6 +40,9 @@ class CurrencyConversionRepositoryTest {
 
     }
 
+    /**
+     * Test a basic conversion
+     */
     @Test
     fun testBasicCaseEURtoGBP() = runTest {
 

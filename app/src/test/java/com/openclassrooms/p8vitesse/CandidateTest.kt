@@ -22,7 +22,7 @@ class CandidateTest {
             salaryExpectation = 0,
             note ="",
             topFavorite = true,
-            photoFilePath =""
+            sPathTempSelectedPhoto =""
         )
 
         // Comment écrire un test maintenable mais qui ne réécrive pas la même fonction
@@ -48,7 +48,7 @@ class CandidateTest {
             salaryExpectation = 0,
             note ="",
             topFavorite = true,
-            photoFilePath =""
+            sPathTempSelectedPhoto =""
         )
 
         // Age à 0

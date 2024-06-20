@@ -2,7 +2,42 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CandidateDaoTest">
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\User\.android\avd\Medium_Phone_API_33.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-06-20T06:33:49.793956200Z" />
+        </State>
+      </entry>
+      <entry key="Tests in 'com.openclassrooms.p8vitesse'">
+        <State />
+      </entry>
       <entry key="app">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="SERIAL_NUMBER" />
+                  <value value="R58MA294RLY" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-06-19T13:04:36.098741600Z" />
+        </State>
+      </entry>
+      <entry key="update_returnsTrue()">
         <State />
       </entry>
     </value>

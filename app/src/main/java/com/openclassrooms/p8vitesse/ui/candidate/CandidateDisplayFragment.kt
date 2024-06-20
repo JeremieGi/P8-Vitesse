@@ -170,7 +170,7 @@ class CandidateDisplayFragment : Fragment() {
     private fun callCandidate() {
 
         // The phone number is a required field (never empty)
-        val sPhoneNumber = viewModel.currentCandidate?.phone
+        val sPhoneNumber = Uri.encode(viewModel.currentCandidate?.phone)
 
         val intent = Intent(Intent.ACTION_DIAL)
         intent.setData(Uri.parse("tel:$sPhoneNumber"))
