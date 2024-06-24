@@ -24,15 +24,20 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CandidateListFragment(
 
-    private val bOnlyFavorite : Boolean = false
+    // Fragment qui affiche les favoris
+    private val bOnlyFavorite : Boolean = false,
+
+    // Valeur du filtre par nom au lancement du fragment
+    private val sInitFilter : String = ""
 
 ) : Fragment(), IOnItemClickListener {
 
     companion object {
 
-        fun newInstance(bOnlyFavorite : Boolean): Fragment {
-            return CandidateListFragment(bOnlyFavorite)
+        fun newInstance(bOnlyFavorite : Boolean, sInitFilter : String): Fragment {
+            return CandidateListFragment(bOnlyFavorite, sInitFilter)
         }
+
     }
 
     // Binding
@@ -70,8 +75,7 @@ class CandidateListFragment(
         observeUiStates()
 
         // Load candidates (the observer will be notified)
-        viewModel.loadCandidates()
-
+        viewModel.loadCandidates(sInitFilter)
 
     }
 

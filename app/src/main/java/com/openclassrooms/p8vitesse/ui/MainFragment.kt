@@ -31,6 +31,14 @@ class MainFragment : Fragment() {
     // View Model
     private val viewModel: MainViewModel  by viewModels()
 
+    // Le pageAdapter me sert à passer en paramètre au fragment le filtre éventuellement saisi par l'utilisateur avant la création du fragment
+    // c'est le cas notamment dans la manip suivante :
+    // - Lancement de l'application :
+    //      - Chargement du ListFragment (celui du tab "Tous")
+    //      - Saisie d'un filtre par nom
+    //      - Clic sur "Favoris" => A la création de la 2ème instance de ListFragment, il faut connaître le filtre
+    private var pageAdapter : PageAdapter? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,17 +67,12 @@ class MainFragment : Fragment() {
 
         binding.edtResearch.addTextChangedListener(object : TextWatcher {
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
                 try{
-                    //viewModel.requestCandidates(s.toString(),binding.candidatelistViewpager.currentItem)
                     viewModel.requestCandidates(s.toString())
                 }
                 catch (e  : Exception){
@@ -109,6 +112,28 @@ class MainFragment : Fragment() {
 
         }
 
+        // Listener de clic sur Tab
+        binding.candidatelistViewpagerTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+
+                val sValSearch = binding.edtResearch.text.toString()
+                if (sValSearch.isNotEmpty()){
+                    // On envoie au PageAdapter la valeur du filtre pour que le fragment instancié la connaisse
+                    pageAdapter?.setValSearch(sValSearch)
+                }
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                // Optionally handle tab unselected event
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                // Optionally handle tab reselected event
+            }
+        })
+
 
     }
 
@@ -118,7 +143,8 @@ class MainFragment : Fragment() {
         val viewPager2: ViewPager2 = binding.candidatelistViewpager
         val tabLayout: TabLayout = binding.candidatelistViewpagerTabs
 
-        viewPager2.adapter = PageAdapter(this)
+        pageAdapter = PageAdapter(this)
+        viewPager2.adapter = pageAdapter //PageAdapter(this)
 
 
         // TabLayoutMediator
