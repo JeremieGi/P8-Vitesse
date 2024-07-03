@@ -3,7 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("androidx.room")
 }
+
+
 
 android {
     namespace = "com.openclassrooms.p8vitesse"
@@ -17,6 +20,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+        kapt {
+            arguments {
+                arg("room.incremental", "true")
+            }
+        }
     }
 
     buildTypes {
@@ -46,6 +56,10 @@ android {
 
     testOptions {
         unitTests.isIncludeAndroidResources = true
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
 }

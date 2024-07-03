@@ -58,7 +58,8 @@ class CandidateDaoTest {
             dateOfBirth = currentDate.time,
             salaryExpectation = 3000,
             note = "",
-            topFavorite = bTopFavorite)
+            topFavorite = bTopFavorite,
+            nouveauchamptestV2 = "")
 
         return cutCandidateDao.insertCandidate(candidateTest)
 
@@ -160,7 +161,8 @@ class CandidateDaoTest {
             dateOfBirth = currentDate.time,
             salaryExpectation = 3000,
             note = "",
-            topFavorite = true)
+            topFavorite = true,
+            nouveauchamptestV2 = "")
 
         val nNbUpdatedLines = cutCandidateDao.updateCandidate(updatedCandidate)
 

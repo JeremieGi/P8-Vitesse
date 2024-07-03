@@ -40,8 +40,8 @@ data class Candidate (
             dateOfBirth = this.dateOfBirth,
             salaryExpectation = this.salaryExpectation,
             note = this.note,
-            topFavorite = this.topFavorite/*,
-            photoFilePath = this.photoFilePath*/
+            topFavorite = this.topFavorite,
+            nouveauchamptestV2 = ""
         )
     }
 

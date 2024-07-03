@@ -43,6 +43,10 @@ data class CandidateDto(
     @ColumnInfo(name = "topFavorite")
     var topFavorite: Boolean,
 
+
+    @ColumnInfo(name = "nouveauchamptestV2") // Sert juste à tester la migration de version de base de données avec Room
+    var nouveauchamptestV2: String
+
     // Je stocke l'image dans un répertoire interne de l'appli avec le nom ID.jpg
     // pas besoin de stocker cette information
     //@ColumnInfo(name = "photoFilePath")
