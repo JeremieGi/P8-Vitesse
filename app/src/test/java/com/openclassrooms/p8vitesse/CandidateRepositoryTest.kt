@@ -77,8 +77,9 @@ class CandidateRepositoryTest {
                 dateOfBirth = currentDate.time,
                 salaryExpectation = 3000+(i*100),
                 note = "note$i \nDuplexque isdem diebus acciderat malum, quod et Theophilum insontem atrox interceperat casus",
-                topFavorite = bFavorite/*,
+                topFavorite = bFavorite,/*,
                 photoFilePath = ""*/
+                nouveauchamptestV2 = ""
             )
 
             // Insert in the DB
@@ -134,13 +135,15 @@ class CandidateRepositoryTest {
             cutCandidateRepository.getListAllCandidates("")
         }
 
+
+        // Attend que toutes les couroutines en attente s'executent
+        advanceUntilIdle()
+
         // coVerify : s'assure que la fonction  du mock  a été appelée
         coVerify {
             mockCandidateDao.getCandidates(any(),any())
         }
 
-        // Attend que toutes les couroutines en attente s'executent
-        advanceUntilIdle()
 
         // On attend 2 valeurs dans le flow du repository
         assertEquals(2, resultList.size)
