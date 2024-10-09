@@ -8,5 +8,5 @@ Au niveau technique, elle aborde les points suivants :
 - Architecture : Clean Architecture et MVVM
 - Autres librairies : Room, Retrofit, Glide, Hilt, Coroutine, Flow
 - Interface : ViewPager, Ressources multilingues
-- Tests untaires et instrumentés (JUnit et Mockito)
+- Tests unitaires et instrumentés (JUnit et Mockito)
   
